@@ -1,0 +1,65 @@
+package com.trivago.mailpidgin;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+
+import java.io.IOException;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: mario
+ * Date: 15.10.11
+ * Time: 09:31
+ * To change this template use File | Settings | File Templates.
+ */
+public class FillContents {
+    private static final String channelName = "messages";
+    private static final String userName = "admin";
+    private static final String password = "admin";
+    private static final String virtualHost = "/";
+    private static final String hostName = "127.0.0.1";
+    private static final Integer portNumber = 5672;
+
+    /**
+     * Main Daemon method containing the event loop.
+     *
+     * @param args
+     */
+    public static void main(String[] args) throws IOException {
+
+        ConnectionFactory factory = new ConnectionFactory();
+        factory.setUsername(userName);
+        factory.setPassword(password);
+        factory.setVirtualHost(virtualHost);
+        factory.setHost(hostName);
+        factory.setPort(portNumber);
+
+        Connection conn = null;
+        Channel channel = null;
+
+        try {
+            conn = factory.newConnection();
+            channel = conn.createChannel();
+
+            channel.exchangeDeclare("mailpidgin", "direct", true);
+            channel.queueDeclare(channelName, true, false, false, null);
+            channel.queueBind(channelName, "mailpidgin", "mailpidgin");
+
+            for (int i = 0; i < 60000; i++) {
+                String messageBody = "Hello "+ i + ", world!";
+                byte[] messageBodyBytes = messageBody.getBytes();
+                channel.basicPublish("mailpidgin", "mailpidgin", null, messageBodyBytes);
+                System.out.println(messageBody);
+            }
+
+        } finally {
+            if (channel != null) {
+                channel.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+}
