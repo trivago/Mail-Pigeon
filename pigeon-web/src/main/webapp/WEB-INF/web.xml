@@ -12,7 +12,7 @@
         <init-param>
             <description>Vaadin application class to start</description>
             <param-name>application</param-name>
-            <param-value>com.trivago.mail.pigeon.web.MyVaadinApplication</param-value>
+            <param-value>com.trivago.mail.pigeon.web.MainApp</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>

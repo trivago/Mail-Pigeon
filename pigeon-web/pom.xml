@@ -26,8 +26,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 
@@ -93,7 +93,7 @@
 					<stopPort>9966</stopPort>
 					<stopKey>pigeon-web</stopKey>
 					<!-- Redeploy every x seconds if changes are detected, 0 for no automatic redeployment -->
-					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<!-- make sure Jetty also finds the widgetset -->
 					<webAppConfig>
 						<contextPath>/pigeon-web</contextPath>
@@ -122,6 +122,15 @@
 		<repository>
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+		<repository>
+			<id>orientechnologies-repository</id>
+			<name>Orient Technologies Maven2 Repository</name>
+			<url>http://www.orientechnologies.com/listing/m2</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
 		</repository>
 	</repositories>
 
@@ -177,6 +186,21 @@
 			  <scope>provided</scope>
 			</dependency>
 			-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orient-commons</artifactId>
+			<version>1.0rc6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.orientechnologies</groupId>
+			<artifactId>orientdb-core</artifactId>
+			<version>1.0rc6</version>
+		</dependency>
 	</dependencies>
 
 </project>
