@@ -1,5 +1,6 @@
 package com.trivago.mail.pigeon.bean;
 
+
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
@@ -8,8 +9,7 @@ import org.neo4j.graphdb.Relationship;
 
 import java.util.Date;
 
-
-public class Recipient
+public class RecipientGroup
 {
 	private Node dataNode;
 
@@ -21,24 +21,23 @@ public class Recipient
 
 	public static final String DATE = "date";
 
-	public Recipient(final Node underlayingNode)
+	public RecipientGroup(final Node underlayingNode)
 	{
 		this.dataNode = underlayingNode;
 	}
 
-	public Recipient(final int newsletterId)
+	public RecipientGroup(final int newsletterId)
 	{
 		dataNode = ConnectionFactory.getNewsletterIndex().get(IndexTypes.NEWSLETTER_ID, newsletterId).getSingle();
 	}
 
-	public Recipient(final int userId, final String name, final String email)
+	public RecipientGroup(final int groupId, final String name)
 	{
 		dataNode = ConnectionFactory.getDatabase().createNode();
-		dataNode.setProperty(ID, userId);
+		dataNode.setProperty(ID, groupId);
 		dataNode.setProperty(NAME, name);
-		dataNode.setProperty(EMAIL, email);
-		ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
-		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
+		ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
+		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
 	}
 
 	public Node getDataNode()
@@ -61,16 +60,16 @@ public class Recipient
 		return (String)dataNode.getProperty(EMAIL);
 	}
 
-	public Relationship addRecievedNewsletter(Mail mail)
+	public Relationship addRecipient(Recipient recipient)
 	{
-		Node newsletterNode = mail.getDataNode();
-		Relationship relation = dataNode.createRelationshipTo(newsletterNode, RelationTypes.RECIEVED);
+		Node recipientNode = recipient.getDataNode();
+		Relationship relation = dataNode.createRelationshipTo(recipientNode, RelationTypes.BELONGS_TO_GROUP);
 		relation.setProperty(DATE, new Date());
 		return relation;
 	}
 
-	public Iterable<Relationship> getReceivedNewsletters()
+	public Iterable<Relationship> getRecipients()
 	{
-		return dataNode.getRelationships(RelationTypes.RECIEVED);
+		return dataNode.getRelationships(RelationTypes.BELONGS_TO_GROUP);
 	}
 }

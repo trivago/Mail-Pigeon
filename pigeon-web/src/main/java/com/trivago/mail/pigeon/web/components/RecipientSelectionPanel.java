@@ -14,6 +14,7 @@ import com.vaadin.data.validator.IntegerValidator;
 import com.vaadin.ui.*;
 
 import java.util.Date;
+import java.util.Iterator;
 
 /**
  * Panel Component to select the bunch of users who deserve a newsletter.
@@ -47,18 +48,23 @@ public class RecipientSelectionPanel extends CustomComponent
 
 	private int statusOption;
 
+	private HorizontalLayout baseLayout;
+
+	private Application application;
+
 	/**
 	 * Contructs the panel. You have to attach it to main window yourself.
 	 * <p/>
 	 * Each field is represented by a class member that gets its value from the event listener that
 	 * is attached to each field. This might sound a bit
 	 *
-	 * @param application The Main Application
+	 * @param app The Main Application
 	 */
-	public RecipientSelectionPanel(final Application application)
+	public RecipientSelectionPanel(final Application app)
 	{
+		this.application = app;
 		Panel panel = new Panel("Mail Recipient Collector");
-		HorizontalLayout baseLayout = new HorizontalLayout();
+		baseLayout = new HorizontalLayout();
 		final Layout verticalLayoutLeft = new VerticalLayout();
 		final Layout verticalLayoutRight = new VerticalLayout();
 
@@ -208,17 +214,8 @@ public class RecipientSelectionPanel extends CustomComponent
 
 		verticalLayoutRight.addComponent(tfMaxReviews);
 
-
-		final Button runQuery = new Button("Run Query");
-		runQuery.addListener(new Button.ClickListener()
-		{
-
-			public void buttonClick(Button.ClickEvent event)
-			{
-				application.getMainWindow().showNotification("Info: " + minRegDate.toString());
-				getNumberOfUsers();
-			}
-		});
+		Button runQuery = new Button("Run Query");
+		runQuery.addListener(Button.ClickEvent.class, this, "buttonClick");
 
 		verticalLayoutRight.addComponent(runQuery);
 
@@ -226,10 +223,30 @@ public class RecipientSelectionPanel extends CustomComponent
 		setCompositionRoot(panel);
 	}
 
+	public void buttonClick(Button.ClickEvent event)
+	{
+		final Iterator<Component> componentIterator = baseLayout.getComponentIterator();
+		while (componentIterator.hasNext())
+		{
+			final Component next = componentIterator.next();
+			if (next instanceof Field)
+			{
+				try
+				{
+					((Field) next).validate();
+				}
+				catch (Validator.InvalidValueException e)
+				{
+					application.getMainWindow().showNotification(e.getLocalizedMessage());
+				}
+			}
+		}
+	}
+
 	private int getNumberOfUsers()
 	{
 		StringBuilder sb = new StringBuilder();
-		
+
 		sb.append("SELECT m.login, m.member_id, m.email, IFNULL(md.data,1) as mode, m.level, m.register_date, m.lastlog, m.points,  m.security_code, count(1) as reviews");
 		sb.append(" FROM member m LEFT JOIN member_data md ON m.member_id = md.member_id AND md.field_id = 204");
 		sb.append("LEFT JOIN member_action ma ON m.member_id = ma.member_id AND ma.action_type_id=3");
@@ -247,9 +264,9 @@ public class RecipientSelectionPanel extends CustomComponent
 				break;
 			default:
 				sb.append("m.status >= 2");
-				
+
 		}
-		
+
 		return 0;
 	}
 }

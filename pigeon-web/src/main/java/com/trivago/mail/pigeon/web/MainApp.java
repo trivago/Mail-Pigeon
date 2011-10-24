@@ -22,6 +22,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
+import javax.servlet.ServletContext;
+
 /**
  * The Application's "main" class
  */
@@ -38,7 +40,5 @@ public class MainApp extends Application
 
 		RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
 		window.addComponent(recipientSelectionPanel);
-        
     }
-    
 }
