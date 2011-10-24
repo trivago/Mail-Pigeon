@@ -55,11 +55,6 @@ public class RecipientGroup
 		return (String)dataNode.getProperty(NAME);
 	}
 
-	public String getEmail()
-	{
-		return (String)dataNode.getProperty(EMAIL);
-	}
-
 	public Relationship addRecipient(Recipient recipient)
 	{
 		Node recipientNode = recipient.getDataNode();
