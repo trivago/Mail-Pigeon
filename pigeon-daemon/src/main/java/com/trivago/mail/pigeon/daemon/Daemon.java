@@ -3,20 +3,19 @@ package com.trivago.mail.pigeon.daemon;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
+import com.trivago.mail.pigeon.json.MailTransport;
+import com.trivago.mail.pigeon.mail.SendMailFacade;
+import com.trivago.mail.pigeon.queue.ConnectionPool;
+import com.trivago.mail.pigeon.storage.ConnectionFactory;
+import org.svenson.JSONParser;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 
 public class Daemon
 {
 	private static final String channelName = "messages";
-
-    private static final String userName = "admin";
-    private static final String password = "admin";
-    private static final String virtualHost = "/";
-    private static final String hostName = "127.0.0.1";
-    private static final Integer portNumber = 5672;
 
     /**
      * Main Daemon method containing the event loop.
@@ -26,23 +25,20 @@ public class Daemon
     public static void main(String[] args) throws IOException
 	{
 
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setUsername(userName);
-        factory.setPassword(password);
-        factory.setVirtualHost(virtualHost);
-        factory.setHost(hostName);
-        factory.setPort(portNumber);
-
         Connection conn = null;
         Channel channel = null;
 
         try {
-            conn = factory.newConnection();
+            conn = ConnectionPool.getConnection();
             channel = conn.createChannel();
 
             boolean autoAck = false;
             QueueingConsumer consumer = new QueueingConsumer(channel);
             channel.basicConsume(channelName, autoAck, consumer);
+
+			SendMailFacade sendMailFacade = new SendMailFacade();
+
+
             while (true) {
                 QueueingConsumer.Delivery delivery;
                 try {
@@ -50,8 +46,21 @@ public class Daemon
                 } catch (InterruptedException ie) {
                     continue;
                 }
-                System.out.println(delivery.getEnvelope().getDeliveryTag() + " :: Body:" + new String(delivery.getBody()));
-                channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+
+
+				String jsonContent = new String(delivery.getBody());
+				MailTransport mailTransport = JSONParser.defaultJSONParser().parse(MailTransport.class, jsonContent);
+				try
+				{
+					sendMailFacade.sendMail(mailTransport);
+					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+				}
+				catch (MessagingException e)
+				{
+					// TODO make this work a better way
+					e.printStackTrace();
+				}
+
             }
 
         } finally {
