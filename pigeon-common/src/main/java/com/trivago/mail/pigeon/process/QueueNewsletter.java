@@ -49,6 +49,8 @@ public class QueueNewsletter
 		transport.setSubject(subject);
 		transport.setHtml(html);
 		transport.setText(text);
+		transport.setmId(String.valueOf(mail.getId()));
+		transport.setuId(String.valueOf(recipient.getId()));
 
 		String json = JSON.defaultJSON().forValue( transport );
 

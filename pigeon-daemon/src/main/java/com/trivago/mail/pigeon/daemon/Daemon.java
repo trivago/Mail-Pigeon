@@ -5,9 +5,8 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.QueueingConsumer;
 import com.trivago.mail.pigeon.json.MailTransport;
-import com.trivago.mail.pigeon.mail.SendMailFacade;
+import com.trivago.mail.pigeon.mail.MailFacade;
 import com.trivago.mail.pigeon.queue.ConnectionPool;
-import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import org.svenson.JSONParser;
 
 import javax.mail.MessagingException;
@@ -36,7 +35,7 @@ public class Daemon
             QueueingConsumer consumer = new QueueingConsumer(channel);
             channel.basicConsume(channelName, autoAck, consumer);
 
-			SendMailFacade sendMailFacade = new SendMailFacade();
+			MailFacade mailFacade = new MailFacade();
 
 
             while (true) {
@@ -52,7 +51,7 @@ public class Daemon
 				MailTransport mailTransport = JSONParser.defaultJSONParser().parse(MailTransport.class, jsonContent);
 				try
 				{
-					sendMailFacade.sendMail(mailTransport);
+					mailFacade.sendMail(mailTransport);
 					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
 				}
 				catch (MessagingException e)

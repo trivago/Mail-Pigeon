@@ -14,6 +14,10 @@ public class MailTransport
 
 	private String text;
 
+	private String mId;
+
+	private String uId;
+
 	public String getFrom()
 	{
 		return from;
@@ -72,5 +76,25 @@ public class MailTransport
 	public void setText(String text)
 	{
 		this.text = text;
+	}
+
+	public String getmId()
+	{
+		return mId;
+	}
+
+	public void setmId(String mId)
+	{
+		this.mId = mId;
+	}
+
+	public String getuId()
+	{
+		return uId;
+	}
+
+	public void setuId(String uId)
+	{
+		this.uId = uId;
 	}
 }
