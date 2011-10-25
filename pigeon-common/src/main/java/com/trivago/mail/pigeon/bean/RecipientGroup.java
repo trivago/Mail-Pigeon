@@ -26,17 +26,17 @@ public class RecipientGroup
 		this.dataNode = underlayingNode;
 	}
 
-	public RecipientGroup(final int newsletterId)
+	public RecipientGroup(final long groupId)
 	{
-		dataNode = ConnectionFactory.getNewsletterIndex().get(IndexTypes.NEWSLETTER_ID, newsletterId).getSingle();
+		dataNode = ConnectionFactory.getGroupIndex().get(IndexTypes.GROUP_ID, groupId).getSingle();
 	}
 
-	public RecipientGroup(final int groupId, final String name)
+	public RecipientGroup(final long groupId, final String name)
 	{
 		dataNode = ConnectionFactory.getDatabase().createNode();
 		dataNode.setProperty(ID, groupId);
 		dataNode.setProperty(NAME, name);
-		ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
+		ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
 		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
 	}
 
@@ -45,9 +45,9 @@ public class RecipientGroup
 		return dataNode;
 	}
 
-	public int getId()
+	public long getId()
 	{
-		return (Integer)dataNode.getProperty(ID);
+		return (Long)dataNode.getProperty(ID);
 	}
 
 	public String getName()

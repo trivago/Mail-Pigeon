@@ -26,12 +26,12 @@ public class Recipient
 		this.dataNode = underlayingNode;
 	}
 
-	public Recipient(final int newsletterId)
+	public Recipient(final long userId)
 	{
-		dataNode = ConnectionFactory.getNewsletterIndex().get(IndexTypes.NEWSLETTER_ID, newsletterId).getSingle();
+		dataNode = ConnectionFactory.getUserIndex().get(IndexTypes.USER_ID, userId).getSingle();
 	}
 
-	public Recipient(final int userId, final String name, final String email)
+	public Recipient(final long userId, final String name, final String email)
 	{
 		dataNode = ConnectionFactory.getDatabase().createNode();
 		dataNode.setProperty(ID, userId);
@@ -46,9 +46,9 @@ public class Recipient
 		return dataNode;
 	}
 
-	public int getId()
+	public long getId()
 	{
-		return (Integer)dataNode.getProperty(ID);
+		return (Long)dataNode.getProperty(ID);
 	}
 
 	public String getName()
