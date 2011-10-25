@@ -30,9 +30,10 @@ public class Csv
 		final GraphDatabaseService database = ConnectionFactory.getDatabase();
 		final RecipientGroup defaultGroup = new RecipientGroup(1);
 
-		Transaction tx = database.beginTx();
+
 		try
 		{
+
 			while ((line = bufferedReader.readLine()) != null)
 			{
 				String[] parts = line.split(";");
@@ -51,7 +52,7 @@ public class Csv
 
 				if (!parts[0].equals(""))
 				{
-					int userId = Integer.parseInt(parts[0]);
+					long userId = Long.parseLong(parts[0]);
 					Node userNode = ConnectionFactory.getUserIndex().get(IndexTypes.USER_ID, userId).getSingle();
 
 					// If we have a user and we do not want to update => just skip it
@@ -60,7 +61,8 @@ public class Csv
 						continue;
 					}
 
-					recipient = new Recipient(userNode);
+					// user does not exist, create it
+					recipient = new Recipient(userId, parts[1], parts[2]);
 				}
 				else
 				{
@@ -69,7 +71,7 @@ public class Csv
 				}
 
 				RecipientGroup group;
-				if (parts[4].equals(""))
+				if (parts[3].equals("") || parts[3].equals("1"))
 				{
 					group = defaultGroup;
 				}
@@ -78,6 +80,7 @@ public class Csv
 					Node loadedGroupNode = ConnectionFactory.getGroupIndex().get(IndexTypes.GROUP_ID, Long.parseLong(parts[4])).getSingle();
 
 					// groups must exist before import
+
 					if (loadedGroupNode == null)
 					{
 						++invalidCount;
@@ -91,29 +94,17 @@ public class Csv
 				group.addRecipient(recipient);
 				++rowCount;
 			}
-			tx.success();
+		
+			System.out.println(invalidCount);
 		}
 		catch (Exception e)
 		{
-			tx.failure();
-		}
-		finally
-		{
-			tx.finish();
+			e.printStackTrace();
 		}
 	}
 
 	private boolean validateRow(String[] row)
 	{
-		if (row[1].equals(""))
-		{
-			return false;
-		}
-
-		if (row[2].equals(""))
-		{
-			return false;
-		}
-		return true;
+		return !row[1].equals("") && !row[2].equals("");
 	}
 }

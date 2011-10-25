@@ -5,6 +5,7 @@ import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 import java.util.Date;
 
@@ -33,13 +34,26 @@ public class Recipient
 
 	public Recipient(final long userId, final String name, final String email)
 	{
-		dataNode = ConnectionFactory.getDatabase().createNode();
-		dataNode.setProperty(ID, userId);
-		dataNode.setProperty("type" , getClass().getName());
-		dataNode.setProperty(NAME, name);
-		dataNode.setProperty(EMAIL, email);
-		ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
-		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode = ConnectionFactory.getDatabase().createNode();
+			dataNode.setProperty(ID, userId);
+			dataNode.setProperty("type", getClass().getName());
+			dataNode.setProperty(NAME, name);
+			dataNode.setProperty(EMAIL, email);
+			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
+			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 	}
 
 	public Node getDataNode()
@@ -49,24 +63,38 @@ public class Recipient
 
 	public long getId()
 	{
-		return (Long)dataNode.getProperty(ID);
+		return (Long) dataNode.getProperty(ID);
 	}
 
 	public String getName()
 	{
-		return (String)dataNode.getProperty(NAME);
+		return (String) dataNode.getProperty(NAME);
 	}
 
 	public String getEmail()
 	{
-		return (String)dataNode.getProperty(EMAIL);
+		return (String) dataNode.getProperty(EMAIL);
 	}
 
 	public Relationship addRecievedNewsletter(Mail mail)
 	{
-		Node newsletterNode = mail.getDataNode();
-		Relationship relation = dataNode.createRelationshipTo(newsletterNode, RelationTypes.RECIEVED);
-		relation.setProperty(DATE, new Date());
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		Relationship relation = null;
+		try
+		{
+			Node newsletterNode = mail.getDataNode();
+			relation = dataNode.createRelationshipTo(newsletterNode, RelationTypes.RECIEVED);
+			relation.setProperty(DATE, new Date().getTime());
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 		return relation;
 	}
 

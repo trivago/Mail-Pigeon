@@ -5,6 +5,7 @@ import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 import java.util.Date;
 
@@ -39,15 +40,28 @@ public class Sender
 
 	public Sender(final long senderId, final String fromMail, final String replytoMail, final String name)
 	{
-		dataNode = ConnectionFactory.getDatabase().createNode();
-		dataNode.setProperty(ID, senderId);
-		dataNode.setProperty("type" , getClass().getName());
-		dataNode.setProperty(NAME, name);
-		dataNode.setProperty(FROM_MAIL, fromMail);
-		dataNode.setProperty(REPLYTO_MAIL, replytoMail);
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode = ConnectionFactory.getDatabase().createNode();
+			dataNode.setProperty(ID, senderId);
+			dataNode.setProperty("type", getClass().getName());
+			dataNode.setProperty(NAME, name);
+			dataNode.setProperty(FROM_MAIL, fromMail);
+			dataNode.setProperty(REPLYTO_MAIL, replytoMail);
 
-		ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.SENDER_ID, senderId);
-		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
+			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.SENDER_ID, senderId);
+			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 	}
 
 	public Node getDataNode()
@@ -77,9 +91,23 @@ public class Sender
 
 	public Relationship addSentMail(Mail mail)
 	{
-		Node recipientNode = mail.getDataNode();
-		Relationship relation = dataNode.createRelationshipTo(recipientNode, RelationTypes.SENT_EMAIL);
-		relation.setProperty("date", new Date());
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		Relationship relation = null;
+		try
+		{
+			Node recipientNode = mail.getDataNode();
+			relation = dataNode.createRelationshipTo(recipientNode, RelationTypes.SENT_EMAIL);
+			relation.setProperty("date", new Date().getTime());
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 		return relation;
 	}
 

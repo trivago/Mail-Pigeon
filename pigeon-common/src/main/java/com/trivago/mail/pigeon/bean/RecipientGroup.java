@@ -6,6 +6,7 @@ import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 import java.util.Date;
 
@@ -29,16 +30,54 @@ public class RecipientGroup
 	public RecipientGroup(final long groupId)
 	{
 		dataNode = ConnectionFactory.getGroupIndex().get(IndexTypes.GROUP_ID, groupId).getSingle();
+		if (dataNode == null)
+		{
+			Transaction tx = ConnectionFactory.getDatabase().beginTx();
+			try
+			{
+				dataNode = ConnectionFactory.getDatabase().createNode();
+				dataNode.setProperty(ID, groupId);
+				dataNode.setProperty("type", getClass().getName());
+				dataNode.setProperty(NAME, "DefaultGroup");
+				ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
+				ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
+
+				tx.success();
+			}
+			catch (Exception e)
+			{
+				tx.failure();
+			}
+			finally
+			{
+				tx.finish();
+			}
+		}
 	}
 
 	public RecipientGroup(final long groupId, final String name)
 	{
-		dataNode = ConnectionFactory.getDatabase().createNode();
-		dataNode.setProperty(ID, groupId);
-		dataNode.setProperty("type" , getClass().getName());
-		dataNode.setProperty(NAME, name);
-		ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
-		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode = ConnectionFactory.getDatabase().createNode();
+			dataNode.setProperty(ID, groupId);
+			dataNode.setProperty("type", getClass().getName());
+			dataNode.setProperty(NAME, name);
+			ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
+			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
+
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+
 	}
 
 	public Node getDataNode()
@@ -48,19 +87,35 @@ public class RecipientGroup
 
 	public long getId()
 	{
-		return (Long)dataNode.getProperty(ID);
+		return (Long) dataNode.getProperty(ID);
 	}
 
 	public String getName()
 	{
-		return (String)dataNode.getProperty(NAME);
+		return (String) dataNode.getProperty(NAME);
 	}
 
 	public Relationship addRecipient(Recipient recipient)
 	{
-		Node recipientNode = recipient.getDataNode();
-		Relationship relation = dataNode.createRelationshipTo(recipientNode, RelationTypes.BELONGS_TO_GROUP);
-		relation.setProperty(DATE, new Date());
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		Relationship relation = null;
+		try
+		{
+			Node recipientNode = recipient.getDataNode();
+			relation = dataNode.createRelationshipTo(recipientNode, RelationTypes.BELONGS_TO_GROUP);
+			relation.setProperty(DATE, new Date().getTime());
+			tx.success();
+
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 		return relation;
 	}
 

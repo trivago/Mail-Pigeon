@@ -57,6 +57,24 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>com.trivago.mail.pigeon.Importer</mainClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

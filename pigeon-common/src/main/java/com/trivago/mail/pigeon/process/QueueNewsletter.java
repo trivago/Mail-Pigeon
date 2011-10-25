@@ -39,9 +39,9 @@ public class QueueNewsletter
 	private void queueNewsletter(String text, String html, String subject, Sender sender, Recipient recipient, Mail mail)
 	{
 		Connection conn = ConnectionPool.getConnection();
-		Channel channel = null;
-
+		Channel channel;
 		MailTransport transport = new MailTransport();
+		
 		transport.setTo(recipient.getEmail());
 		transport.setReplyTo(sender.getReplytoMail());
 		transport.setFrom(sender.getFromMail());

@@ -27,7 +27,6 @@ public class Settings
 	{
 		if (fileName == null && instance != null && !nocache)
 		{
-
 			return instance;
 		}
 		else if (fileName == null && instance == null)
@@ -44,6 +43,19 @@ public class Settings
 			try
 			{
 				instance.setConfiguration(new PropertiesConfiguration(propertyFileName));
+			}
+			catch (ConfigurationException e)
+			{
+				throw new ConfigurationRuntimeException(e);
+			}
+		}
+		else if (fileName != null && instance == null)
+		{
+			instance = new Settings();
+
+			try
+			{
+				instance.setConfiguration(new PropertiesConfiguration(fileName));
 			}
 			catch (ConfigurationException e)
 			{

@@ -1,12 +1,12 @@
 package com.trivago.mail.pigeon.bean;
 
 
-import com.rabbitmq.client.AMQP;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 
 import java.util.Date;
 
@@ -30,9 +30,24 @@ public class Bounce
 
 		if (dataNode == null)
 		{
-			dataNode = ConnectionFactory.getDatabase().createNode();
-			ConnectionFactory.getBounceIndex().add(this.dataNode, IndexTypes.BOUNCE_ID, ConnectionFactory.DEFAULT_BOUNCE_NODE);
-			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.BOUNCE_REFERENCE);
+			Transaction tx = ConnectionFactory.getDatabase().beginTx();
+			try
+			{
+				dataNode = ConnectionFactory.getDatabase().createNode();
+				ConnectionFactory.getBounceIndex().add(this.dataNode, IndexTypes.BOUNCE_ID, ConnectionFactory.DEFAULT_BOUNCE_NODE);
+				ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.BOUNCE_REFERENCE);
+
+				tx.success();
+
+			}
+			catch (Exception e)
+			{
+				tx.failure();
+			}
+			finally
+			{
+				tx.finish();
+			}
 		}
 	}
 
@@ -41,21 +56,34 @@ public class Bounce
 		return dataNode;
 	}
 
-	public Relationship addBouncedMail(Mail mail, Recipient recipient)
+	public void addBouncedMail(Mail mail, Recipient recipient)
 	{
-		Node mailDataNode = mail.getDataNode();
-		Relationship relation = dataNode.createRelationshipTo(mailDataNode, RelationTypes.BOUNCED_MAIL);
-		relation.setProperty("date", new Date());
-		relation.setProperty(Recipient.ID, recipient.getId());
-		relation.setProperty(Recipient.EMAIL, recipient.getEmail());
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			Node mailDataNode = mail.getDataNode();
+			Relationship relation = dataNode.createRelationshipTo(mailDataNode, RelationTypes.BOUNCED_MAIL);
+			relation.setProperty("date", new Date());
+			relation.setProperty(Recipient.ID, recipient.getId());
+			relation.setProperty(Recipient.EMAIL, recipient.getEmail());
 
-		Node recipientDataNode = recipient.getDataNode();
-		Relationship recipientRelation = dataNode.createRelationshipTo(recipientDataNode, RelationTypes.BOUNCED_USER);
-		recipientRelation.setProperty("date", new Date());
-		recipientRelation.setProperty(Mail.ID, mail.getId());
-		recipientRelation.setProperty(Mail.SUBJECT, mail.getSubject());
+			Node recipientDataNode = recipient.getDataNode();
+			Relationship recipientRelation = dataNode.createRelationshipTo(recipientDataNode, RelationTypes.BOUNCED_USER);
+			recipientRelation.setProperty("date", new Date().getTime());
+			recipientRelation.setProperty(Mail.ID, mail.getId());
+			recipientRelation.setProperty(Mail.SUBJECT, mail.getSubject());
 
-		return relation;
+			tx.success();
+
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 	}
 
 	public Iterable<Relationship> getBouncedMails()
