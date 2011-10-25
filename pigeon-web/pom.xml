@@ -50,7 +50,7 @@
 				<executions>
 					<execution>
 						<goals>
-							<goal>process-resources</goal>
+							<goal>resources</goal>
 							<goal>compile</goal>
 						</goals>
 					</execution>

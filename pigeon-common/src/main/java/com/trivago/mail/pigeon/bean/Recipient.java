@@ -35,6 +35,7 @@ public class Recipient
 	{
 		dataNode = ConnectionFactory.getDatabase().createNode();
 		dataNode.setProperty(ID, userId);
+		dataNode.setProperty("type" , getClass().getName());
 		dataNode.setProperty(NAME, name);
 		dataNode.setProperty(EMAIL, email);
 		ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.USER_ID, userId);

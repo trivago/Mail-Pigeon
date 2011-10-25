@@ -35,6 +35,7 @@ public class RecipientGroup
 	{
 		dataNode = ConnectionFactory.getDatabase().createNode();
 		dataNode.setProperty(ID, groupId);
+		dataNode.setProperty("type" , getClass().getName());
 		dataNode.setProperty(NAME, name);
 		ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
 		ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);

@@ -16,6 +16,12 @@ public class ConnectionFactory
 	private static Index<Node> userIndex;
 
 	private static Index<Node> groupIndex;
+	
+	private static Index<Node> senderIndex;
+
+	private static Index<Node> bounceIndex;
+	
+	public static final long DEFAULT_BOUNCE_NODE = 1337L;
 
 	public static GraphDatabaseService getDatabase()
 	{
@@ -25,6 +31,8 @@ public class ConnectionFactory
 			newsletterIndex = graphDb.index().forNodes("newsletter");
 			userIndex = graphDb.index().forNodes("user");
 			groupIndex = graphDb.index().forNodes("group");
+			senderIndex = graphDb.index().forNodes("sender");
+			senderIndex = graphDb.index().forNodes("bounce");
 
 			registerShutdownHook();
 		}
@@ -56,6 +64,24 @@ public class ConnectionFactory
 			getDatabase();
 		}
 		return groupIndex;
+	}
+
+	public static Index<Node> getSenderIndex()
+	{
+		if (graphDb == null)
+		{
+			getDatabase();
+		}
+		return senderIndex;
+	}
+
+	public static Index<Node> getBounceIndex()
+	{
+		if (graphDb == null)
+		{
+			getDatabase();
+		}
+		return bounceIndex;
 	}
 
 	private static void shutdown()

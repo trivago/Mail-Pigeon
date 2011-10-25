@@ -13,7 +13,17 @@ public enum RelationTypes implements RelationshipType
 	NEWSLETTER_REFERENCE,
 	USER_REFERENCE,
 	GROUP_REFERENCE,
+	SENDER_REFERENCE,
+	BOUNCE_REFERENCE,
 
 	// User <-> Group
-	BELONGS_TO_GROUP
+	BELONGS_TO_GROUP,
+
+	// Sender <-> Newsletter
+	SENT_EMAIL,
+
+	// Bounce <-> Newsletter (via userId vertex property)
+	BOUNCED_MAIL,
+	BOUNCED_USER,
+
 }
