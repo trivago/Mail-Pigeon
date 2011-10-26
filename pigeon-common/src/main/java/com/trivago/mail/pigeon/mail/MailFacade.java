@@ -2,6 +2,7 @@ package com.trivago.mail.pigeon.mail;
 
 import com.trivago.mail.pigeon.configuration.Settings;
 import com.trivago.mail.pigeon.json.MailTransport;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.log4j.Logger;
 
 import javax.mail.*;
@@ -9,6 +10,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
 
 public class MailFacade
@@ -18,7 +23,19 @@ public class MailFacade
 	public void sendMail(MailTransport mailTransport)
 	{
 		log.debug("Mail delivery started");
-		Session session = Session.getDefaultInstance(Settings.create().getConfiguration().getProperties("mail.*"));
+		File propertyfile = ((PropertiesConfiguration)Settings.create().getConfiguration()).getFile();
+		Properties config = new Properties();
+
+		try
+		{
+			config.load(new FileReader(propertyfile));
+		}
+		catch (IOException e)
+		{
+			log.error(e);
+		}
+
+		Session session = Session.getDefaultInstance(config);
 
 		log.debug("Received session");
 
@@ -51,7 +68,7 @@ public class MailFacade
 			StringBuilder imageTag = new StringBuilder("<img src=\"");
 			String trackingHost = Settings.create().getConfiguration().getString("tracking.url");
 			imageTag.append(trackingHost).append("?user_id=").append(mailTransport.getuId()).append("&newsletter_id=");
-			imageTag.append(mailTransport.getmId());
+			imageTag.append(mailTransport.getmId()).append("\"/>");
 
 			html = html.replaceAll("</body>", imageTag.append("</body>").toString());
 

@@ -31,8 +31,9 @@
 		<appender-ref ref="stdout"/>
 	</logger>
 
-	<root>
+	<!--<root>
 		<priority value="DEBUG"/>
 		<appender-ref ref="stdout"/>
 	</root>
+	-->
 </log4j:configuration>

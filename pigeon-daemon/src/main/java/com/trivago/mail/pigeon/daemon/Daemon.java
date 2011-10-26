@@ -9,66 +9,66 @@ import com.trivago.mail.pigeon.mail.MailFacade;
 import com.trivago.mail.pigeon.queue.ConnectionPool;
 import org.svenson.JSONParser;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 
 public class Daemon
 {
 	private static final String channelName = "messages";
 
-    /**
-     * Main Daemon method containing the event loop.
-     *
-     * @param args
-     */
-    public static void main(String[] args) throws IOException
+	/**
+	 * Main Daemon method containing the event loop.
+	 *
+	 * @param args command line args
+	 * @throws java.io.IOException
+	 */
+	public static void main(String[] args) throws IOException
 	{
 
-        Connection conn = null;
-        Channel channel = null;
+		Connection conn = null;
+		Channel channel = null;
 
-        try {
-            conn = ConnectionPool.getConnection();
-            channel = conn.createChannel();
+		try
+		{
+			conn = ConnectionPool.getConnection();
+			channel = conn.createChannel();
 
-            boolean autoAck = false;
-            QueueingConsumer consumer = new QueueingConsumer(channel);
-            channel.basicConsume(channelName, autoAck, consumer);
+			boolean autoAck = false;
+			QueueingConsumer consumer = new QueueingConsumer(channel);
+			channel.basicConsume(channelName, autoAck, consumer);
 
 			MailFacade mailFacade = new MailFacade();
 
 
-            while (true) {
-                QueueingConsumer.Delivery delivery;
-                try {
-                    delivery = consumer.nextDelivery();
-                } catch (InterruptedException ie) {
-                    continue;
-                }
-
+			while (true)
+			{
+				QueueingConsumer.Delivery delivery;
+				try
+				{
+					delivery = consumer.nextDelivery();
+				}
+				catch (InterruptedException ie)
+				{
+					continue;
+				}
 
 				String jsonContent = new String(delivery.getBody());
 				MailTransport mailTransport = JSONParser.defaultJSONParser().parse(MailTransport.class, jsonContent);
-				try
-				{
-					mailFacade.sendMail(mailTransport);
-					channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-				}
-				catch (MessagingException e)
-				{
-					// TODO make this work a better way
-					e.printStackTrace();
-				}
 
-            }
+				mailFacade.sendMail(mailTransport);
+				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+			}
 
-        } finally {
-            if (channel != null) {
-                channel.close();
-            }
-            if (conn != null) {
-                conn.close();
-            }
-        }
-    }
+		}
+		finally
+		{
+			if (channel != null)
+			{
+				channel.close();
+			}
+			if (conn != null)
+			{
+				conn.close();
+			}
+		}
+	}
 }
