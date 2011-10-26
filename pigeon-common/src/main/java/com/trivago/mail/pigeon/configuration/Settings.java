@@ -6,6 +6,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConfigurationRuntimeException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
+import java.net.URL;
 import java.util.logging.Logger;
 
 public class Settings
@@ -37,14 +38,16 @@ public class Settings
 		else if (fileName == null && instance == null)
 		{
 			log.trace("Requesting ENV PIDGEON_CONFIG as path to properties as fileName was null");
+
 			String propertyFileName = System.getenv("PIDGEON_CONFIG");
 
-			if (propertyFileName.equals(""))
+			if (propertyFileName == null || propertyFileName.equals(""))
 			{
-				log.error("ENV is empty and no filename was given -> no config properties found!");
-				throw new ConfigurationRuntimeException("Cannot find path to configuration file in ENV[PIDGEON_CONFIG]");
+				log.error("ENV is empty and no filename was given -> no config properties found! Using configuration.properties");
 			}
 
+			URL resource = Thread.currentThread().getContextClassLoader().getResource("configuration.properties");
+			propertyFileName = resource.toExternalForm();
 			instance = new Settings();
 
 			try
