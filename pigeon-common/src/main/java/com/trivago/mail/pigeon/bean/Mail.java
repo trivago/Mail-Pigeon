@@ -39,6 +39,7 @@ public class Mail
 			dataNode.setProperty(DATE, sendDate.getTime());
 			dataNode.setProperty(SUBJECT, subject);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.NEWSLETTER_ID, mailId);
+			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.NEWSLETTER_REFERENCE);
 			tx.success();
 		}

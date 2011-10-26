@@ -42,7 +42,8 @@ public class Recipient
 			dataNode.setProperty("type", getClass().getName());
 			dataNode.setProperty(NAME, name);
 			dataNode.setProperty(EMAIL, email);
-			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
+			ConnectionFactory.getUserIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
+			ConnectionFactory.getUserIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
 			tx.success();
 		}

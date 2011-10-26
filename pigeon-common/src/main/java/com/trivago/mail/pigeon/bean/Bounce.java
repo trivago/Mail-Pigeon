@@ -38,6 +38,7 @@ public class Bounce
 			{
 				dataNode = ConnectionFactory.getDatabase().createNode();
 				ConnectionFactory.getBounceIndex().add(this.dataNode, IndexTypes.BOUNCE_ID, ConnectionFactory.DEFAULT_BOUNCE_NODE);
+				ConnectionFactory.getBounceIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 				ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.BOUNCE_REFERENCE);
 
 				tx.success();
