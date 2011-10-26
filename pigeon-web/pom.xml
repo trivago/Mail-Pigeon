@@ -105,12 +105,14 @@
 					<!-- make sure Jetty also finds the widgetset -->
 					<webAppConfig>
 						<contextPath>/pigeon-web</contextPath>
-						<baseResource implementation="org.mortbay.resource.ResourceCollection">
+						<!--
+						<baseResource implementation="org.mortbay.resource.ResourceCollection"> -->
 							<!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
 							<!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
-							<resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
+							<!-- <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
 							</resourcesAsCSV>
 						</baseResource>
+					-->
 					</webAppConfig>
 				</configuration>
 			</plugin>
