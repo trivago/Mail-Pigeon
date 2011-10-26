@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
@@ -99,5 +100,10 @@ public class Bounce
 	public Iterable<Relationship> getBouncedUser()
 	{
 		return dataNode.getRelationships(RelationTypes.BOUNCED_MAIL);
+	}
+
+	public static IndexHits<Node> getAll()
+	{
+		return ConnectionFactory.getBounceIndex().get("type", Bounce.class.getName());
 	}
 }

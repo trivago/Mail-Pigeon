@@ -6,6 +6,7 @@ import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
@@ -102,5 +103,10 @@ public class Recipient
 	public Iterable<Relationship> getReceivedNewsletters()
 	{
 		return dataNode.getRelationships(RelationTypes.RECIEVED);
+	}
+
+	public static IndexHits<Node> getAll()
+	{
+		return ConnectionFactory.getUserIndex().get("type", Recipient.class.getName());
 	}
 }

@@ -44,7 +44,7 @@ public class SenderList extends CustomComponent
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		senderListTable.setVisibleColumns(new String[]
 		{
-				"id", "name", "fromMail", "replytoMail", "sentMails", "Actions"
+				"id", "name", "fromMail", "replytoMail", "sentMailsCount", "Actions"
 		});
 
 		senderListTable.setColumnHeaders(new String[]
