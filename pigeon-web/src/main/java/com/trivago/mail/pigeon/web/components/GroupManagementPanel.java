@@ -12,12 +12,16 @@ import com.vaadin.Application;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.IntegerValidator;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.index.IndexHits;
 
 /**
  * Panel Component to manage user groups.
@@ -52,14 +56,14 @@ public class GroupManagementPanel extends CustomComponent
 		this.application = app;
 		Panel panel = new Panel("Group management");
 		baseLayout = new HorizontalLayout();
+		baseLayout.setHeight("850px");
 		
 		final Layout verticalLayoutLeft = new VerticalLayout();
 
 		baseLayout.addComponent(verticalLayoutLeft);
 
-		verticalLayoutLeft.setMargin(true);
-
 		Table groupTable = new Table("Groups");
+		
 		groupTable.addContainerProperty("id", Integer.class, null);
 		groupTable.addContainerProperty("name", String.class, null);
 		groupTable.addContainerProperty("memberCount", Integer.class, null);
@@ -70,25 +74,57 @@ public class GroupManagementPanel extends CustomComponent
 		groupTable.setColumnHeader("memberCount", "Member #");
 		groupTable.setColumnHeader("actions", "Actions");
 		
-		Object people1[][] = {
+		groupTable.setWidth("850px");
+		
+		Button newButton = new Button("New group");
+		newButton.setIcon(new ThemeResource("../runo/icons/16/document.png"));
+		verticalLayoutLeft.addComponent(newButton);
+		
+		Object dummyData[][] = {
 				{11, "Galileo",  77},
                 {69, "Monnier",  83},
                 {23, "Vaisala",  79},
                 {42, "Oterma",   86}
         };
 		
-		for(int i = 0; i < people1.length; i++)
+		
+		
+		
+		
+		final IndexHits<Node> allGroups = RecipientGroup.getAll();
+		ArrayList<RecipientGroup> groupList = new ArrayList<RecipientGroup>();
+
+		for (Node groupNode : allGroups)
+		{
+			RecipientGroup g = new RecipientGroup(groupNode);
+			groupList.add(g);
+			getWindow().showNotification(g.toString());
+			Label debugLabel = new Label(g.toString());
+			baseLayout.addComponent(debugLabel);
+		}
+		
+		
+		
+		
+		
+		for(int i = 0; i < dummyData.length; i++)
 		{
 			HorizontalLayout rowActionButtonsPanel = new HorizontalLayout();
 			
 			Button editButton = new Button("Edit");
+			editButton.setIcon(new ThemeResource("../runo/icons/16/document-txt.png"));
+			
 			Button showMembersButton = new Button("Show members");
-			Button deleteButton = new Button("delete");
+			showMembersButton.setIcon(new ThemeResource("../runo/icons/16/users.png"));
 			
-			editButton.setData(people1[i][0]);
-			showMembersButton.setData(people1[i][0]);
-			deleteButton.setData(people1[i][0]);
+			Button deleteButton = new Button("Delete");
+			deleteButton.setIcon(new ThemeResource("../runo/icons/16/trash.png"));
 			
+			editButton.setData(dummyData[i][0]);
+			showMembersButton.setData(dummyData[i][0]);
+			deleteButton.setData(dummyData[i][0]);
+			
+			/* TODO XXX */
 			editButton.addListener(new Button.ClickListener() {
 		        public void buttonClick(ClickEvent event) {
 		            // Get the item identifier from the user-defined data.
@@ -98,6 +134,7 @@ public class GroupManagementPanel extends CustomComponent
 		        }
 		    });
 			
+			/* TODO XXX */
 			showMembersButton.addListener(new Button.ClickListener() {
 		        public void buttonClick(ClickEvent event) {
 		            // Get the item identifier from the user-defined data.
@@ -107,6 +144,7 @@ public class GroupManagementPanel extends CustomComponent
 		        } 
 		    });
 			
+			/* TODO XXX */
 			deleteButton.addListener(new Button.ClickListener() {
 		        public void buttonClick(ClickEvent event) {
 		            // Get the item identifier from the user-defined data.
@@ -120,7 +158,7 @@ public class GroupManagementPanel extends CustomComponent
 			rowActionButtonsPanel.addComponent(showMembersButton);
 			rowActionButtonsPanel.addComponent(deleteButton);
 			
-			groupTable.addItem(new Object[] {people1[i][0], people1[i][1], people1[i][2], rowActionButtonsPanel} , people1[i][0]);
+			groupTable.addItem(new Object[] {dummyData[i][0], dummyData[i][1], dummyData[i][2], rowActionButtonsPanel} , dummyData[i][0]);
 		}
 		
 		verticalLayoutLeft.addComponent(groupTable);
