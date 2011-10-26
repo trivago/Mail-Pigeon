@@ -8,6 +8,7 @@ public enum RelationTypes implements RelationshipType
 	// Newsletter <-> User
 	RECIEVED,
 	DELIVERED_TO,
+	OPENED,
 
 	// Root Node <-> all node types
 	NEWSLETTER_REFERENCE,

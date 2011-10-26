@@ -33,11 +33,18 @@ public class MailFacade
 		message.setSubject(subject);
 		message.setFrom(fromAdr);
 		message.setRecipient(Message.RecipientType.TO, toAdr);
-		message.setReplyTo(new Address[] {rplyAdr});
+		message.setReplyTo(new Address[]{rplyAdr});
 		message.setSender(fromAdr);
 		message.addHeader("Return-path", replyTo);
 		message.addHeader("X-TRV-MID", mailTransport.getmId());
 		message.addHeader("X-TRV-UID", mailTransport.getuId());
+
+		StringBuilder imageTag = new StringBuilder("<img src=\"");
+		String trackingHost = Settings.create().getConfiguration().getString("tracking.url");
+		imageTag.append(trackingHost).append("?user_id=").append(mailTransport.getuId()).append("&newsletter_id=");
+		imageTag.append(mailTransport.getmId());
+
+		html = html.replaceAll("</body>", imageTag.append("</body>").toString());
 
 		// Content
 		MimeBodyPart messageTextPart = new MimeBodyPart();
