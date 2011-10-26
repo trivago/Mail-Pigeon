@@ -1,5 +1,6 @@
 package com.trivago.mail.pigeon;
 
+import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.configuration.Settings;
 import com.trivago.mail.pigeon.importer.Csv;
 import com.trivago.mail.pigeon.json.MailTransport;
@@ -18,7 +19,7 @@ public class Importer
 		Settings s = Settings.create("/home/mmueller/Development/Checkouts/mail-pigeon/pigeon-common/src/main/resources/configuration.properties", true);
 
 		// doCsv();
-		doMail();
+		doAddSender();
 
 	}
 
@@ -44,8 +45,8 @@ public class Importer
 		mf.sendMail(mt);
 	}
 
-	private static void doQueuefill()
+	private static void doAddSender()
 	{
-		
+		Sender s = new Sender(1L, "mario.mueller@trivago.com", "mario.mueller@trivago.com", "Mario Mueller");
 	}
 }

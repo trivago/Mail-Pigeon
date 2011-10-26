@@ -35,22 +35,22 @@ public class SenderList extends CustomComponent
 		List<Sender> senderList = getSenderList();
 		for (Sender sender : senderList)
 		{
-			beanContainer.addBean(sender);
+			beanContainer.addItem(sender.getId(), sender);
 		}
 
 		senderListTable.setContainerDataSource(beanContainer);
+		senderListTable.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
+
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		senderListTable.setVisibleColumns(new String[]
 		{
-				"id", "name", "fromMail", "replytoMail", "sentMails"
+				"id", "name", "fromMail", "replytoMail", "sentMails", "Actions"
 		});
 
 		senderListTable.setColumnHeaders(new String[]
 		{
-				"ID", "Name", "E-Mail", "Reply To", "E-Mails sent"
+				"ID", "Name", "E-Mail", "Reply To", "E-Mails sent", "Actions"
 		});
-
-
 
 		rootPanel.addComponent(senderListNewButton);
 		rootPanel.addComponent(senderListTable);

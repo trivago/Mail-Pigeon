@@ -50,7 +50,8 @@ public class Sender
 			dataNode.setProperty(FROM_MAIL, fromMail);
 			dataNode.setProperty(REPLYTO_MAIL, replytoMail);
 
-			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.SENDER_ID, senderId);
+			ConnectionFactory.getSenderIndex().add(this.dataNode, IndexTypes.SENDER_ID, senderId);
+			ConnectionFactory.getSenderIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
 			tx.success();
 		}

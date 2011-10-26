@@ -40,6 +40,7 @@ public class RecipientGroup
 				dataNode.setProperty("type", getClass().getName());
 				dataNode.setProperty(NAME, "DefaultGroup");
 				ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
+				ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 				ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
 
 				tx.success();
