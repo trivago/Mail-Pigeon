@@ -24,6 +24,11 @@ import java.util.Iterator;
  */
 public class RecipientSelectionPanel extends CustomComponent
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String localeCode;
 
 	private String maxLevel;

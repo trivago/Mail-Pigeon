@@ -15,6 +15,7 @@
  */
 package com.trivago.mail.pigeon.web;
 
+import com.trivago.mail.pigeon.web.components.GroupManagementPanel;
 import com.trivago.mail.pigeon.web.components.RecipientSelectionPanel;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
@@ -40,7 +41,10 @@ public class MainApp extends Application
         window = new Window("My Vaadin Application");
         setMainWindow(window);
 
-		RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
-		window.addComponent(recipientSelectionPanel);
+		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
+		//window.addComponent(recipientSelectionPanel);
+        
+        GroupManagementPanel groupManagementPanel = new GroupManagementPanel(this);
+		window.addComponent(groupManagementPanel);
     }
 }
