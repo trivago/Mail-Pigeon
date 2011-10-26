@@ -1,9 +1,14 @@
 package com.trivago.mail.pigeon.web.components.sender;
 
+import com.trivago.mail.pigeon.bean.Sender;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.BeanContainer;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
+
+import java.util.Date;
 
 public class ModalAddNewSender extends Window
 {
@@ -11,9 +16,9 @@ public class ModalAddNewSender extends Window
 
 	private String fromMail;
 
-	private String ReplytoMail;
+	private String replytoMail;
 
-	public ModalAddNewSender()
+	public ModalAddNewSender(final SenderList sl)
 	{
 		super();
 
@@ -21,10 +26,7 @@ public class ModalAddNewSender extends Window
 		setWidth("300px");
 		
 		Panel rootPanel = new Panel("Add new Sender");
-
-		VerticalLayout verticalLayout = new VerticalLayout();
-
-		VerticalLayout formLayout = new VerticalLayout();
+		final VerticalLayout verticalLayout = new VerticalLayout();
 
 		TextField tfName = new TextField("Name");
 		tfName.addListener(new Property.ValueChangeListener()
@@ -37,7 +39,7 @@ public class ModalAddNewSender extends Window
 		});
 
 		TextField tfFromMail = new TextField("From E-Mail");
-		tfName.addListener(new Property.ValueChangeListener()
+		tfFromMail.addListener(new Property.ValueChangeListener()
 		{
 			@Override
 			public void valueChange(Property.ValueChangeEvent event)
@@ -47,12 +49,12 @@ public class ModalAddNewSender extends Window
 		});
 
 		TextField tfReplyTo = new TextField("ReplyTo E-Mail");
-		tfName.addListener(new Property.ValueChangeListener()
+		tfReplyTo.addListener(new Property.ValueChangeListener()
 		{
 			@Override
 			public void valueChange(Property.ValueChangeEvent event)
 			{
-				ReplytoMail = event.getProperty().getValue().toString();
+				replytoMail = event.getProperty().getValue().toString();
 			}
 		});
 
@@ -75,16 +77,49 @@ public class ModalAddNewSender extends Window
 			}
 		});
 
-		
+		saveButton.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				if (name == null)
+				{
+					event.getButton().getApplication().getMainWindow().showNotification("Name must not be empty", Notification.TYPE_ERROR_MESSAGE);
+				}
 
+				if (fromMail == null)
+				{
+					event.getButton().getApplication().getMainWindow().showNotification("From E-Mail must not be empty", Notification.TYPE_ERROR_MESSAGE);
+				}
+
+				if (replytoMail== null)
+				{
+					event.getButton().getApplication().getMainWindow().showNotification("Reply-To E-Mail must not be empty", Notification.TYPE_ERROR_MESSAGE);
+				}
+
+				if (name != null && fromMail != null && replytoMail != null)
+				{
+					long senderId = Math.round(new Date().getTime() * Math.random());
+					try
+					{
+						Sender s = new Sender(senderId, fromMail, replytoMail, name);
+						event.getButton().getWindow().setVisible(false);
+						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
+						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
+						sl.getBeanContainer().addItem(s.getId(), s);
+					}
+					catch (RuntimeException e)
+					{
+						// Should never happen ... hopefully :D
+					}
+				}
+			}
+		});
 
 
 		buttonLayout.addComponent(saveButton);
 		buttonLayout.addComponent(cancelButton);
 
-
-
-		verticalLayout.addComponent(formLayout);
 		verticalLayout.addComponent(buttonLayout);
 		rootPanel.addComponent(verticalLayout);
 		this.addComponent(rootPanel);

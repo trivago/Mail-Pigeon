@@ -1,59 +1,100 @@
 package com.trivago.mail.pigeon.web.components.sender;
 
 import com.trivago.mail.pigeon.bean.Sender;
-import com.trivago.mail.pigeon.storage.ConnectionFactory;
+import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanContainer;
-import com.vaadin.data.util.BeanItem;
+import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SenderList extends CustomComponent
 {
+	private Table viewTable;
+
+	private BeanContainer<Long, Sender> beanContainer;
+
 	public SenderList()
 	{
-		Panel rootPanel = new Panel();
-		Label senderListLabel = new Label("Sender List");
+		final SenderList sl = this;
+		final Panel rootPanel = new Panel("Sender");
+		
 		Button senderListNewButton = new Button("Add Sender");
-
+		senderListNewButton.setImmediate(true);
+		senderListNewButton.setIcon(new ThemeResource("../runo/icons/16/document-add.png"));
 		senderListNewButton.addListener(new Button.ClickListener()
 		{
 			@Override
 			public void buttonClick(Button.ClickEvent event)
 			{
-				Window modalNewWindow = new ModalAddNewSender();
+				Window modalNewWindow = new ModalAddNewSender(sl);
 				event.getButton().getWindow().addWindow(modalNewWindow);
 				modalNewWindow.setVisible(true);
 			}
 		});
 
-		Table senderListTable = new Table();
-		BeanContainer<Long, Sender> beanContainer = new BeanContainer<Long, Sender>(Sender.class);
+		viewTable = new Table();
+
+		final Button editButton = new Button("Edit");
+		editButton.setImmediate(true);
+		editButton.setIcon(new ThemeResource("../runo/icons/16/document-txt.png"));
+		editButton.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				if (viewTable.isEditable())
+				{
+					viewTable.setEditable(false);
+					editButton.setCaption("Edit");
+					viewTable.requestRepaintAll();
+					editButton.getWindow().showNotification("Save successful", Window.Notification.TYPE_HUMANIZED_MESSAGE);
+				}
+				else
+				{
+					viewTable.setEditable(true);
+					editButton.setCaption("Save");
+					viewTable.requestRepaintAll();
+				}
+			}
+		});
+
+		viewTable.setImmediate(true);
+		beanContainer = new BeanContainer<Long, Sender>(Sender.class);
+
 		List<Sender> senderList = getSenderList();
 		for (Sender sender : senderList)
 		{
 			beanContainer.addItem(sender.getId(), sender);
 		}
 
-		senderListTable.setContainerDataSource(beanContainer);
-		senderListTable.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
+		viewTable.setContainerDataSource(beanContainer);
+		viewTable.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
 
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
-		senderListTable.setVisibleColumns(new String[]
-		{
-				"id", "name", "fromMail", "replytoMail", "sentMailsCount", "Actions"
-		});
+		viewTable.setVisibleColumns(new String[]
+				{
+						"id", "name", "fromMail", "replytoMail", "sentMailsCount", "Actions"
+				});
 
-		senderListTable.setColumnHeaders(new String[]
-		{
-				"ID", "Name", "E-Mail", "Reply To", "E-Mails sent", "Actions"
-		});
+		viewTable.setColumnHeaders(new String[]
+				{
+						"ID", "Name", "E-Mail", "Reply To", "E-Mails sent", "Actions"
+				});
 
-		rootPanel.addComponent(senderListNewButton);
-		rootPanel.addComponent(senderListTable);
+		viewTable.setColumnExpandRatio(3,2);
+		viewTable.setColumnExpandRatio(4, 2);
+
+		HorizontalLayout topButtonLayout = new HorizontalLayout();
+		topButtonLayout.addComponent(senderListNewButton);
+		topButtonLayout.addComponent(editButton);
+
+		rootPanel.addComponent(topButtonLayout);
+		rootPanel.addComponent(viewTable);
 
 		setCompositionRoot(rootPanel);
 
@@ -61,7 +102,7 @@ public class SenderList extends CustomComponent
 
 	public List<Sender> getSenderList()
 	{
-		final IndexHits<Node> allSenders = ConnectionFactory.getSenderIndex().get("type", Sender.class.getName());
+		final IndexHits<Node> allSenders = Sender.getAll();
 		ArrayList<Sender> senderList = new ArrayList<Sender>();
 
 		if (allSenders.size() == 0)
@@ -76,5 +117,15 @@ public class SenderList extends CustomComponent
 		}
 
 		return senderList;
+	}
+
+	public Table getViewTable()
+	{
+		return viewTable;
+	}
+
+	public BeanContainer<Long, Sender> getBeanContainer()
+	{
+		return beanContainer;
 	}
 }

@@ -15,8 +15,10 @@
  */
 package com.trivago.mail.pigeon.web;
 
+import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.web.components.GroupManagementPanel;
 import com.trivago.mail.pigeon.web.components.RecipientSelectionPanel;
+import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
@@ -43,7 +45,25 @@ public class MainApp extends Application
         setMainWindow(window);
 
 		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
-		SenderList list = new SenderList();
+		NewsletterList list = new NewsletterList();
 		window.addComponent(list);
     }
+
+	@Override
+	public void close()
+	{
+		super.close();
+		 // Registers a shutdown hook for the Neo4j and index service instances
+        // so that it shuts down nicely when the VM exits (even if you
+        // "Ctrl-C" the running example before it's completed)
+        Runtime.getRuntime().addShutdownHook( new Thread()
+        {
+            @Override
+            public void run()
+            {
+               ConnectionFactory.getDatabase().shutdown();
+            }
+        } );
+
+	}
 }
