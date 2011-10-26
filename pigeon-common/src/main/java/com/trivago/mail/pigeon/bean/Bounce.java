@@ -4,6 +4,7 @@ package com.trivago.mail.pigeon.bean;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
@@ -12,6 +13,8 @@ import java.util.Date;
 
 public class Bounce
 {
+	private static final Logger log = Logger.getLogger(Bounce.class);
+
 	private Node dataNode;
 
 	public Bounce(final Node underlayingNode)
@@ -61,6 +64,7 @@ public class Bounce
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
 		{
+			log.debug(String.format("Creating new bounce relation %s -> %s", mail.getId(), recipient.getId()));
 			Node mailDataNode = mail.getDataNode();
 			Relationship relation = dataNode.createRelationshipTo(mailDataNode, RelationTypes.BOUNCED_MAIL);
 			relation.setProperty("date", new Date());

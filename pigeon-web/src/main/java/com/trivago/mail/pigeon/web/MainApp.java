@@ -21,6 +21,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import javax.servlet.ServletContext;
 
@@ -35,6 +36,7 @@ public class MainApp extends Application
     @Override
     public void init()
     {
+		DOMConfigurator.configure("log4j.xml");
         window = new Window("My Vaadin Application");
         setMainWindow(window);
 

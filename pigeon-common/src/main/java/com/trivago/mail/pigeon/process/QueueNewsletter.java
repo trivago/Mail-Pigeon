@@ -9,6 +9,7 @@ import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.json.MailTransport;
 import com.trivago.mail.pigeon.queue.ConnectionPool;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Relationship;
 import org.svenson.JSON;
 
@@ -20,14 +21,18 @@ public class QueueNewsletter
 {
 	private static final String channelName = "messages";
 
+	private static final Logger log = Logger.getLogger(QueueNewsletter.class);
 
 	public void queueNewsletter(String text, String html, String subject, Sender sender, RecipientGroup group)
 	{
+
 		final Iterable<Relationship> recipients = group.getRecipients();
 
 		long nlId = Math.round(new Date().getTime() * Math.random());
 		Mail mail = new Mail(nlId, new Date(), subject);
 
+		log.info("Pushing new newsletter (ID: " + mail.getId() + ") into queue.");
+		
 		for (Relationship recipient : recipients)
 		{
 			Recipient recipientBean = new Recipient(recipient.getEndNode());
@@ -67,7 +72,7 @@ public class QueueNewsletter
 		}
 		catch (IOException e)
 		{
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
 }

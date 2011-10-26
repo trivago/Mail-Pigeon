@@ -15,6 +15,17 @@
             <param-value>com.trivago.mail.pigeon.web.MainApp</param-value>
         </init-param>
     </servlet>
+	
+	<servlet>
+		<servlet-name>Tracking Servlet</servlet-name>
+		<servlet-class>com.trivago.mail.pigeon.web.TrackingServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Tracking Servlet</servlet-name>
+		<url-pattern>/tracking</url-pattern>
+	</servlet-mapping>
+
     <servlet-mapping>
         <servlet-name>Vaadin Application Servlet</servlet-name>
         <url-pattern>/*</url-pattern>

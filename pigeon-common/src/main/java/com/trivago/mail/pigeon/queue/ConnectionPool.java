@@ -5,6 +5,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.trivago.mail.pigeon.configuration.Settings;
 import org.apache.commons.configuration.Configuration;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -13,6 +14,8 @@ import java.io.IOException;
  */
 public class ConnectionPool
 {
+	private static final Logger log = Logger.getLogger(ConnectionPool.class);
+
 	private static Connection connection;
 
 	private static Settings settings = Settings.create();
@@ -36,6 +39,7 @@ public class ConnectionPool
 			}
 			catch (IOException e)
 			{
+				log.error(e);
 				throw new RuntimeException(e);
 			}
 		}
