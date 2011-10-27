@@ -3,6 +3,8 @@ package com.trivago.mail.pigeon.web.components.groups;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
+import com.trivago.mail.pigeon.web.components.mail.ModalAddNewsletter;
+import com.trivago.mail.pigeon.web.components.recipients.ModalRecipientList;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -26,26 +28,61 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 		HorizontalLayout hl = new HorizontalLayout();
 		viewTable = new Table();
 		
-		final Button showMembersButton = new Button("Show members");
+		final Button showMembersButton = new Button();
 		showMembersButton.setIcon(new ThemeResource("../runo/icons/16/users.png"));
 		showMembersButton.setImmediate(true);
 		
-		final Button deleteButton = new Button("Delete");
+		final Button deleteButton = new Button();
 		deleteButton.setIcon(new ThemeResource("../runo/icons/16/trash.png"));
 		deleteButton.setImmediate(true);
-		
+
+		final Button csvImportButton = new Button();
+		csvImportButton.setIcon(new ThemeResource("../runo/icons/16/folder.png"));
+		csvImportButton.setImmediate(true);
+
+		final Button refreshButton = new Button();
+		refreshButton.setIcon(new ThemeResource("../runo/icons/16/reload.png"));
+		refreshButton.setImmediate(true);
+
 		showMembersButton.setData(itemId);
 		deleteButton.setData(itemId);
+		csvImportButton.setData(itemId);
+		refreshButton.setData(itemId);
 		
-		/* TODO XXX */
+		csvImportButton.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(ClickEvent event)
+			{
+				ModalRecipientImportCsv modalNewWindow = new ModalRecipientImportCsv((Long)event.getButton().getData());
+				event.getButton().getWindow().addWindow(modalNewWindow);
+				modalNewWindow.setVisible(true);
+			}
+		});
+
+		refreshButton.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(ClickEvent event)
+			{
+				source.removeGeneratedColumn("memberNumber");
+				source.addGeneratedColumn("memberNumber", new GroupColumnGenerator());
+				source.removeGeneratedColumn("Actions");
+				source.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
+			}
+		});
+
 		showMembersButton.addListener(new Button.ClickListener() {
 	        public void buttonClick(ClickEvent event) {
-	            // Get the item identifier from the user-defined data.
-	            Integer itemId = (Integer)event.getButton().getData();
-	            source.getWindow().showNotification("Button "+
-	                                   itemId.intValue()+" clicked.");
+	            long itemId = (Long)event.getButton().getData();
+
+				ModalRecipientList rlist = new ModalRecipientList(itemId);
+	            source.getWindow().addWindow(rlist);
+				rlist.setVisible(true);
 	        } 
 	    });
+
+
 		
 		deleteButton.addListener(new Button.ClickListener()
 		{
@@ -79,7 +116,10 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 		});
 
 		hl.addComponent(showMembersButton);
+		hl.addComponent(csvImportButton);
+		hl.addComponent(refreshButton);
 		hl.addComponent(deleteButton);
+		hl.setSpacing(true);
 		
 		return hl;
 	}

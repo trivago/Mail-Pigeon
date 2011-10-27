@@ -16,21 +16,16 @@
 package com.trivago.mail.pigeon.web;
 
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
-import com.trivago.mail.pigeon.web.components.GroupList;
-import com.trivago.mail.pigeon.web.components.GroupManagementPanel;
-import com.trivago.mail.pigeon.web.components.RecipientSelectionPanel;
+import com.trivago.mail.pigeon.web.components.groups.GroupList;
 import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
+import com.trivago.mail.pigeon.web.components.recipients.RecipientList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.vaadin.Application;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
-
-import javax.servlet.ServletContext;
 
 /**
  * The Application's "main" class
@@ -38,38 +33,62 @@ import javax.servlet.ServletContext;
 @SuppressWarnings("serial")
 public class MainApp extends Application
 {
-    private Window window;
+	private Window window;
 
-    @Override
-    public void init()
-    {
+	@Override
+	public void init()
+	{
 		DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml"));
-        window = new Window("My Vaadin Application");
-        setMainWindow(window);
+		window = new Window("Mail Pigeon");
+		setMainWindow(window);
 
-		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
-		//GroupList list = new GroupList();
-		NewsletterList list = new NewsletterList();
-		window.addComponent(list);
-    }
-    
-    @Override
+		GroupList groupList = new GroupList();
+		RecipientList recipientList = new RecipientList();
+		NewsletterList newsletterList = new NewsletterList();
+		SenderList senderList = new SenderList();
+
+		TabSheet tabSheet = new TabSheet();
+
+		VerticalLayout nlLayout = new VerticalLayout();
+		nlLayout.addComponent(newsletterList);
+		nlLayout.setMargin(true);
+		tabSheet.addTab(nlLayout).setCaption("Newsletter");
+
+		VerticalLayout rLayout = new VerticalLayout();
+		rLayout.addComponent(recipientList);
+		rLayout.setMargin(true);
+		tabSheet.addTab(rLayout).setCaption("Recipients");
+
+		VerticalLayout rgLayout = new VerticalLayout();
+		rgLayout.addComponent(groupList);
+		rgLayout.setMargin(true);
+		tabSheet.addTab(rgLayout).setCaption("Recipient Groups");
+
+		VerticalLayout slLayout = new VerticalLayout();
+		slLayout.addComponent(senderList);
+		slLayout.setMargin(true);
+		tabSheet.addTab(slLayout).setCaption("Sender List");
+
+		window.addComponent(tabSheet);
+	}
+
+
+	@Override
 	public void close()
 	{
-		Logger.getLogger(MainApp.class).info("Shutdown hook called");
-		ConnectionFactory.getDatabase().shutdown();
 		super.close();
 		// Registers a shutdown hook for the Neo4j and index service instances
-        // so that it shuts down nicely when the VM exits (even if you
-        // "Ctrl-C" the running example before it's completed)
-        Runtime.getRuntime().addShutdownHook( new Thread()
-        {
-            @Override
-            public void run()
-            {
-               ConnectionFactory.getDatabase().shutdown();
-            }
-        } );
+		// so that it shuts down nicely when the VM exits (even if you
+		// "Ctrl-C" the running example before it's completed)
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			@Override
+			public void run()
+			{
+				Logger.getLogger(MainApp.class).info("Shutdown hook called");
+				ConnectionFactory.getDatabase().shutdown();
+			}
+		});
 
 	}
 }

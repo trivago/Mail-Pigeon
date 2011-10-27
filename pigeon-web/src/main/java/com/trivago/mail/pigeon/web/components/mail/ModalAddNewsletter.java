@@ -6,14 +6,10 @@ import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.process.QueueNewsletter;
 import com.trivago.mail.pigeon.web.components.groups.GroupSelectBox;
 import com.trivago.mail.pigeon.web.components.sender.SenderSelectBox;
-import com.vaadin.data.Property;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.Date;
 
 public class ModalAddNewsletter extends Window
@@ -26,6 +22,7 @@ public class ModalAddNewsletter extends Window
 
 		setModal(true);
 		setWidth("600px");
+		setClosable(false);
 
 		Panel rootPanel = new Panel("Add new Newsletter");
 		final VerticalLayout verticalLayout = new VerticalLayout();
@@ -146,6 +143,7 @@ public class ModalAddNewsletter extends Window
 					catch (RuntimeException e)
 					{
 						log.error("RuntimeException", e);
+						event.getButton().getApplication().getMainWindow().showNotification("An error occured: " + e.getLocalizedMessage(), Notification.TYPE_ERROR_MESSAGE);
 					}
 				}
 			}

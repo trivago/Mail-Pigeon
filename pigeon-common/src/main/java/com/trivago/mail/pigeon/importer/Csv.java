@@ -4,16 +4,29 @@ import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Date;
 
 public class Csv
 {
 	private File file;
+
+	private long groupId;
+
+	private static final Logger log = Logger.getLogger(Csv.class);
+
+	public Csv(File file, long groupId)
+	{
+		this.file = file;
+		this.groupId = groupId;
+	}
 
 	public Csv(File file)
 	{
@@ -28,8 +41,6 @@ public class Csv
 		int rowCount = 1;
 		int invalidCount = 0;
 		final GraphDatabaseService database = ConnectionFactory.getDatabase();
-		final RecipientGroup defaultGroup = new RecipientGroup(1);
-
 
 		try
 		{
@@ -52,17 +63,24 @@ public class Csv
 
 				if (!parts[0].equals(""))
 				{
+
 					long userId = Long.parseLong(parts[0]);
+
+					log.info("ID " + userId + " given, try to load node");
+
 					Node userNode = ConnectionFactory.getUserIndex().get(IndexTypes.USER_ID, userId).getSingle();
 
 					// If we have a user and we do not want to update => just skip it
 					if (userNode != null && !forceUpdate)
 					{
+						log.info("Found usernode and update is not forced, skipping entry");
 						continue;
 					}
 
 					// user does not exist, create it
+
 					recipient = new Recipient(userId, parts[1], parts[2]);
+					log.debug("Created new user with id " + recipient.getId());
 				}
 				else
 				{
@@ -70,36 +88,32 @@ public class Csv
 					recipient = new Recipient(rndUserId, parts[1], parts[2]);
 				}
 
+
+				Node loadedGroupNode = ConnectionFactory.getGroupIndex().get(IndexTypes.GROUP_ID, this.groupId).getSingle();
 				RecipientGroup group;
-				if (parts[3].equals("") || parts[3].equals("1"))
+
+
+				if (loadedGroupNode == null)
 				{
-					group = defaultGroup;
+					++invalidCount;
+					continue;
 				}
 				else
 				{
-					Node loadedGroupNode = ConnectionFactory.getGroupIndex().get(IndexTypes.GROUP_ID, Long.parseLong(parts[4])).getSingle();
-
-					// groups must exist before import
-
-					if (loadedGroupNode == null)
-					{
-						++invalidCount;
-						continue;
-					}
-					else
-					{
-						group = new RecipientGroup(loadedGroupNode);
-					}
+					group = new RecipientGroup(loadedGroupNode);
 				}
+
 				group.addRecipient(recipient);
+				log.debug("Added " + recipient.getId() + " to " + " Group " + group.getId());
 				++rowCount;
 			}
-		
-			System.out.println(invalidCount);
+
+			log.info("Total Objects: " + rowCount);
+			log.info("Invalid Objects: " + invalidCount);
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			log.error("Exception while importing", e);
 		}
 	}
 

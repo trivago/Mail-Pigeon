@@ -1,34 +1,40 @@
-package com.trivago.mail.pigeon.web.components.mail;
+package com.trivago.mail.pigeon.web.components.recipients;
+
 
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Upload;
+import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public class UploadTextFileComponent extends CustomComponent
+public class UploadCsvFileComponent extends CustomComponent
 		implements Upload.SucceededListener,
 				   Upload.FailedListener,
 				   Upload.Receiver
 {
-
 	private Panel root;
 	private boolean uploadFinished = false;
 	private Label label;
 	private Upload upload;
 
-	private OutputStream fos;
+	private FileOutputStream fos;
+	private File csvFile;
 
-	public UploadTextFileComponent()
+	private static final Logger log = Logger.getLogger(UploadCsvFileComponent.class);
+
+	public UploadCsvFileComponent()
 	{
 		root = new Panel("Upload Text Version");
 		setCompositionRoot(root);
 
 		// Create the Upload component.
-		upload = new Upload("Text-File", this);
+		upload = new Upload("CSV-File", this);
 
 		// Use a custom button caption instead of plain "Upload".
 		upload.setButtonCaption("Upload Now");
@@ -59,20 +65,16 @@ public class UploadTextFileComponent extends CustomComponent
 		label = new Label();
 		try
 		{
+			csvFile = File.createTempFile("csv", "csv");
+		}
+		catch (IOException e)
+		{
+			log.error("Could not upload file", e);
+		}
+		try
+		{
 			// Open the file for writing.
-			fos = new OutputStream()
-			{
-				private StringBuilder string = new StringBuilder();
-				@Override
-				public void write(int b) throws IOException
-				{
-					this.string.append((char) b );
-				}
-
-				public String toString(){
-					return this.string.toString();
-				}
-			};
+			fos = new FileOutputStream(csvFile);
 		}
 		catch (final Exception e)
 		{
@@ -95,9 +97,9 @@ public class UploadTextFileComponent extends CustomComponent
 		uploadFinished = true;
 	}
 
-	public String getTextData()
+	public File getCsvFile()
 	{
-		return fos.toString();
+		return csvFile;
 	}
 
 	public boolean isUploadFinished()

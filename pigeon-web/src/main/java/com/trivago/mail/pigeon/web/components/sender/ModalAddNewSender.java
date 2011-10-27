@@ -22,7 +22,7 @@ public class ModalAddNewSender extends Window
 	public ModalAddNewSender(final SenderList sl)
 	{
 		super();
-
+		setClosable(false);
 		setModal(true);
 		setWidth("300px");
 		

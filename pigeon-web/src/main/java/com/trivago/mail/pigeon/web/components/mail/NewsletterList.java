@@ -21,9 +21,13 @@ public class NewsletterList extends CustomComponent
 
 	public NewsletterList()
 	{
+
 		final NewsletterList nl = this;
 		final Panel rootPanel = new Panel("Newsletter");
+		rootPanel.setWidth("800px");
+		
 		viewTable = new Table();
+		viewTable.setWidth("100%");
 		beanContainer = new BeanContainer<Long, Mail>(Mail.class);
 
 
@@ -68,6 +72,7 @@ public class NewsletterList extends CustomComponent
 
 		HorizontalLayout topButtonLayout = new HorizontalLayout();
 		topButtonLayout.addComponent(senderListNewButton);
+		topButtonLayout.setMargin(false, false, true, false);
 		
 		rootPanel.addComponent(topButtonLayout);
 		rootPanel.addComponent(viewTable);

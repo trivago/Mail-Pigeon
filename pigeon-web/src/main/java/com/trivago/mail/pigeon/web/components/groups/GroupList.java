@@ -1,7 +1,6 @@
-package com.trivago.mail.pigeon.web.components.sender;
+package com.trivago.mail.pigeon.web.components.groups;
 
-import com.trivago.mail.pigeon.bean.Sender;
-import com.vaadin.data.Container;
+import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
@@ -9,30 +8,28 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-public class SenderList extends CustomComponent
+public class GroupList extends CustomComponent
 {
 	private Table viewTable;
 
-	private BeanContainer<Long, Sender> beanContainer;
+	private BeanContainer<Long, RecipientGroup> beanContainer;
 
-	public SenderList()
+	public GroupList()
 	{
-		final SenderList sl = this;
-		final Panel rootPanel = new Panel("Sender");
+		final GroupList gl = this;
+		final Panel rootPanel = new Panel("Groups");
 		rootPanel.setWidth("800px");
-		
-		Button senderListNewButton = new Button("Add Sender");
-		senderListNewButton.setImmediate(true);
-		senderListNewButton.setIcon(new ThemeResource("../runo/icons/16/document-add.png"));
-		senderListNewButton.addListener(new Button.ClickListener()
+		Button groupListNewButton = new Button("Add group");
+		groupListNewButton.setImmediate(true);
+		groupListNewButton.setIcon(new ThemeResource("../runo/icons/16/document-add.png"));
+		groupListNewButton.addListener(new Button.ClickListener()
 		{
 			@Override
 			public void buttonClick(Button.ClickEvent event)
 			{
-				Window modalNewWindow = new ModalAddNewSender(sl);
+				Window modalNewWindow = new ModalAddNewGroup(gl);
 				event.getButton().getWindow().addWindow(modalNewWindow);
 				modalNewWindow.setVisible(true);
 			}
@@ -65,61 +62,61 @@ public class SenderList extends CustomComponent
 		});
 
 		viewTable.setImmediate(true);
-		beanContainer = new BeanContainer<Long, Sender>(Sender.class);
+		beanContainer = new BeanContainer<Long, RecipientGroup>(RecipientGroup.class);
 
-		List<Sender> senderList = getSenderList();
-		for (Sender sender : senderList)
+		List<RecipientGroup> groupList = getGroupList();
+		for (RecipientGroup group : groupList)
 		{
-			beanContainer.addItem(sender.getId(), sender);
+			beanContainer.addItem(group.getId(), group);
 		}
 
 		viewTable.setContainerDataSource(beanContainer);
+		viewTable.addGeneratedColumn("memberNumber", new GroupColumnGenerator());
 		viewTable.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
 
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		viewTable.setVisibleColumns(new String[]
 				{
-						"id", "name", "fromMail", "replytoMail", "sentMailsCount", "Actions"
+						"id", "name", "memberNumber", "Actions"
 				});
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Name", "E-Mail", "Reply To", "E-Mails sent", "Actions"
+						"ID", "Name", "Member #", "Actions"
 				});
 
-		viewTable.setColumnExpandRatio(3,2);
+		viewTable.setColumnExpandRatio(3, 2);
 		viewTable.setColumnExpandRatio(4, 2);
 
 		HorizontalLayout topButtonLayout = new HorizontalLayout();
 		topButtonLayout.setSpacing(true);
 		topButtonLayout.setMargin(false, false, true, false);
-		topButtonLayout.addComponent(senderListNewButton);
+		topButtonLayout.addComponent(groupListNewButton);
 		topButtonLayout.addComponent(editButton);
 
 		rootPanel.addComponent(topButtonLayout);
 		rootPanel.addComponent(viewTable);
 
 		setCompositionRoot(rootPanel);
-
 	}
 
-	public List<Sender> getSenderList()
+	public List<RecipientGroup> getGroupList()
 	{
-		final IndexHits<Node> allSenders = Sender.getAll();
-		ArrayList<Sender> senderList = new ArrayList<Sender>();
+		final IndexHits<Node> allGroups = RecipientGroup.getAll();
+		ArrayList<RecipientGroup> groupList = new ArrayList<RecipientGroup>();
 
-		if (allSenders.size() == 0)
+		if (allGroups.size() == 0)
 		{
-			return senderList;
+			return groupList;
 		}
 
-		for (Node sendNode : allSenders)
+		for (Node groupNode : allGroups)
 		{
-			Sender s = new Sender(sendNode);
-			senderList.add(s);
+			RecipientGroup g = new RecipientGroup(groupNode);
+			groupList.add(g);
 		}
 
-		return senderList;
+		return groupList;
 	}
 
 	public Table getViewTable()
@@ -127,7 +124,7 @@ public class SenderList extends CustomComponent
 		return viewTable;
 	}
 
-	public BeanContainer<Long, Sender> getBeanContainer()
+	public BeanContainer<Long, RecipientGroup> getBeanContainer()
 	{
 		return beanContainer;
 	}

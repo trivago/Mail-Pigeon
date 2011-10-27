@@ -39,7 +39,7 @@ public class QueueNewsletter
 	private void queueNewsletter(String text, String html, String subject, Sender sender, Recipient recipient, Mail mail)
 	{
 		Connection conn = ConnectionPool.getConnection();
-		Channel channel;
+		Channel channel = null;
 		MailTransport transport = new MailTransport();
 		
 		transport.setTo(recipient.getEmail());
@@ -68,6 +68,20 @@ public class QueueNewsletter
 		catch (IOException e)
 		{
 			log.error(e);
+		}
+		finally
+		{
+			if (channel != null)
+			{
+				try
+				{
+					channel.close();
+				}
+				catch (IOException e)
+				{
+					log.error("Could not close channel", e);
+				}
+			}
 		}
 	}
 }
