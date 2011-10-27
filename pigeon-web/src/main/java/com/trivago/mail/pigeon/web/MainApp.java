@@ -25,6 +25,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -46,17 +47,18 @@ public class MainApp extends Application
         setMainWindow(window);
 
 		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
+		GroupManagementPanel list = new GroupManagementPanel(this);
 		NewsletterList list = new NewsletterList();
 		window.addComponent(list);
     }
-	
-	@Override
+    
+    @Override
 	public void close()
 	{
 		Logger.getLogger(MainApp.class).info("Shutdown hook called");
 		ConnectionFactory.getDatabase().shutdown();
 		super.close();
-		 // Registers a shutdown hook for the Neo4j and index service instances
+		// Registers a shutdown hook for the Neo4j and index service instances
         // so that it shuts down nicely when the VM exits (even if you
         // "Ctrl-C" the running example before it's completed)
         Runtime.getRuntime().addShutdownHook( new Thread()
