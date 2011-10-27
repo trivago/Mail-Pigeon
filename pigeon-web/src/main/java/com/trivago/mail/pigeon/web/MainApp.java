@@ -18,6 +18,7 @@ package com.trivago.mail.pigeon.web;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.web.components.GroupManagementPanel;
 import com.trivago.mail.pigeon.web.components.RecipientSelectionPanel;
+import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.vaadin.Application;
 import com.vaadin.ui.Button;
@@ -47,6 +48,7 @@ public class MainApp extends Application
 
 		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
 		GroupManagementPanel list = new GroupManagementPanel(this);
+		NewsletterList list = new NewsletterList();
 		window.addComponent(list);
     }
     
