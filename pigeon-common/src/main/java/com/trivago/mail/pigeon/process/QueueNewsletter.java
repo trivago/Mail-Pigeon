@@ -23,20 +23,15 @@ public class QueueNewsletter
 
 	private static final Logger log = Logger.getLogger(QueueNewsletter.class);
 
-	public void queueNewsletter(String text, String html, String subject, Sender sender, RecipientGroup group)
+	public void queueNewsletter(Mail mail, Sender sender, RecipientGroup group)
 	{
-
 		final Iterable<Relationship> recipients = group.getRecipients();
-
-		long nlId = Math.round(new Date().getTime() * Math.random());
-		Mail mail = new Mail(nlId, new Date(), subject);
-
 		log.info("Pushing new newsletter (ID: " + mail.getId() + ") into queue.");
-		
+
 		for (Relationship recipient : recipients)
 		{
 			Recipient recipientBean = new Recipient(recipient.getEndNode());
-			queueNewsletter(text, html, subject, sender, recipientBean, mail);
+			queueNewsletter(mail.getText(), mail.getHtml(), mail.getSubject(), sender, recipientBean, mail);
 			mail.addRecipient(recipientBean);
 		}
 	}

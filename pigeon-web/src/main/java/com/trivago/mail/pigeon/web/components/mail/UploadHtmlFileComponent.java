@@ -6,9 +6,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Upload;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 
 public class UploadHtmlFileComponent extends CustomComponent
 		implements Upload.SucceededListener,
@@ -17,11 +15,12 @@ public class UploadHtmlFileComponent extends CustomComponent
 {
 
 	Panel root;
-	File htmlFile;
 
 	boolean uploadFinished = false;
 	private Label label;
 	private Upload upload;
+
+	private OutputStream fos;
 
 	public UploadHtmlFileComponent()
 	{
@@ -58,14 +57,25 @@ public class UploadHtmlFileComponent extends CustomComponent
 	public OutputStream receiveUpload(String filename, String mimeType)
 	{
 		label = new Label();
-		FileOutputStream fos = null; // Output stream to write to
-		htmlFile = new File("/tmp/uploads/html_" + filename);
 		try
 		{
 			// Open the file for writing.
-			fos = new FileOutputStream(htmlFile);
+			fos = new OutputStream()
+			{
+				private StringBuilder string = new StringBuilder();
+				@Override
+				public void write(int b) throws IOException
+				{
+					this.string.append((char) b );
+				}
+
+				public String toString(){
+					return this.string.toString();
+				}
+			};
+
 		}
-		catch (final java.io.FileNotFoundException e)
+		catch (final Exception e)
 		{
 			// Error while opening the file. Not reported here.
 			e.printStackTrace();
@@ -86,9 +96,9 @@ public class UploadHtmlFileComponent extends CustomComponent
 		uploadFinished = true;
 	}
 
-	public File getHtmlFile()
+	public String getHtmlData()
 	{
-		return htmlFile;
+		return fos.toString();
 	}
 
 	public boolean isUploadFinished()

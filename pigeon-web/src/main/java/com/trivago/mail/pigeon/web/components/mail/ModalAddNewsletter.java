@@ -1,20 +1,24 @@
 package com.trivago.mail.pigeon.web.components.mail;
 
+import com.trivago.mail.pigeon.bean.Mail;
+import com.trivago.mail.pigeon.bean.RecipientGroup;
+import com.trivago.mail.pigeon.bean.Sender;
+import com.trivago.mail.pigeon.process.QueueNewsletter;
 import com.trivago.mail.pigeon.web.components.groups.GroupSelectBox;
 import com.trivago.mail.pigeon.web.components.sender.SenderSelectBox;
 import com.vaadin.data.Property;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
+import org.apache.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Date;
 
 public class ModalAddNewsletter extends Window
 {
-	private String subject;
-	
-	private Date sendDate;
-
-	private long senderId;
+	private static final Logger log = Logger.getLogger(GroupSelectBox.class);
 	
 	public ModalAddNewsletter(final NewsletterList nl)
 	{
@@ -30,31 +34,15 @@ public class ModalAddNewsletter extends Window
 		final GroupSelectBox groupSelectBox = new GroupSelectBox();
 		final UploadTextFileComponent uploadTextfile = new UploadTextFileComponent();
 		final UploadHtmlFileComponent uploadHtmlfile = new UploadHtmlFileComponent();
-
 		final TextField tfSubject = new TextField("Subject");
-		tfSubject.addListener(new Property.ValueChangeListener()
-		{
-			@Override
-			public void valueChange(Property.ValueChangeEvent event)
-			{
-				subject = event.getProperty().getValue().toString();
-			}
-		});
-
 		final DateField tfSendDate = new DateField("Send Date");
+		final Button cancelButton = new Button("Cancel");
+		final Button saveButton = new Button("Send");
+
 		tfSendDate.setInvalidAllowed(false);
 		tfSendDate.setResolution(DateField.RESOLUTION_MIN);
 		tfSendDate.setValue(new Date());
-		tfSendDate.addListener(new Property.ValueChangeListener()
-		{
-			@Override
-			public void valueChange(Property.ValueChangeEvent event)
-			{
-				sendDate = (Date) event.getProperty().getValue();
-			}
-		});
 
-		final Button cancelButton = new Button("Cancel");
 
 		cancelButton.addListener(new Button.ClickListener()
 		{
@@ -65,16 +53,17 @@ public class ModalAddNewsletter extends Window
 				event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
 			}
 		});
-		final Button saveButton = new Button("Send");
 
 		saveButton.addListener(new Button.ClickListener()
 		{
 			@Override
 			public void buttonClick(Button.ClickEvent event)
 			{
+				boolean hasError = false;
 				// Validation
 				if (tfSubject.getValue().equals(""))
 				{
+					hasError = true;
 					tfSubject.setComponentError(new UserError("Subject cannot be empty"));
 				}
 				else
@@ -84,6 +73,7 @@ public class ModalAddNewsletter extends Window
 
 				if (tfSendDate.getValue() == null)
 				{
+					hasError = true;
 					tfSendDate.setComponentError(new UserError("Date cannot be empty"));
 				}
 				else
@@ -93,6 +83,7 @@ public class ModalAddNewsletter extends Window
 
 				if (!uploadTextfile.isUploadFinished())
 				{
+					hasError = true;
 					uploadTextfile.setComponentError(new UserError("You must provide a text file"));
 				}
 				else
@@ -102,6 +93,7 @@ public class ModalAddNewsletter extends Window
 
 				if (!uploadHtmlfile.isUploadFinished())
 				{
+					hasError = true;
 					uploadHtmlfile.setComponentError(new UserError("You must provide a html file"));
 				}
 				else
@@ -111,6 +103,7 @@ public class ModalAddNewsletter extends Window
 
 				if (senderSelectBox.getSelectedSender() == 0)
 				{
+					hasError = true;
 					senderSelectBox.setComponentError(new UserError("You must select a sender"));
 				}
 				else
@@ -120,15 +113,43 @@ public class ModalAddNewsletter extends Window
 
 				if (groupSelectBox.getSelectedGroup() == 0)
 				{
+					hasError = true;
 					groupSelectBox.setComponentError(new UserError("You must select a recipient group"));
 				}
 				else
 				{
 					groupSelectBox.setComponentError(null);
 				}
+				log.debug("Has Error: " + hasError);
+				if (!hasError)
+				{
+					log.info("No validation errors found, processing request");
+					long mailId = Math.round(new Date().getTime() * Math.random());
+					try
+					{
+						Sender s =new Sender(senderSelectBox.getSelectedSender());
+						String text = uploadTextfile.getTextData();
+						String html = uploadHtmlfile.getHtmlData();
+
+						Mail m = new Mail(mailId, text, html, (Date)tfSendDate.getValue(), tfSubject.getValue().toString(), s);
+
+						QueueNewsletter queueNewsletter = new QueueNewsletter();
+						queueNewsletter.queueNewsletter(m, s, new RecipientGroup(groupSelectBox.getSelectedGroup()));
+
+						event.getButton().getWindow().setVisible(false);
+						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
+						event.getButton().getWindow().getParent().showNotification("Queued successfully", Notification.TYPE_HUMANIZED_MESSAGE);
+
+						nl.getBeanContainer().addItem(m.getId(), m);
+
+					}
+					catch (RuntimeException e)
+					{
+						log.error("RuntimeException", e);
+					}
+				}
 			}
 		});
-
 
 
 		buttonLayout.setSpacing(true);

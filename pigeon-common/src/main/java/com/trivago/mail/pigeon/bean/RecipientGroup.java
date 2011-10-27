@@ -4,6 +4,7 @@ package com.trivago.mail.pigeon.bean;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
@@ -13,6 +14,8 @@ import java.util.Date;
 
 public class RecipientGroup
 {
+	private static final Logger log = Logger.getLogger(RecipientGroup.class);
+
 	private Node dataNode;
 
 	public static final String ID = "group_id";
@@ -46,6 +49,7 @@ public class RecipientGroup
 			}
 			catch (Exception e)
 			{
+				log.error(e);
 				tx.failure();
 			}
 			finally
@@ -65,12 +69,14 @@ public class RecipientGroup
 			dataNode.setProperty("type", getClass().getName());
 			dataNode.setProperty(NAME, name);
 			ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
+			ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
 
 			tx.success();
 		}
 		catch (Exception e)
 		{
+			log.error(e);
 			tx.failure();
 		}
 		finally
@@ -109,7 +115,7 @@ public class RecipientGroup
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			log.error(e);
 			tx.failure();
 		}
 		finally

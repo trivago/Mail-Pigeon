@@ -49,18 +49,22 @@ public class NewsletterList extends CustomComponent
 
 		viewTable.setContainerDataSource(beanContainer);
 		viewTable.addGeneratedColumn("Sender", new SenderColumnGenerator());
+		viewTable.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
 
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		viewTable.setVisibleColumns(new String[]
 				{
-						"id", "subject", "sendDate", "Sender"
+						"id", "subject", "sendDate", "Sender", "Actions"
 				});
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Subject", "Send Date", "Sender"
+						"ID", "Subject", "Send Date", "Sender", "Actions"
 				});
 
+
+		viewTable.setColumnExpandRatio(5,2);
+		
 
 		HorizontalLayout topButtonLayout = new HorizontalLayout();
 		topButtonLayout.addComponent(senderListNewButton);

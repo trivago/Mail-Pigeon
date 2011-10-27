@@ -8,6 +8,7 @@ import com.vaadin.ui.Upload;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 public class UploadTextFileComponent extends CustomComponent
@@ -16,12 +17,12 @@ public class UploadTextFileComponent extends CustomComponent
 				   Upload.Receiver
 {
 
-	Panel root;
-	File textFile;
-	Label statusLabel;
+	private Panel root;
 	private boolean uploadFinished = false;
 	private Label label;
 	private Upload upload;
+
+	private OutputStream fos;
 
 	public UploadTextFileComponent()
 	{
@@ -58,14 +59,24 @@ public class UploadTextFileComponent extends CustomComponent
 	public OutputStream receiveUpload(String filename, String mimeType)
 	{
 		label = new Label();
-		FileOutputStream fos = null; // Output stream to write to
-		textFile = new File("/tmp/uploads/txt_" + filename);
 		try
 		{
 			// Open the file for writing.
-			fos = new FileOutputStream(textFile);
+			fos = new OutputStream()
+			{
+				private StringBuilder string = new StringBuilder();
+				@Override
+				public void write(int b) throws IOException
+				{
+					this.string.append((char) b );
+				}
+
+				public String toString(){
+					return this.string.toString();
+				}
+			};
 		}
-		catch (final java.io.FileNotFoundException e)
+		catch (final Exception e)
 		{
 			// Error while opening the file. Not reported here.
 			e.printStackTrace();
@@ -86,9 +97,9 @@ public class UploadTextFileComponent extends CustomComponent
 		uploadFinished = true;
 	}
 
-	public File getTextFile()
+	public String getTextData()
 	{
-		return textFile;
+		return fos.toString();
 	}
 
 	public boolean isUploadFinished()

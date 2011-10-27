@@ -18,6 +18,10 @@ public class Mail
 	public static final String ID = "newsletter_id";
 	public static final String DATE = "send_date";
 	public static final String SUBJECT = "subject";
+	public static final String TEXT = "text_content";
+	public static final String HTML = "html_content";
+
+
 
 	public Mail(final Node underlayingNode)
 	{
@@ -29,7 +33,7 @@ public class Mail
 		dataNode = ConnectionFactory.getNewsletterIndex().get(IndexTypes.NEWSLETTER_ID, mailId).getSingle();
 	}
 
-	public Mail(final long mailId, final Date sendDate, final String subject, final Sender sender)
+	public Mail(final long mailId, final String text, final String html, final Date sendDate, final String subject, final Sender sender)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
@@ -39,6 +43,8 @@ public class Mail
 			dataNode.setProperty("type", getClass().getName());
 			dataNode.setProperty(DATE, sendDate.getTime());
 			dataNode.setProperty(SUBJECT, subject);
+			dataNode.setProperty(TEXT, text);
+			dataNode.setProperty(HTML, html);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.NEWSLETTER_ID, mailId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.NEWSLETTER_REFERENCE);
@@ -74,6 +80,16 @@ public class Mail
 	public Node getDataNode()
 	{
 		return this.dataNode;
+	}
+
+	public String getText()
+	{
+		return (String) this.dataNode.getProperty(TEXT);
+	}
+
+	public String getHtml()
+	{
+		return (String) this.dataNode.getProperty(HTML);
 	}
 
 	public Relationship addRecipient(Recipient recipient)
