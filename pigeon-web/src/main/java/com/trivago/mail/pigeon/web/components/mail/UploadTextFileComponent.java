@@ -9,13 +9,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mmueller
- * Date: 26.10.11
- * Time: 19:08
- * To change this template use File | Settings | File Templates.
- */
 public class UploadTextFileComponent extends CustomComponent
 		implements Upload.SucceededListener,
 				   Upload.FailedListener,
@@ -25,6 +18,7 @@ public class UploadTextFileComponent extends CustomComponent
 	Panel root;
 	File textFile;
 	Label statusLabel;
+	private boolean uploadFinished = false;
 
 	public UploadTextFileComponent()
 	{
@@ -82,10 +76,16 @@ public class UploadTextFileComponent extends CustomComponent
 		root.addComponent(new Label("File " + event.getFilename()
 				+ " of type '" + event.getMIMEType()
 				+ "' uploaded."));
+		uploadFinished = true;
 	}
 
 	public File getTextFile()
 	{
 		return textFile;
+	}
+
+	public boolean uploadFinished()
+	{
+		return uploadFinished;
 	}
 }

@@ -69,6 +69,7 @@ public class ModalAddNewsletter extends Window
 			{
 				// Validation
 				
+				
 			}
 		});
 
