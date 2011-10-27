@@ -3,6 +3,7 @@ package com.trivago.mail.pigeon.web.components.mail;
 import com.trivago.mail.pigeon.web.components.groups.GroupSelectBox;
 import com.trivago.mail.pigeon.web.components.sender.SenderSelectBox;
 import com.vaadin.data.Property;
+import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
 
 import java.util.Date;
@@ -39,6 +40,7 @@ public class ModalAddNewsletter extends Window
 		});
 
 		final DateField tfSendDate = new DateField("Send Date");
+		tfSendDate.setInvalidAllowed(false);
 		tfSendDate.setResolution(DateField.RESOLUTION_MIN);
 		tfSendDate.addListener(new Property.ValueChangeListener()
 		{
@@ -68,6 +70,20 @@ public class ModalAddNewsletter extends Window
 			public void buttonClick(Button.ClickEvent event)
 			{
 				// Validation
+				if (tfSubject.getValue().equals(""))
+				{
+					tfSubject.setComponentError(new UserError("Subject cannot be empty"));
+				}
+				else
+				{
+					tfSubject.setComponentError(null);
+				}
+
+				if (tfSendDate.getValue().equals(""))
+				{
+					tfSendDate.setComponentError(new UserError("Date cannot be empty"));
+				}
+
 				
 				
 			}
