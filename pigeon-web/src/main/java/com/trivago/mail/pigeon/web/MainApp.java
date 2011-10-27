@@ -42,12 +42,12 @@ public class MainApp extends Application
     @Override
     public void init()
     {
-		DOMConfigurator.configure("log4j.xml");
+		DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml"));
         window = new Window("My Vaadin Application");
         setMainWindow(window);
 
 		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
-		GroupManagementPanel list = new GroupManagementPanel(this);
+		//GroupManagementPanel list = new GroupManagementPanel(this);
 		NewsletterList list = new NewsletterList();
 		window.addComponent(list);
     }

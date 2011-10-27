@@ -1,5 +1,7 @@
 package com.trivago.mail.pigeon;
 
+import com.trivago.mail.pigeon.bean.Recipient;
+import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.configuration.Settings;
 import com.trivago.mail.pigeon.importer.Csv;
@@ -19,7 +21,7 @@ public class Importer
 		Settings s = Settings.create("/home/mmueller/Development/Checkouts/mail-pigeon/pigeon-common/src/main/resources/configuration.properties", true);
 
 		// doCsv();
-		doAddSender();
+		doAddRecipientGroup();
 
 	}
 
@@ -48,5 +50,12 @@ public class Importer
 	private static void doAddSender()
 	{
 		Sender s = new Sender(1L, "mario.mueller@trivago.com", "mario.mueller@trivago.com", "Mario Mueller");
+	}
+
+	private static void doAddRecipientGroup()
+	{
+		Recipient r = new Recipient(42L, "Mario Mueller", "mario.mueller@xenji.com");
+		RecipientGroup rg = new RecipientGroup(1337L, "Tester Group");
+		rg.addRecipient(r);
 	}
 }
