@@ -8,6 +8,7 @@
 package com.trivago.mail.pigeon.web.components;
 
 import com.trivago.mail.pigeon.bean.RecipientGroup;
+import com.trivago.mail.pigeon.web.components.sender.ModalAddNewSender;
 import com.vaadin.Application;
 import com.vaadin.data.Property;
 import com.vaadin.data.Validator;
@@ -35,9 +36,6 @@ public class GroupManagementPanel extends CustomComponent
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/* TODO XXX In which data type should the uploaded csv saved? String? */
-	private RecipientGroup[] recipientGroup;
 
 	private HorizontalLayout baseLayout;
 
@@ -78,6 +76,18 @@ public class GroupManagementPanel extends CustomComponent
 		
 		Button newButton = new Button("New group");
 		newButton.setIcon(new ThemeResource("../runo/icons/16/document.png"));
+		
+		newButton.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				Window modalNewGroupWindow = new ModalAddNewGroup();
+				event.getButton().getWindow().addWindow(modalNewGroupWindow);
+				modalNewGroupWindow.setVisible(true);
+			}
+		});
+		
 		verticalLayoutLeft.addComponent(newButton);
 		
 		Object dummyData[][] = {

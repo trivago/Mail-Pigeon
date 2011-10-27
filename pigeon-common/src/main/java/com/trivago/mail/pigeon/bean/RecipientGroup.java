@@ -15,7 +15,7 @@ public class RecipientGroup
 {
 	private Node dataNode;
 
-	public static final String ID = "user_id";
+	public static final String ID = "group_id";
 
 	public static final String NAME = "name";
 
