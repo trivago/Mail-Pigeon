@@ -1,5 +1,6 @@
 package com.trivago.mail.pigeon.web.components.mail;
 
+import com.vaadin.terminal.UserError;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
@@ -19,6 +20,8 @@ public class UploadHtmlFileComponent extends CustomComponent
 	File htmlFile;
 
 	boolean uploadFinished = false;
+	private Label label;
+	private Upload upload;
 
 	public UploadHtmlFileComponent()
 	{
@@ -26,7 +29,7 @@ public class UploadHtmlFileComponent extends CustomComponent
 		setCompositionRoot(root);
 
 		// Create the Upload component.
-		final Upload upload = new Upload("HTML-File", this);
+		upload = new Upload("HTML-File", this);
 
 		// Use a custom button caption instead of plain "Upload".
 		upload.setButtonCaption("Upload Now");
@@ -43,17 +46,20 @@ public class UploadHtmlFileComponent extends CustomComponent
 	@Override
 	public void uploadFailed(Upload.FailedEvent event)
 	{
-		// Log the failure on screen.
-		root.addComponent(new Label("Uploading "
+
+		label = new Label("Uploading "
 				+ event.getFilename() + " of type '"
-				+ event.getMIMEType() + "' failed."));
+				+ event.getMIMEType() + "' failed.");
+		root.addComponent(label);
+		upload.setComponentError(new UserError("Upload failed!"));
 	}
 
 	@Override
 	public OutputStream receiveUpload(String filename, String mimeType)
 	{
+		label = new Label();
 		FileOutputStream fos = null; // Output stream to write to
-		htmlFile = new File("/tmp/uploads/" + filename);
+		htmlFile = new File("/tmp/uploads/html_" + filename);
 		try
 		{
 			// Open the file for writing.
@@ -73,9 +79,10 @@ public class UploadHtmlFileComponent extends CustomComponent
 	public void uploadSucceeded(Upload.SucceededEvent event)
 	{
 		// Log the upload on screen.
-		root.addComponent(new Label("File " + event.getFilename()
+		label = new Label("File " + event.getFilename()
 				+ " of type '" + event.getMIMEType()
-				+ "' uploaded."));
+				+ "' uploaded.");
+		root.addComponent(label);
 		uploadFinished = true;
 	}
 

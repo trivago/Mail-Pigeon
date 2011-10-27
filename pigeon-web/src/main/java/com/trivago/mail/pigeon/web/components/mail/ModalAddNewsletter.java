@@ -28,6 +28,8 @@ public class ModalAddNewsletter extends Window
 		final SenderSelectBox senderSelectBox = new SenderSelectBox();
 		final HorizontalLayout buttonLayout = new HorizontalLayout();
 		final GroupSelectBox groupSelectBox = new GroupSelectBox();
+		final UploadTextFileComponent uploadTextfile = new UploadTextFileComponent();
+		final UploadHtmlFileComponent uploadHtmlfile = new UploadHtmlFileComponent();
 
 		final TextField tfSubject = new TextField("Subject");
 		tfSubject.addListener(new Property.ValueChangeListener()
@@ -42,6 +44,7 @@ public class ModalAddNewsletter extends Window
 		final DateField tfSendDate = new DateField("Send Date");
 		tfSendDate.setInvalidAllowed(false);
 		tfSendDate.setResolution(DateField.RESOLUTION_MIN);
+		tfSendDate.setValue(new Date());
 		tfSendDate.addListener(new Property.ValueChangeListener()
 		{
 			@Override
@@ -79,18 +82,54 @@ public class ModalAddNewsletter extends Window
 					tfSubject.setComponentError(null);
 				}
 
-				if (tfSendDate.getValue().equals(""))
+				if (tfSendDate.getValue() == null)
 				{
 					tfSendDate.setComponentError(new UserError("Date cannot be empty"));
 				}
+				else
+				{
+					tfSendDate.setComponentError(null);
+				}
 
-				
-				
+				if (!uploadTextfile.isUploadFinished())
+				{
+					uploadTextfile.setComponentError(new UserError("You must provide a text file"));
+				}
+				else
+				{
+					uploadTextfile.setComponentError(null);
+				}
+
+				if (!uploadHtmlfile.isUploadFinished())
+				{
+					uploadHtmlfile.setComponentError(new UserError("You must provide a html file"));
+				}
+				else
+				{
+					uploadHtmlfile.setComponentError(null);
+				}
+
+				if (senderSelectBox.getSelectedSender() == 0)
+				{
+					senderSelectBox.setComponentError(new UserError("You must select a sender"));
+				}
+				else
+				{
+					senderSelectBox.setComponentError(null);
+				}
+
+				if (groupSelectBox.getSelectedGroup() == 0)
+				{
+					groupSelectBox.setComponentError(new UserError("You must select a recipient group"));
+				}
+				else
+				{
+					groupSelectBox.setComponentError(null);
+				}
 			}
 		});
 
-		final UploadTextFileComponent uploadTextfile = new UploadTextFileComponent();
-		final UploadHtmlFileComponent uploadHtmlfile = new UploadHtmlFileComponent();
+
 
 		buttonLayout.setSpacing(true);
 		buttonLayout.addComponent(saveButton);
