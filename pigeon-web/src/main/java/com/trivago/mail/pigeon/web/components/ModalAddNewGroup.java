@@ -1,6 +1,12 @@
 package com.trivago.mail.pigeon.web.components;
 
+import java.util.Date;
+
+import com.trivago.mail.pigeon.bean.RecipientGroup;
+import com.trivago.mail.pigeon.bean.Sender;
+import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.vaadin.data.Property;
+import com.vaadin.terminal.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Panel;
@@ -8,12 +14,13 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Window.Notification;
 
 public class ModalAddNewGroup extends Window
 {
 	private String name;
 	
-	public ModalAddNewGroup()
+	public ModalAddNewGroup(final GroupList gl)
 	{
 		super();
 
@@ -26,7 +33,7 @@ public class ModalAddNewGroup extends Window
 
 		VerticalLayout formLayout = new VerticalLayout();
 
-		TextField tfName = new TextField("Name");
+		final TextField tfName = new TextField("Name");
 		tfName.addListener(new Property.ValueChangeListener()
 		{
 			@Override
@@ -48,6 +55,50 @@ public class ModalAddNewGroup extends Window
 			@Override
 			public void buttonClick(ClickEvent event)
 			{
+				if (tfName.getValue().equals(""))
+				{
+					tfName.setComponentError(new UserError("Name must not be empty"));
+				}
+				else
+				{
+					tfName.setComponentError(null);
+				}
+
+				/* TODO XXX check for existing group: no duplicates! */
+
+				if (!tfName.getValue().equals(""))
+				{
+					tfName.setComponentError(null);
+					
+					long grou_id = Math.round(new Date().getTime() * Math.random());
+					
+					try
+					{
+						RecipientGroup g = new RecipientGroup(grou_id, tfName.getValue().toString());
+						event.getButton().getWindow().setVisible(false);
+						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
+						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
+						gl.getBeanContainer().addItem(g.getId(), g);
+
+						// The sender select could be placed anywhere but must be reloaded to reflect the changes.
+						//GroupSelectBox.reloadSelect(); /* TODO XXX */
+					}
+					catch (RuntimeException e)
+					{
+						// Should never happen ... hopefully :D
+					}
+				}
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 				
 				event.getButton().getWindow().setVisible(false);

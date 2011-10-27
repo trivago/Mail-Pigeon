@@ -134,4 +134,22 @@ public class RecipientGroup
 	{
 		return ConnectionFactory.getGroupIndex().get("type", RecipientGroup.class.getName());
 	}
+	
+	public void setName(String name)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(NAME, name);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+	}
 }

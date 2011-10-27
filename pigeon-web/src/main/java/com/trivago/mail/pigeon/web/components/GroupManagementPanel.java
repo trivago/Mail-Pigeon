@@ -82,9 +82,9 @@ public class GroupManagementPanel extends CustomComponent
 			@Override
 			public void buttonClick(Button.ClickEvent event)
 			{
-				Window modalNewGroupWindow = new ModalAddNewGroup();
+				/*Window modalNewGroupWindow = new ModalAddNewGroup();
 				event.getButton().getWindow().addWindow(modalNewGroupWindow);
-				modalNewGroupWindow.setVisible(true);
+				modalNewGroupWindow.setVisible(true);*/
 			}
 		});
 		
