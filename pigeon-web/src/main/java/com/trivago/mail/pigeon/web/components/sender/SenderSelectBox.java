@@ -12,20 +12,15 @@ public class SenderSelectBox extends CustomComponent
 {
 	private long selectedSender;
 
+	private static Select select;
+
 	public SenderSelectBox()
 	{
 		Panel rootPanel = new Panel("Select Sender");
-		Select select = new Select("Available Senders");
+		select = new Select("Available Senders");
 		select.setFilteringMode(AbstractSelect.Filtering.FILTERINGMODE_CONTAINS);
 
-		final IndexHits<Node> indexHits = Sender.getAll();
-
-		for (Node node : indexHits)
-		{
-			final Long itemId = (Long) node.getProperty(Sender.ID);
-			select.addItem(itemId);
-			select.setItemCaption(itemId, node.getProperty(Sender.NAME).toString() + " (" + node.getProperty(Sender.FROM_MAIL).toString() + ")");
-		}
+		reloadSelect();
 		select.addListener(new Select.ValueChangeListener()
 		{
 			@Override
@@ -36,6 +31,23 @@ public class SenderSelectBox extends CustomComponent
 		});
 		rootPanel.addComponent(select);
 		setCompositionRoot(rootPanel);
+	}
+
+	public static void reloadSelect()
+	{
+		if (select.getItemIds().size() > 0)
+		{
+			select.removeAllItems();
+		}
+		
+		final IndexHits<Node> indexHits = Sender.getAll();
+
+		for (Node node : indexHits)
+		{
+			final Long itemId = (Long) node.getProperty(Sender.ID);
+			select.addItem(itemId);
+			select.setItemCaption(itemId, node.getProperty(Sender.NAME).toString() + " (" + node.getProperty(Sender.FROM_MAIL).toString() + ")");
+		}
 	}
 
 	public long getSelectedSender()

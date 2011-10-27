@@ -16,18 +16,13 @@
 package com.trivago.mail.pigeon.web;
 
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
-import com.trivago.mail.pigeon.web.components.GroupManagementPanel;
-import com.trivago.mail.pigeon.web.components.RecipientSelectionPanel;
 import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.vaadin.Application;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Window;
-import org.apache.log4j.xml.DOMConfigurator;
 
-import javax.servlet.ServletContext;
+import com.vaadin.ui.Window;
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 /**
  * The Application's "main" class
@@ -40,18 +35,22 @@ public class MainApp extends Application
     @Override
     public void init()
     {
-		DOMConfigurator.configure("log4j.xml");
-        window = new Window("My Vaadin Application");
+		DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml"));
+        window = new Window("Mail Pidgeon");
         setMainWindow(window);
 
 		//RecipientSelectionPanel recipientSelectionPanel = new RecipientSelectionPanel(this);
 		NewsletterList list = new NewsletterList();
+		SenderList sl = new SenderList();
+		window.addComponent(sl);
 		window.addComponent(list);
     }
 
 	@Override
 	public void close()
 	{
+		Logger.getLogger(MainApp.class).info("Shutdown hook called");
+		ConnectionFactory.getDatabase().shutdown();
 		super.close();
 		 // Registers a shutdown hook for the Neo4j and index service instances
         // so that it shuts down nicely when the VM exits (even if you

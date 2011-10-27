@@ -4,6 +4,7 @@ import com.trivago.mail.pigeon.bean.Sender;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.BeanItem;
+import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
@@ -28,7 +29,7 @@ public class ModalAddNewSender extends Window
 		Panel rootPanel = new Panel("Add new Sender");
 		final VerticalLayout verticalLayout = new VerticalLayout();
 
-		TextField tfName = new TextField("Name");
+		final TextField tfName = new TextField("Name");
 		tfName.addListener(new Property.ValueChangeListener()
 		{
 			@Override
@@ -38,7 +39,7 @@ public class ModalAddNewSender extends Window
 			}
 		});
 
-		TextField tfFromMail = new TextField("From E-Mail");
+		final TextField tfFromMail = new TextField("From E-Mail");
 		tfFromMail.addListener(new Property.ValueChangeListener()
 		{
 			@Override
@@ -48,7 +49,7 @@ public class ModalAddNewSender extends Window
 			}
 		});
 
-		TextField tfReplyTo = new TextField("ReplyTo E-Mail");
+		final TextField tfReplyTo = new TextField("ReplyTo E-Mail");
 		tfReplyTo.addListener(new Property.ValueChangeListener()
 		{
 			@Override
@@ -84,21 +85,25 @@ public class ModalAddNewSender extends Window
 			{
 				if (name == null)
 				{
-					event.getButton().getApplication().getMainWindow().showNotification("Name must not be empty", Notification.TYPE_ERROR_MESSAGE);
+					tfName.setComponentError(new UserError("Name must not be empty"));
 				}
 
 				if (fromMail == null)
 				{
-					event.getButton().getApplication().getMainWindow().showNotification("From E-Mail must not be empty", Notification.TYPE_ERROR_MESSAGE);
+					tfFromMail.setComponentError(new UserError("From E-Mail must not be empty"));
 				}
 
 				if (replytoMail== null)
 				{
-					event.getButton().getApplication().getMainWindow().showNotification("Reply-To E-Mail must not be empty", Notification.TYPE_ERROR_MESSAGE);
+					tfReplyTo.setComponentError(new UserError("Reply-To E-Mail must not be empty"));
 				}
 
 				if (name != null && fromMail != null && replytoMail != null)
 				{
+					tfName.setComponentError(null);
+					tfFromMail.setComponentError(null);
+					tfReplyTo.setComponentError(null);
+					
 					long senderId = Math.round(new Date().getTime() * Math.random());
 					try
 					{
@@ -107,6 +112,9 @@ public class ModalAddNewSender extends Window
 						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
 						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
 						sl.getBeanContainer().addItem(s.getId(), s);
+
+						// The sender select could be placed anywhere but must be reloaded to reflect the changes.
+						SenderSelectBox.reloadSelect();
 					}
 					catch (RuntimeException e)
 					{
