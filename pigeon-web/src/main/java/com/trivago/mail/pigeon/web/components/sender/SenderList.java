@@ -90,6 +90,8 @@ public class SenderList extends CustomComponent
 		viewTable.setColumnExpandRatio(4, 2);
 
 		HorizontalLayout topButtonLayout = new HorizontalLayout();
+		topButtonLayout.setSpacing(true);
+		topButtonLayout.setMargin(false, false, true, false);
 		topButtonLayout.addComponent(senderListNewButton);
 		topButtonLayout.addComponent(editButton);
 

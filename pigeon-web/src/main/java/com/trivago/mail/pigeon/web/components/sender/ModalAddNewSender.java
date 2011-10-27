@@ -83,22 +83,36 @@ public class ModalAddNewSender extends Window
 			@Override
 			public void buttonClick(Button.ClickEvent event)
 			{
-				if (name == null)
+				if (tfName.getValue().equals(""))
 				{
 					tfName.setComponentError(new UserError("Name must not be empty"));
 				}
+				else
+				{
+					tfName.setComponentError(null);
+				}
 
-				if (fromMail == null)
+				if (tfFromMail.getValue().equals(""))
 				{
 					tfFromMail.setComponentError(new UserError("From E-Mail must not be empty"));
 				}
+				else
+				{
+					tfFromMail.setComponentError(null);
+				}
 
-				if (replytoMail== null)
+				if (tfReplyTo.getValue().equals(""))
 				{
 					tfReplyTo.setComponentError(new UserError("Reply-To E-Mail must not be empty"));
 				}
+				else
+				{
+					tfReplyTo.setComponentError(null);
+				}
 
-				if (name != null && fromMail != null && replytoMail != null)
+				if (!tfName.getValue().equals("")
+						&& !tfFromMail.getValue().equals("")
+						&& !tfReplyTo.getValue().equals(""))
 				{
 					tfName.setComponentError(null);
 					tfFromMail.setComponentError(null);
@@ -107,7 +121,7 @@ public class ModalAddNewSender extends Window
 					long senderId = Math.round(new Date().getTime() * Math.random());
 					try
 					{
-						Sender s = new Sender(senderId, fromMail, replytoMail, name);
+						Sender s = new Sender(senderId, tfFromMail.getValue().toString(), tfReplyTo.getValue().toString(), tfName.getValue().toString());
 						event.getButton().getWindow().setVisible(false);
 						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
 						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
@@ -124,7 +138,7 @@ public class ModalAddNewSender extends Window
 			}
 		});
 
-
+		buttonLayout.setSpacing(true);
 		buttonLayout.addComponent(saveButton);
 		buttonLayout.addComponent(cancelButton);
 

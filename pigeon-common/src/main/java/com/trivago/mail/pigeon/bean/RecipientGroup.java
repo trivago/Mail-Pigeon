@@ -19,8 +19,6 @@ public class RecipientGroup
 
 	public static final String NAME = "name";
 
-	public static final String EMAIL = "email";
-
 	public static final String DATE = "date";
 
 	public RecipientGroup(final Node underlayingNode)
