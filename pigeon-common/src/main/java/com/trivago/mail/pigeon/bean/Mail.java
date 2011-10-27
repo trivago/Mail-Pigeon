@@ -29,7 +29,7 @@ public class Mail
 		dataNode = ConnectionFactory.getNewsletterIndex().get(IndexTypes.NEWSLETTER_ID, mailId).getSingle();
 	}
 
-	public Mail(final long mailId, final Date sendDate, final String subject)
+	public Mail(final long mailId, final Date sendDate, final String subject, final Sender sender)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
@@ -43,6 +43,7 @@ public class Mail
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.NEWSLETTER_REFERENCE);
 			tx.success();
+			sender.addSentMail(this);
 		}
 		catch (Exception e)
 		{
@@ -62,7 +63,7 @@ public class Mail
 
 	public Date getSendDate()
 	{
-		return (Date) dataNode.getProperty(DATE);
+		return  new Date((Long) dataNode.getProperty(DATE));
 	}
 
 	public String getSubject()

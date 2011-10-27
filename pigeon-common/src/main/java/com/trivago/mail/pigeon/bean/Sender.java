@@ -10,13 +10,6 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mmueller
- * Date: 17.10.11
- * Time: 15:16
- * To change this template use File | Settings | File Templates.
- */
 public class Sender
 {
 	private Node dataNode;
@@ -41,6 +34,12 @@ public class Sender
 
 	public Sender(final long senderId, final String fromMail, final String replytoMail, final String name)
 	{
+		dataNode = ConnectionFactory.getSenderIndex().get(IndexTypes.SENDER_ID, senderId).getSingle();
+		if (dataNode != null)
+		{
+			throw new RuntimeException("This sender does already exist");
+		}
+		
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
 		{
@@ -89,6 +88,60 @@ public class Sender
 	public String getReplytoMail()
 	{
 		return (String) dataNode.getProperty(REPLYTO_MAIL);
+	}
+
+	public void setName(String name)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(NAME, name);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+	}
+
+	public void setFromMail(String fromMail)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(FROM_MAIL, fromMail);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+	}
+
+	public void setReplytoMail(String replytoMail)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(REPLYTO_MAIL, replytoMail);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 	}
 
 	public Relationship addSentMail(Mail mail)
