@@ -35,9 +35,7 @@ public class Daemon
 			boolean autoAck = false;
 			QueueingConsumer consumer = new QueueingConsumer(channel);
 			channel.basicConsume(channelName, autoAck, consumer);
-
 			MailFacade mailFacade = new MailFacade();
-
 
 			while (true)
 			{
@@ -53,19 +51,8 @@ public class Daemon
 
 				String jsonContent = new String(delivery.getBody());
 				MailTransport mailTransport = JSONParser.defaultJSONParser().parse(MailTransport.class, jsonContent);
-
-				try
-				{
-					Thread.sleep(5000L);
-				}
-				catch (InterruptedException e)
-				{
-					
-				}
-				// mailFacade.sendMail(mailTransport);
+				mailFacade.sendMail(mailTransport);
 				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
-
-
 			}
 
 		}
