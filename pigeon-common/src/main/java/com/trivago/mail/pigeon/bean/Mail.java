@@ -20,6 +20,7 @@ public class Mail
 	public static final String SUBJECT = "subject";
 	public static final String TEXT = "text_content";
 	public static final String HTML = "html_content";
+	public static final String DONE = "done";
 
 
 
@@ -45,6 +46,7 @@ public class Mail
 			dataNode.setProperty(SUBJECT, subject);
 			dataNode.setProperty(TEXT, text);
 			dataNode.setProperty(HTML, html);
+			dataNode.setProperty(DONE, false);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.NEWSLETTER_ID, mailId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.NEWSLETTER_REFERENCE);
@@ -60,7 +62,6 @@ public class Mail
 			tx.finish();
 		}
 	}
-
 
 	public long getId()
 	{
@@ -90,6 +91,29 @@ public class Mail
 	public String getHtml()
 	{
 		return (String) this.dataNode.getProperty(HTML);
+	}
+
+	public boolean isDone()
+	{
+		return (Boolean) this.dataNode.getProperty(DONE);
+	}
+
+	public void setDone()
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(DONE, true);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
 	}
 
 	public Relationship addRecipient(Recipient recipient)

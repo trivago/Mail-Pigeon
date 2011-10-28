@@ -15,11 +15,11 @@ import java.util.List;
 public class RecipientList extends CustomComponent
 {
 
-	private Table viewTable;
+	protected Table viewTable;
 
-	private BeanContainer<Long, Recipient> beanContainer;
+	protected BeanContainer<Long, Recipient> beanContainer;
 
-	private long groupId = -1;
+	protected long groupId = -1;
 
 	public RecipientList(long groupId)
 	{

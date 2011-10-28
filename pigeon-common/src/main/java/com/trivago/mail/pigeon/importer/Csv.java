@@ -5,6 +5,7 @@ import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import org.apache.log4j.Logger;
+import org.jumpmind.symmetric.csv.CsvReader;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 
@@ -37,7 +38,9 @@ public class Csv
 	{
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
-		String line;
+		CsvReader csvReader = new CsvReader(new FileReader(file));
+		csvReader.setDelimiter(';');
+
 		int rowCount = 1;
 		int invalidCount = 0;
 		final GraphDatabaseService database = ConnectionFactory.getDatabase();
@@ -45,9 +48,9 @@ public class Csv
 		try
 		{
 
-			while ((line = bufferedReader.readLine()) != null)
+			while (csvReader.readRecord())
 			{
-				String[] parts = line.split(";");
+				String[] parts = csvReader.getValues();
 
 				// part 0: user_id => if empty, use neo4j id as id
 				// part 1: username => Real Name, unique name, you decide

@@ -54,10 +54,10 @@ public class MainApp extends Application
 		nlLayout.setMargin(true);
 		tabSheet.addTab(nlLayout).setCaption("Newsletter");
 
-		VerticalLayout rLayout = new VerticalLayout();
-		rLayout.addComponent(recipientList);
-		rLayout.setMargin(true);
-		tabSheet.addTab(rLayout).setCaption("Recipients");
+//		VerticalLayout rLayout = new VerticalLayout();
+//		rLayout.addComponent(recipientList);
+//		rLayout.setMargin(true);
+//		tabSheet.addTab(rLayout).setCaption("Recipients");
 
 		VerticalLayout rgLayout = new VerticalLayout();
 		rgLayout.addComponent(groupList);

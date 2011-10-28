@@ -30,18 +30,22 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 		
 		final Button showMembersButton = new Button();
 		showMembersButton.setIcon(new ThemeResource("../runo/icons/16/users.png"));
+		showMembersButton.setDescription("Show recipients in this group");
 		showMembersButton.setImmediate(true);
 		
 		final Button deleteButton = new Button();
 		deleteButton.setIcon(new ThemeResource("../runo/icons/16/trash.png"));
+		deleteButton.setDescription("Delete group and all users in it.");
 		deleteButton.setImmediate(true);
 
 		final Button csvImportButton = new Button();
 		csvImportButton.setIcon(new ThemeResource("../runo/icons/16/folder.png"));
+		csvImportButton.setDescription("Import CSV file of users into this group");
 		csvImportButton.setImmediate(true);
 
 		final Button refreshButton = new Button();
 		refreshButton.setIcon(new ThemeResource("../runo/icons/16/reload.png"));
+		refreshButton.setDescription("Refresh the recipient count in this group (e.g. after an import)");
 		refreshButton.setImmediate(true);
 
 		showMembersButton.setData(itemId);

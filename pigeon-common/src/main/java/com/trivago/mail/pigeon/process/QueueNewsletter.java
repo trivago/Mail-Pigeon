@@ -1,8 +1,7 @@
 package com.trivago.mail.pigeon.process;
 
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.*;
 import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
@@ -12,6 +11,7 @@ import com.trivago.mail.pigeon.queue.ConnectionPool;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Relationship;
 import org.svenson.JSON;
+import org.svenson.JSONParser;
 
 import java.io.IOException;
 import java.util.Date;
@@ -83,5 +83,33 @@ public class QueueNewsletter
 				}
 			}
 		}
+	}
+
+	public int getProgress(long newsletterId)
+	{
+		Connection conn = ConnectionPool.getConnection();
+		Channel channel = null;
+		try
+		{
+			channel = conn.createChannel();
+			AMQP.Queue.DeclareOk declareOk = channel.queueDeclarePassive(channelName);
+			return declareOk.getMessageCount();
+		}
+		catch (Exception e)
+		{
+			log.error("Error while fetching progress", e);
+		}
+		finally {
+			assert channel != null;
+			try
+			{
+				channel.close();
+			}
+			catch (IOException e)
+			{
+				log.error("Could not close channel", e);
+			}
+		}
+		return 0;
 	}
 }

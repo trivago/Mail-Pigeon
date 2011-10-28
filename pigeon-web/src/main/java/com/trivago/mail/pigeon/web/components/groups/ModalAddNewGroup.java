@@ -86,19 +86,7 @@ public class ModalAddNewGroup extends Window
 						// Should never happen ... hopefully :D
 					}
 				}
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+					
 				event.getButton().getWindow().setVisible(false);
 				event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
 			}

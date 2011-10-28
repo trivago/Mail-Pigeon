@@ -23,8 +23,8 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 		HorizontalLayout hl = new HorizontalLayout();
 		Button deleteButton = new Button();
 		deleteButton.setImmediate(true);
-		deleteButton.setIcon(new ThemeResource("../runo/icons/16/document-delete.png"));
-
+		deleteButton.setIcon(new ThemeResource("../runo/icons/16/trash.png"));
+		deleteButton.setDescription("Delete sender");
 		deleteButton.addListener(new Button.ClickListener()
 		{
 			@Override

@@ -54,8 +54,18 @@ public class Daemon
 				String jsonContent = new String(delivery.getBody());
 				MailTransport mailTransport = JSONParser.defaultJSONParser().parse(MailTransport.class, jsonContent);
 
-				mailFacade.sendMail(mailTransport);
+				try
+				{
+					Thread.sleep(5000L);
+				}
+				catch (InterruptedException e)
+				{
+					
+				}
+				// mailFacade.sendMail(mailTransport);
 				channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+
+
 			}
 
 		}

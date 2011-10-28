@@ -44,6 +44,21 @@ public class NewsletterList extends CustomComponent
 				modalNewWindow.setVisible(true);
 			}
 		});
+		Button statusPopup = new Button("Show delivery status");
+		statusPopup.setImmediate(true);
+		statusPopup.setIcon(new ThemeResource("../runo/icons/16/globe.png"));
+		statusPopup.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				Window modalNewWindow = new PopupActiveNewsletters();
+				event.getButton().getWindow().addWindow(modalNewWindow);
+				modalNewWindow.setVisible(true);
+			}
+		});
+
+
 
 		List<Mail> mailList = getMailList();
 		for (Mail mail : mailList)
@@ -58,12 +73,12 @@ public class NewsletterList extends CustomComponent
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		viewTable.setVisibleColumns(new String[]
 				{
-						"id", "subject", "sendDate", "Sender", "Actions"
+						"id", "subject", "sendDate", "Sender", "done", "Actions"
 				});
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Subject", "Send Date", "Sender", "Actions"
+						"ID", "Subject", "Send Date", "Sender", "Finished sending","Actions"
 				});
 
 
@@ -72,6 +87,7 @@ public class NewsletterList extends CustomComponent
 
 		HorizontalLayout topButtonLayout = new HorizontalLayout();
 		topButtonLayout.addComponent(senderListNewButton);
+		// topButtonLayout.addComponent(statusPopup);
 		topButtonLayout.setMargin(false, false, true, false);
 		
 		rootPanel.addComponent(topButtonLayout);

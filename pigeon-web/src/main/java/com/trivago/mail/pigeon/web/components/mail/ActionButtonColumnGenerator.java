@@ -1,13 +1,11 @@
 package com.trivago.mail.pigeon.web.components.mail;
 
 import com.trivago.mail.pigeon.bean.Mail;
-import com.trivago.mail.pigeon.bean.Sender;
-import com.trivago.mail.pigeon.storage.ConnectionFactory;
+import com.trivago.mail.pigeon.web.components.recipients.ModalRecipientListByMail;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
 import org.apache.log4j.Logger;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Transaction;
+
 
 
 public class ActionButtonColumnGenerator implements Table.ColumnGenerator
@@ -17,7 +15,8 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 	public Object generateCell(final Table source, final Object itemId, final Object columnId)
 	{
 		HorizontalLayout hl = new HorizontalLayout();
-		Button showNlConentButton = new Button("View");
+		Button showNlConentButton = new Button();
+		showNlConentButton.setDescription("View");
 		showNlConentButton.setImmediate(true);
 		showNlConentButton.setIcon(new ThemeResource("../runo/icons/16/document-txt.png"));
 
@@ -66,7 +65,26 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 			}
 		});
 
+
+		final Button showOpenendMails = new Button();
+		showOpenendMails.setDescription("Show recipients of this mailling");
+		showOpenendMails.setIcon(new ThemeResource("../runo/icons/16/users.png"));
+		showOpenendMails.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				Mail m = new Mail((Long) itemId);
+				ModalRecipientListByMail modalRecipientListByMail = new ModalRecipientListByMail(m);
+				source.getWindow().addWindow(modalRecipientListByMail);
+				modalRecipientListByMail.setVisible(true);
+
+			}
+		});
+
+
 		hl.addComponent(showNlConentButton);
+		hl.addComponent(showOpenendMails);
 		return hl;
 	}
 }

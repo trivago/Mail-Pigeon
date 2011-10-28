@@ -78,6 +78,42 @@ public class Recipient
 		return (String) dataNode.getProperty(EMAIL);
 	}
 
+	public void setName(String name)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(NAME, name);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+	}
+
+	public void setEmail(String email)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		try
+		{
+			dataNode.setProperty(EMAIL, email);
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+	}
+
 	public Relationship addRecievedNewsletter(Mail mail)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();

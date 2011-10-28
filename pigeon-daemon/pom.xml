@@ -62,7 +62,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.trivago.mailpidgin.FillContents</mainClass>
+					<mainClass>com.trivago.mail.pigeon.daemon.Daemon</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>
