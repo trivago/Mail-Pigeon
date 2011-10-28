@@ -3,9 +3,7 @@ package com.trivago.mail.pigeon.web;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.*;
 import org.neo4j.graphdb.index.IndexHits;
 
 
@@ -46,7 +44,25 @@ public class TrackingServlet extends HttpServlet
 				final Transaction transaction = database.beginTx();
 				try
 				{
-					userNode.createRelationshipTo(newsletterNode, RelationTypes.OPENED);
+					if (!userNode.hasRelationship(RelationTypes.OPENED, Direction.OUTGOING))
+					{
+						userNode.createRelationshipTo(newsletterNode, RelationTypes.OPENED);
+					}
+					else
+					{
+						boolean found = false;
+						for(Relationship rel : userNode.getRelationships(RelationTypes.OPENED))
+						{
+							if (rel.getEndNode().equals(newsletterNode))
+							{
+								found = true;
+							}
+						}
+						if (!found)
+						{
+							userNode.createRelationshipTo(newsletterNode, RelationTypes.OPENED);
+						}
+					}
 					transaction.success();
 				}
 				catch (Exception e)

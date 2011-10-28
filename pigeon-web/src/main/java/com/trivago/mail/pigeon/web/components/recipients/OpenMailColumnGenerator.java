@@ -6,13 +6,14 @@ import com.trivago.mail.pigeon.storage.RelationTypes;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Embedded;
 import com.vaadin.ui.Table;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 
-import java.awt.*;
-
 public class OpenMailColumnGenerator implements Table.ColumnGenerator
 {
+
+	private static final Logger log = Logger.getLogger(OpenMailColumnGenerator.class);
 
 	@Override
 	public Object generateCell(Table source, Object itemId, Object columnId)

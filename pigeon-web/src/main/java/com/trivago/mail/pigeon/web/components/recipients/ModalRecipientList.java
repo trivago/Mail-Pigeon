@@ -11,7 +11,7 @@ public class ModalRecipientList extends Window
 	public ModalRecipientList(long groupId)
 	{
 		super("Recipient List for GroupId " + groupId);
-		setWidth("800px");
+		setWidth("900px");
 		RecipientList rl = new RecipientList(groupId);
 		addComponent(rl);
 	}

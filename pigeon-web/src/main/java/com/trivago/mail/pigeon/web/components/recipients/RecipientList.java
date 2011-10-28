@@ -2,9 +2,12 @@ package com.trivago.mail.pigeon.web.components.recipients;
 
 import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
+import com.vaadin.addon.tableexport.ExcelExport;
+import com.vaadin.addon.tableexport.TableExport;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.IndexHits;
@@ -14,6 +17,8 @@ import java.util.List;
 
 public class RecipientList extends CustomComponent
 {
+
+	private static final Logger log = Logger.getLogger(RecipientList.class);
 
 	protected Table viewTable;
 
@@ -78,6 +83,31 @@ public class RecipientList extends CustomComponent
 			}
 		});
 
+		Button exportTable = new Button("Export");
+		exportTable.setImmediate(true);
+		exportTable.setIcon(new ThemeResource("../runo/icons/16/document-xsl.png"));
+		exportTable.addListener(new Button.ClickListener()
+		{
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				log.debug("Starting export");
+				TableExport te = new ExcelExport(viewTable, "Recipient list", "Recipient list", "Recipient_list.xls", false);
+				log.debug("Converting table");
+				te.convertTable();
+				log.debug("Sending converted table...");
+				boolean success = te.sendConverted();
+				if (success)
+				{
+					log.debug("Sending should be successful");
+				}
+				else
+				{
+					log.warn("Sending not successfull, maybe IOException occured?");
+				}
+			}
+		});
+
 		viewTable.setImmediate(true);
 		beanContainer = new BeanContainer<Long, Recipient>(Recipient.class);
 
@@ -108,6 +138,7 @@ public class RecipientList extends CustomComponent
 		topButtonLayout.setSpacing(true);
 		topButtonLayout.setMargin(false, false, true, false);
 		topButtonLayout.addComponent(editButton);
+		topButtonLayout.addComponent(exportTable);
 
 		rootPanel.addComponent(topButtonLayout);
 		rootPanel.addComponent(viewTable);

@@ -2,11 +2,12 @@ package com.trivago.mail.pigeon.web.components.mail;
 
 
 import com.trivago.mail.pigeon.bean.Mail;
-import com.trivago.mail.pigeon.bean.Sender;
-import com.trivago.mail.pigeon.web.components.sender.ModalAddNewSender;
+import com.vaadin.addon.tableexport.ExcelExport;
+import com.vaadin.addon.tableexport.TableExport;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
+import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
@@ -15,6 +16,8 @@ import java.util.List;
 
 public class NewsletterList extends CustomComponent
 {
+	private static final Logger log = Logger.getLogger(NewsletterList.class);
+
 	private Table viewTable;
 
 	private BeanContainer<Long, Mail> beanContainer;
@@ -58,8 +61,6 @@ public class NewsletterList extends CustomComponent
 			}
 		});
 
-
-
 		List<Mail> mailList = getMailList();
 		for (Mail mail : mailList)
 		{
@@ -78,11 +79,11 @@ public class NewsletterList extends CustomComponent
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Subject", "Send Date", "Sender", "Finished sending","Actions"
+						"ID", "Subject", "Send Date", "Sender", "Finished","Actions"
 				});
 
 
-		viewTable.setColumnExpandRatio(5,2);
+		viewTable.setColumnExpandRatio(6,2);
 		
 
 		HorizontalLayout topButtonLayout = new HorizontalLayout();

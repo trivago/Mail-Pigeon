@@ -82,6 +82,9 @@
 				<executions>
 					<execution>
 						<configuration>
+							<modules>
+								<module>com.invient.vaadin.charts.widgetset</module>
+							</modules>
 						</configuration>
 						<goals>
 							<goal>update-widgetset</goal>
@@ -107,12 +110,12 @@
 						<contextPath>/pigeon-web</contextPath>
 						<!--
 						<baseResource implementation="org.mortbay.resource.ResourceCollection"> -->
-							<!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
-							<!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
-							<!-- <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
-							</resourcesAsCSV>
-						</baseResource>
-					-->
+						<!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
+						<!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
+						<!-- <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
+							 </resourcesAsCSV>
+						 </baseResource>
+					 -->
 					</webAppConfig>
 				</configuration>
 			</plugin>
@@ -132,15 +135,6 @@
 		<repository>
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
-		</repository>
-		<repository>
-			<id>orientechnologies-repository</id>
-			<name>Orient Technologies Maven2 Repository</name>
-			<url>http://www.orientechnologies.com/listing/m2</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
 		</repository>
 	</repositories>
 
@@ -206,6 +200,25 @@
 			<groupId>com.trivago</groupId>
 			<artifactId>pigeon-common</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>tableexport</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>invient-charts</artifactId>
+			<version>0.8.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.8-beta4</version>
 		</dependency>
 	</dependencies>
 
