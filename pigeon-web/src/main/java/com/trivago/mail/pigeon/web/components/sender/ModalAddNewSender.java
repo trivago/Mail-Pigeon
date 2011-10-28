@@ -28,36 +28,9 @@ public class ModalAddNewSender extends Window
 		
 		Panel rootPanel = new Panel("Add new Sender");
 		final VerticalLayout verticalLayout = new VerticalLayout();
-
 		final TextField tfName = new TextField("Name");
-		tfName.addListener(new Property.ValueChangeListener()
-		{
-			@Override
-			public void valueChange(Property.ValueChangeEvent event)
-			{
-				name = event.getProperty().getValue().toString();
-			}
-		});
-
 		final TextField tfFromMail = new TextField("From E-Mail");
-		tfFromMail.addListener(new Property.ValueChangeListener()
-		{
-			@Override
-			public void valueChange(Property.ValueChangeEvent event)
-			{
-				fromMail = event.getProperty().getValue().toString();
-			}
-		});
-
 		final TextField tfReplyTo = new TextField("ReplyTo E-Mail");
-		tfReplyTo.addListener(new Property.ValueChangeListener()
-		{
-			@Override
-			public void valueChange(Property.ValueChangeEvent event)
-			{
-				replytoMail = event.getProperty().getValue().toString();
-			}
-		});
 
 		verticalLayout.addComponent(tfName);
 		verticalLayout.addComponent(tfFromMail);

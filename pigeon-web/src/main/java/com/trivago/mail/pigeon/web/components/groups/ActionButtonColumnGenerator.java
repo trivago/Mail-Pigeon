@@ -97,6 +97,7 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 				try
 				{
 					RecipientGroup r = new RecipientGroup((Long) itemId);
+					ConnectionFactory.getGroupIndex().remove(r.getDataNode());
 					for (Relationship rs : r.getDataNode().getRelationships())
 					{
 						rs.delete();

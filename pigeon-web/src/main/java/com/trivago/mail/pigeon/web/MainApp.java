@@ -15,17 +15,22 @@
  */
 package com.trivago.mail.pigeon.web;
 
+import com.trivago.mail.pigeon.bean.RecipientGroup;
+import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.web.components.groups.GroupList;
 import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
 import com.trivago.mail.pigeon.web.components.recipients.RecipientList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
+import com.trivago.mail.pigeon.web.components.wizzard.WizardBaseComponent;
 import com.vaadin.Application;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+
+import java.util.NoSuchElementException;
 
 /**
  * The Application's "main" class
@@ -42,8 +47,39 @@ public class MainApp extends Application
 		window = new Window("Mail Pigeon");
 		setMainWindow(window);
 
+		int senderSize;
+		try
+		{
+			senderSize = Sender.getAll().size();
+		} catch (NoSuchElementException e)
+		{
+			senderSize = 0;
+		}
+
+		int recipientGroupSize;
+		try
+		{
+			recipientGroupSize = RecipientGroup.getAll().size();
+		} catch (NoSuchElementException e)
+		{
+			recipientGroupSize = 0;
+		}
+
+		if (senderSize == 0 && recipientGroupSize == 0)
+		{
+			startWizard();
+		}
+		else
+		{
+			setNormalComponents();
+		}
+
+	}
+
+	public void setNormalComponents()
+	{
 		GroupList groupList = new GroupList();
-		RecipientList recipientList = new RecipientList();
+		//RecipientList recipientList = new RecipientList();
 		NewsletterList newsletterList = new NewsletterList();
 		SenderList senderList = new SenderList();
 
@@ -70,6 +106,12 @@ public class MainApp extends Application
 		tabSheet.addTab(slLayout).setCaption("Sender List");
 
 		window.addComponent(tabSheet);
+	}
+
+	public void startWizard()
+	{
+		WizardBaseComponent wb = new WizardBaseComponent();
+		window.addComponent(wb);
 	}
 
 

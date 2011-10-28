@@ -1,0 +1,2 @@
+# Module com.invient.vaadin.charts.widgetset
+# RPC service class, partial path of RPC policy file

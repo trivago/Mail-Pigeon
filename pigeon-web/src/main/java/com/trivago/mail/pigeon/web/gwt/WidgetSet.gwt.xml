@@ -24,4 +24,8 @@
     <inherits name="com.vaadin.addon.tableexport.widgetset.Tableexport_for_vaadinWidgetset" />
 
     <inherits name="com.invient.vaadin.charts.widgetset.InvientChartsWidgetset" />
+
+    <inherits name="com.invient.vaadin.charts.widgetset" />
+
+    <inherits name="org.vaadin.teemu.wizards.WizardsforvaadinWidgetset" />
 </module>

@@ -34,11 +34,14 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 				try
 				{
 					Sender s = new Sender((Long) itemId);
+					ConnectionFactory.getSenderIndex().remove(s.getDataNode());
+
 					for (Relationship r : s.getDataNode().getRelationships())
 					{
 						r.delete();
 					}
 					s.getDataNode().delete();
+
 					source.removeItem(itemId);
 					source.getWindow().showNotification("Successfully deleted.");
 					tx.success();
