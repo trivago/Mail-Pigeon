@@ -12,6 +12,9 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 
 import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
 
 public class TemplateProcessor
 {
@@ -22,7 +25,12 @@ public class TemplateProcessor
 		velocity = new VelocityEngine();
 	}
 
-	public MailTransport processMail(Mail mail, Recipient recipient, Sender sender, Campaign campaign)
+    public MailTransport processMail(Mail mail, Recipient recipient, Sender sender, Campaign campaign)
+    {
+        return processMail(mail, recipient, sender, campaign, false);
+    }
+
+	public MailTransport processMail(Mail mail, Recipient recipient, Sender sender, Campaign campaign, boolean autoReplaceCampaign)
 	{
 		MailTransport transport = new MailTransport();
 
@@ -45,18 +53,30 @@ public class TemplateProcessor
 		ctx.put("mail.id", mail.getId());
 
 		ctx.put("campaign.id", campaign.getId());
+		ctx.put("campaign.title", campaign.getTitle());
+		ctx.put("campaign.params", campaign.getUrlParams());
+
 
 		String renderSubject = mail.getSubject();
 		StringWriter outputSubject = new StringWriter();
 		velocity.mergeTemplate("vm/macros/macroInclude.vm", "utf-8", ctx, outputSubject);
         velocity.evaluate( ctx, outputSubject, "subjectrender", renderSubject );
 
+
 		String renderText = mail.getText();
+        if (autoReplaceCampaign)
+        {
+            renderText = addCampaignToLinks(renderText, campaign.getUrlParams());
+        }
 		StringWriter outputText = new StringWriter();
 		velocity.mergeTemplate("vm/macros/macroInclude.vm", "utf-8", ctx, outputText);
 		velocity.evaluate( ctx, outputText, "textrender", renderText);
 
 		String renderHtml = mail.getHtml();
+        if (autoReplaceCampaign)
+        {
+            renderHtml = addCampaignToLinks(renderHtml, campaign.getUrlParams());
+        }
 		StringWriter outputHtml = new StringWriter();
 		velocity.mergeTemplate("vm/macros/macroInclude.vm", "utf-8", ctx, outputHtml);
 		velocity.evaluate(ctx, outputHtml, "htmlrender", renderHtml);
@@ -72,4 +92,43 @@ public class TemplateProcessor
 
 		return transport;
 	}
+    
+    public String addCampaignToLinks(String content, String campaignParams)
+    {
+        Set<String> linkSet = LinkParser.parse(content);
+        
+        for (String link : linkSet)
+        {
+            StringBuilder newLink = new StringBuilder();
+            
+            if (link.contains("?") && link.contains("#"))
+            {
+                int indexOfHash = link.indexOf("#");
+                String beforeHash = link.substring(0, indexOfHash);
+                String restAfterHash = link.substring(indexOfHash);
+
+                newLink.append(beforeHash).append("&amp;").append(campaignParams).append(restAfterHash);
+            }
+            else if (link.contains("?"))
+            {
+                newLink.append(link).append("&amp;").append(campaignParams);
+            }
+            else if (link.contains("#"))
+            {
+                int indexOfHash = link.indexOf("#");
+                String beforeHash = link.substring(0, indexOfHash);
+                String restAfterHash = link.substring(indexOfHash);
+
+                newLink.append(beforeHash).append("?").append(campaignParams).append(restAfterHash);
+            }
+            else
+            {
+                newLink.append(link).append("?").append(campaignParams);
+            }
+
+            content = content.replace(link, newLink.toString());
+        }
+
+        return content;
+    }
 }
