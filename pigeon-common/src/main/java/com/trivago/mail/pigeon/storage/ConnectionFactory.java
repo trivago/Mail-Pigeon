@@ -20,6 +20,8 @@ public class ConnectionFactory
 	private static Index<Node> senderIndex;
 
 	private static Index<Node> bounceIndex;
+
+	private static Index<Node> campaignIndex;
 	
 	public static final long DEFAULT_BOUNCE_NODE = 1337L;
 
@@ -33,6 +35,7 @@ public class ConnectionFactory
 			groupIndex = graphDb.index().forNodes("group");
 			senderIndex = graphDb.index().forNodes("sender");
 			senderIndex = graphDb.index().forNodes("bounce");
+			campaignIndex = graphDb.index().forNodes("campaign");
 
 			registerShutdownHook();
 		}
@@ -82,6 +85,15 @@ public class ConnectionFactory
 			getDatabase();
 		}
 		return bounceIndex;
+	}
+
+	public static Index<Node> getCampaignIndex()
+	{
+		if (graphDb == null)
+		{
+			getDatabase();
+		}
+		return campaignIndex;
 	}
 
 	private static void shutdown()

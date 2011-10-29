@@ -2,16 +2,15 @@ package com.trivago.mail.pigeon.process;
 
 
 import com.rabbitmq.client.*;
-import com.trivago.mail.pigeon.bean.Mail;
-import com.trivago.mail.pigeon.bean.Recipient;
-import com.trivago.mail.pigeon.bean.RecipientGroup;
-import com.trivago.mail.pigeon.bean.Sender;
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
+import com.trivago.mail.pigeon.bean.*;
 import com.trivago.mail.pigeon.json.MailTransport;
 import com.trivago.mail.pigeon.queue.ConnectionPool;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Relationship;
 import org.svenson.JSON;
 import org.svenson.JSONParser;
+import scala.reflect.generic.Trees;
 
 import java.io.IOException;
 import java.util.Date;
@@ -23,35 +22,30 @@ public class QueueNewsletter
 
 	private static final Logger log = Logger.getLogger(QueueNewsletter.class);
 
+	private TemplateProcessor templateProcessor;
+
 	public void queueNewsletter(Mail mail, Sender sender, RecipientGroup group)
 	{
+		templateProcessor = new TemplateProcessor();
+
 		final Iterable<Relationship> recipients = group.getRecipients();
 		log.info("Pushing new newsletter (ID: " + mail.getId() + ") into queue.");
 
+		Campaign campaign = mail.getCampaign();
 		for (Relationship recipient : recipients)
 		{
 			Recipient recipientBean = new Recipient(recipient.getEndNode());
-			queueNewsletter(mail.getText(), mail.getHtml(), mail.getSubject(), sender, recipientBean, mail);
+			queueNewsletter(mail, sender, recipientBean, campaign);
 			mail.addRecipient(recipientBean);
 		}
 	}
 
-	private void queueNewsletter(String text, String html, String subject, Sender sender, Recipient recipient, Mail mail)
+	private void queueNewsletter(Mail mail, Sender sender, Recipient recipient, Campaign campaign)
 	{
 		Connection conn = ConnectionPool.getConnection();
 		Channel channel = null;
-		MailTransport transport = new MailTransport();
+		MailTransport transport = templateProcessor.processMail(mail, recipient, sender, campaign);
 		
-		transport.setTo(recipient.getEmail());
-		transport.setReplyTo(sender.getReplytoMail());
-		transport.setFrom(sender.getFromMail());
-
-		transport.setSubject(subject);
-		transport.setHtml(html);
-		transport.setText(text);
-		transport.setmId(String.valueOf(mail.getId()));
-		transport.setuId(String.valueOf(recipient.getId()));
-
 		String json = JSON.defaultJSON().forValue( transport );
 
 		try

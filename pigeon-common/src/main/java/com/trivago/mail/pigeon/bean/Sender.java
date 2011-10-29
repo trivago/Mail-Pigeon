@@ -52,7 +52,7 @@ public class Sender
 
 			ConnectionFactory.getSenderIndex().add(this.dataNode, IndexTypes.SENDER_ID, senderId);
 			ConnectionFactory.getSenderIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
-			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
+			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.SENDER_REFERENCE);
 			tx.success();
 		}
 		catch (Exception e)

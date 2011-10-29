@@ -1,0 +1,8 @@
+#macro(addCampaign $url, $campaign)
+
+	#if (${url.contains("?")})
+		$url&$campaign
+	#else
+		$url?$campaign
+	#end
+#end

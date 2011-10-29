@@ -22,8 +22,6 @@ public class Mail
 	public static final String HTML = "html_content";
 	public static final String DONE = "done";
 
-
-
 	public Mail(final Node underlayingNode)
 	{
 		this.dataNode = underlayingNode;
@@ -151,5 +149,11 @@ public class Mail
 	public static IndexHits<Node> getAll()
 	{
 		return ConnectionFactory.getNewsletterIndex().get("type", Mail.class.getName());
+	}
+
+	public Campaign getCampaign()
+	{
+		final Iterable<Relationship> relationships = dataNode.getRelationships(RelationTypes.PART_OF_CAMPAIGN);
+		return new Campaign(relationships.iterator().next().getEndNode());
 	}
 }

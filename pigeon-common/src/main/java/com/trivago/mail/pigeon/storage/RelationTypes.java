@@ -16,6 +16,8 @@ public enum RelationTypes implements RelationshipType
 	GROUP_REFERENCE,
 	SENDER_REFERENCE,
 	BOUNCE_REFERENCE,
+	CAMPAIGN_REFERENCE,
+	MAIL_TEMPLATE_REFERENCE,
 
 	// User <-> Group
 	BELONGS_TO_GROUP,
@@ -27,4 +29,9 @@ public enum RelationTypes implements RelationshipType
 	BOUNCED_MAIL,
 	BOUNCED_USER,
 
+	// Newsletter <-> Campaign
+	PART_OF_CAMPAIGN,
+
+	// Newsletter <-> Template
+	USES_TEMPLATE
 }
