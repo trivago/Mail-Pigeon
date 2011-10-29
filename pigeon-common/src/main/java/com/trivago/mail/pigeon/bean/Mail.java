@@ -31,6 +31,11 @@ public class Mail
 	{
 		dataNode = ConnectionFactory.getNewsletterIndex().get(IndexTypes.NEWSLETTER_ID, mailId).getSingle();
 	}
+    
+    public Mail(final long mailId, final MailTemplate template, final Date sendDate, final Sender sender)
+    {
+        this(mailId, template.getText(), template.getHtml(), sendDate, template.getSubject(), sender);
+    }
 
 	public Mail(final long mailId, final String text, final String html, final Date sendDate, final String subject, final Sender sender)
 	{

@@ -3,6 +3,7 @@ package com.trivago.mail.pigeon.web.components.groups;
 import java.util.Date;
 
 import com.trivago.mail.pigeon.bean.RecipientGroup;
+import com.trivago.mail.pigeon.storage.Util;
 import com.vaadin.data.Property;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.Button;
@@ -68,18 +69,18 @@ public class ModalAddNewGroup extends Window
 				{
 					tfName.setComponentError(null);
 					
-					long grou_id = Math.round(new Date().getTime() * Math.random());
+					long groupId = Util.generateId();
 					
 					try
 					{
-						RecipientGroup g = new RecipientGroup(grou_id, tfName.getValue().toString());
+						RecipientGroup g = new RecipientGroup(groupId, tfName.getValue().toString());
 						event.getButton().getWindow().setVisible(false);
 						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
 						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
 						gl.getBeanContainer().addItem(g.getId(), g);
 
-						// The sender select could be placed anywhere but must be reloaded to reflect the changes.
-						//GroupSelectBox.reloadSelect(); /* TODO XXX */
+						// The group select could be placed anywhere but must be reloaded to reflect the changes.
+						GroupSelectBox.reloadSelect();
 					}
 					catch (RuntimeException e)
 					{

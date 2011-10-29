@@ -4,6 +4,7 @@ import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.process.QueueNewsletter;
+import com.trivago.mail.pigeon.storage.Util;
 import com.trivago.mail.pigeon.web.components.groups.GroupSelectBox;
 import com.trivago.mail.pigeon.web.components.sender.SenderSelectBox;
 import com.vaadin.terminal.UserError;
@@ -121,7 +122,7 @@ public class ModalAddNewsletter extends Window
 				if (!hasError)
 				{
 					log.info("No validation errors found, processing request");
-					long mailId = Math.round(new Date().getTime() * Math.random());
+					long mailId = Util.generateId();
 					try
 					{
 						Sender s =new Sender(senderSelectBox.getSelectedSender());

@@ -9,6 +9,7 @@ public abstract class IndexTypes
 	public static final String SENDER_ID = "sender_id";
 	public static final String BOUNCE_ID = "bounce_id";
 	public static final String CAMPAIGN_ID = "campaign_id";
+    public static final String TEMPLATE_ID = "template_id";
 	public static final String TYPE = "type";
 
 

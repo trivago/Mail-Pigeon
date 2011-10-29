@@ -1,6 +1,7 @@
 package com.trivago.mail.pigeon.web.components.sender;
 
 import com.trivago.mail.pigeon.bean.Sender;
+import com.trivago.mail.pigeon.storage.Util;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.data.util.BeanItem;
@@ -91,7 +92,7 @@ public class ModalAddNewSender extends Window
 					tfFromMail.setComponentError(null);
 					tfReplyTo.setComponentError(null);
 					
-					long senderId = Math.round(new Date().getTime() * Math.random());
+					long senderId = Util.generateId();
 					try
 					{
 						Sender s = new Sender(senderId, tfFromMail.getValue().toString(), tfReplyTo.getValue().toString(), tfName.getValue().toString());

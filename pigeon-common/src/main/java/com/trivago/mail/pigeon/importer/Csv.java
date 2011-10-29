@@ -4,6 +4,7 @@ import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
+import com.trivago.mail.pigeon.storage.Util;
 import org.apache.log4j.Logger;
 import org.jumpmind.symmetric.csv.CsvReader;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -87,7 +88,7 @@ public class Csv
 				}
 				else
 				{
-					long rndUserId = Math.round(new Date().getTime() * Math.random());
+					long rndUserId = Util.generateId();
 					recipient = new Recipient(rndUserId, parts[1], parts[2]);
 				}
 

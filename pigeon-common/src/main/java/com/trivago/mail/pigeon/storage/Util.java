@@ -6,6 +6,7 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,4 +49,9 @@ public abstract class Util
 		}
 		return list;
 	}
+
+    public static long generateId()
+    {
+        return Math.round(new Date().getTime() * Math.random());
+    }
 }
