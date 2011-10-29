@@ -136,6 +136,28 @@ public class Mail
 		return relation;
 	}
 
+	public Relationship addToCampaign(Campaign campaign)
+	{
+		Transaction tx = ConnectionFactory.getDatabase().beginTx();
+		Relationship relation = null;
+		try
+		{
+			Node campaignDataNode = campaign.getDataNode();
+			relation = campaignDataNode.createRelationshipTo(dataNode, RelationTypes.PART_OF_CAMPAIGN);
+			relation.setProperty(DATE, new Date().getTime());
+			tx.success();
+		}
+		catch (Exception e)
+		{
+			tx.failure();
+		}
+		finally
+		{
+			tx.finish();
+		}
+		return relation;
+	}
+
 	public Iterable<Relationship> getRecipients()
 	{
 		return dataNode.getRelationships(RelationTypes.DELIVERED_TO);
@@ -154,6 +176,6 @@ public class Mail
 	public Campaign getCampaign()
 	{
 		final Iterable<Relationship> relationships = dataNode.getRelationships(RelationTypes.PART_OF_CAMPAIGN);
-		return new Campaign(relationships.iterator().next().getEndNode());
+		return new Campaign(relationships.iterator().next().getStartNode());
 	}
 }
