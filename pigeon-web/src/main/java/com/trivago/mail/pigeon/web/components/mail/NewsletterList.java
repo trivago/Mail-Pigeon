@@ -2,8 +2,6 @@ package com.trivago.mail.pigeon.web.components.mail;
 
 
 import com.trivago.mail.pigeon.bean.Mail;
-import com.vaadin.addon.tableexport.ExcelExport;
-import com.vaadin.addon.tableexport.TableExport;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;

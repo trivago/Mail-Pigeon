@@ -5,9 +5,7 @@ import com.invient.vaadin.charts.InvientChartsConfig;
 import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.storage.RelationTypes;
-import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Embedded;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 

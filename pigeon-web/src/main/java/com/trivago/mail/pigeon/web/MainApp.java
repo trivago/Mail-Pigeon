@@ -20,7 +20,6 @@ import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.web.components.groups.GroupList;
 import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
-import com.trivago.mail.pigeon.web.components.recipients.RecipientList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.trivago.mail.pigeon.web.components.wizzard.WizardBaseComponent;
 import com.vaadin.Application;

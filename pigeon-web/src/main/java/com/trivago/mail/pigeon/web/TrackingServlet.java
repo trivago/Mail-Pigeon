@@ -4,15 +4,12 @@ import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.*;
-import org.neo4j.graphdb.index.IndexHits;
-
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
 public class TrackingServlet extends HttpServlet

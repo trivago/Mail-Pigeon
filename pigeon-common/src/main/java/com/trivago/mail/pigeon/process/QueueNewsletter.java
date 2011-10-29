@@ -1,19 +1,18 @@
 package com.trivago.mail.pigeon.process;
 
 
-import com.rabbitmq.client.*;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
 import com.trivago.mail.pigeon.bean.*;
 import com.trivago.mail.pigeon.json.MailTransport;
 import com.trivago.mail.pigeon.queue.ConnectionPool;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Relationship;
 import org.svenson.JSON;
-import org.svenson.JSONParser;
-import scala.reflect.generic.Trees;
 
 import java.io.IOException;
-import java.util.Date;
+
 
 
 public class QueueNewsletter

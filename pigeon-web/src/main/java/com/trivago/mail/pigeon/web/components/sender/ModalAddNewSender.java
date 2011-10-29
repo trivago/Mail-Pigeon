@@ -2,15 +2,8 @@ package com.trivago.mail.pigeon.web.components.sender;
 
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.Util;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanContainer;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.Window;
-
-import java.util.Date;
 
 public class ModalAddNewSender extends Window
 {

@@ -6,14 +6,11 @@ import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.json.MailTransport;
-import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 
 import java.io.StringWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Set;
 
 public class TemplateProcessor

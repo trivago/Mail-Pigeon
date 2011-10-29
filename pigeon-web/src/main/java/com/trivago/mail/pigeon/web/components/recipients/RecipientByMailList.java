@@ -2,7 +2,6 @@ package com.trivago.mail.pigeon.web.components.recipients;
 
 import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.Recipient;
-import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;

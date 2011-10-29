@@ -2,7 +2,9 @@ package com.trivago.mail.pigeon.web.components.sender;
 
 import com.trivago.mail.pigeon.bean.Sender;
 import com.vaadin.data.Property;
-import com.vaadin.ui.*;
+import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.Select;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;

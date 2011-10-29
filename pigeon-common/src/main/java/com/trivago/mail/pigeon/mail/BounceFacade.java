@@ -1,7 +1,5 @@
 package com.trivago.mail.pigeon.mail;
 
-import com.trivago.mail.pigeon.storage.ConnectionFactory;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 

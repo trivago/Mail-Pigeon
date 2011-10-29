@@ -5,8 +5,6 @@ import com.trivago.mail.pigeon.process.QueueNewsletter;
 import com.vaadin.ui.ProgressIndicator;
 import org.neo4j.graphdb.Relationship;
 
-import java.util.Date;
-
 
 public class NewsletterProgressIndicator extends ProgressIndicator
 {

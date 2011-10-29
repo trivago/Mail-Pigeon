@@ -1,7 +1,6 @@
 package com.trivago.mail.pigeon.web.components.sender;
 
 import com.trivago.mail.pigeon.bean.Sender;
-import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
@@ -9,7 +8,6 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class SenderList extends CustomComponent

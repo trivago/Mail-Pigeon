@@ -1,6 +1,5 @@
 package com.trivago.mail.pigeon.web.components.groups;
 
-import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;

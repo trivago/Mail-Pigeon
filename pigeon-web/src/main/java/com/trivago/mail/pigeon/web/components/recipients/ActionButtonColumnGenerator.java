@@ -1,7 +1,6 @@
 package com.trivago.mail.pigeon.web.components.recipients;
 
 import com.trivago.mail.pigeon.bean.Recipient;
-import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;

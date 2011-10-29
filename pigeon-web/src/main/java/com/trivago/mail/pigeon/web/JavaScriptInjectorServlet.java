@@ -1,14 +1,13 @@
 package com.trivago.mail.pigeon.web;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
 import com.vaadin.Application;
 import com.vaadin.terminal.gwt.server.ApplicationServlet;
 import com.vaadin.ui.Window;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class JavaScriptInjectorServlet extends ApplicationServlet
 {

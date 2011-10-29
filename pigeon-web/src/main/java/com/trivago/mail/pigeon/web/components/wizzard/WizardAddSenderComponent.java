@@ -1,7 +1,6 @@
 package com.trivago.mail.pigeon.web.components.wizzard;
 
 import com.trivago.mail.pigeon.bean.Sender;
-import com.trivago.mail.pigeon.web.components.sender.SenderSelectBox;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
 import org.vaadin.teemu.wizards.WizardStep;

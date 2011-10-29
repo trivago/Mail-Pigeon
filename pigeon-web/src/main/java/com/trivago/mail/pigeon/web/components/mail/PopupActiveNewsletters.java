@@ -1,15 +1,11 @@
 package com.trivago.mail.pigeon.web.components.mail;
 
 import com.trivago.mail.pigeon.bean.Mail;
-import com.trivago.mail.pigeon.web.components.groups.GroupSelectBox;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PopupActiveNewsletters extends com.vaadin.ui.Window
 {

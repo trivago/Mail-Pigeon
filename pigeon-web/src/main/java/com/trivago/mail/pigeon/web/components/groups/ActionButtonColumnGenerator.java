@@ -1,17 +1,14 @@
 package com.trivago.mail.pigeon.web.components.groups;
 
 import com.trivago.mail.pigeon.bean.RecipientGroup;
-import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
-import com.trivago.mail.pigeon.web.components.mail.ModalAddNewsletter;
 import com.trivago.mail.pigeon.web.components.recipients.ModalRecipientList;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.Button.ClickEvent;
-
 import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;

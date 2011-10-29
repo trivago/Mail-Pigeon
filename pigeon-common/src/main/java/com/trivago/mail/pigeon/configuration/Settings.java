@@ -7,7 +7,6 @@ import org.apache.commons.configuration.ConfigurationRuntimeException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.net.URL;
-import java.util.logging.Logger;
 
 public class Settings
 {

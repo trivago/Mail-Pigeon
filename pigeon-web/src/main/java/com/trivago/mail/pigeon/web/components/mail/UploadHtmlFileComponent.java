@@ -6,7 +6,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Upload;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class UploadHtmlFileComponent extends CustomComponent
 		implements Upload.SucceededListener,

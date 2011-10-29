@@ -12,11 +12,50 @@
     <artifactId>pigeon-common</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>pigeon-common</name>
-    <url>http://maven.apache.org</url>
+
+    <url>http://trivago.com</url>
+    <description>
+        Mail Pigeon is a mail delivery platform for high volume mailing actions.
+    </description>
+
+    <developers>
+        <developer>
+            <id>mmueller</id>
+            <email>mario.mueller@trivago.com</email>
+            <name>Mario Mueller</name>
+            <organization>trivago GmbH</organization>
+        </developer>
+        <developer>
+            <id>ckrause</id>
+            <email>christian.krause@trivago.com</email>
+            <name>Christian Krause</name>
+            <organization>trivago GmbH</organization>
+        </developer>
+    </developers>
+
+    <inceptionYear>2011</inceptionYear>
+
+    <issueManagement>
+        <system>mantis</system>
+        <url>http://bugs.trivago.org</url>
+    </issueManagement>
+
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <neo4j-version>1.4.1</neo4j-version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- neo4j-version>1.5.M02</neo4j-version -->
     </properties>
 
@@ -104,6 +143,32 @@
                 <configuration>
                     <mainClass>com.trivago.mail.pigeon.Importer</mainClass>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.0.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

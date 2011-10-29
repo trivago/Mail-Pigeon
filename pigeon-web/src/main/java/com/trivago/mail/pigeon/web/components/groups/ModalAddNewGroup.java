@@ -1,17 +1,10 @@
 package com.trivago.mail.pigeon.web.components.groups;
 
-import java.util.Date;
-
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.storage.Util;
 import com.vaadin.data.Property;
 import com.vaadin.terminal.UserError;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
+import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
 
 public class ModalAddNewGroup extends Window
