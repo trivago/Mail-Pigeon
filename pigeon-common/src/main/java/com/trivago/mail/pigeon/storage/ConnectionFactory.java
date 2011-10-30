@@ -25,6 +25,8 @@ public class ConnectionFactory
 
 	private static Index<Node> templateIndex;
 
+	private static Index<Node> tagIndex;
+
 	public static final long DEFAULT_BOUNCE_NODE = 1337L;
 
 	public static GraphDatabaseService getDatabase()
@@ -100,13 +102,22 @@ public class ConnectionFactory
 	}
 
     public static Index<Node> getTemplateIndex()
-    	{
-    		if (graphDb == null)
-    		{
-    			getDatabase();
-    		}
-    		return templateIndex;
-    	}
+	{
+		if (graphDb == null)
+		{
+			getDatabase();
+		}
+		return templateIndex;
+	}
+
+	public static Index<Node> getTagIndex()
+	{
+		if (graphDb == null)
+		{
+			getDatabase();
+		}
+		return tagIndex;
+	}
 
 	private static void shutdown()
     {

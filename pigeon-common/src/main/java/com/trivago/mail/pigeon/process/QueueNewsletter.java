@@ -50,12 +50,12 @@ public class QueueNewsletter
 		try
 		{
 			channel = conn.createChannel();
-			channel.exchangeDeclare("mailpidgin", "direct", true);
+			channel.exchangeDeclare("mailpidgeon", "direct", true);
 			channel.queueDeclare(channelName, true, false, false, null);
-			channel.queueBind(channelName, "mailpidgin", "mailpidgin");
+			channel.queueBind(channelName, "mailpidgeon", "mailpidgeon");
 
 			byte[] messageBodyBytes = json.getBytes();
-			channel.basicPublish("mailpidgin", "mailpidgin", null, messageBodyBytes);
+			channel.basicPublish("mailpidgeon", "mailpidgeon", null, messageBodyBytes);
 
 		}
 		catch (IOException e)
