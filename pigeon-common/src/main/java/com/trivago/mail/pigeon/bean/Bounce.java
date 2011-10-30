@@ -12,12 +12,8 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-public class Bounce
+public class Bounce extends AbstractBean
 {
-	private static final Logger log = Logger.getLogger(Bounce.class);
-
-	private Node dataNode;
-
 	public Bounce(final Node underlayingNode)
 	{
 		this.dataNode = underlayingNode;

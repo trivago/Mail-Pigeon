@@ -10,10 +10,8 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-public class Sender
+public class Sender extends AbstractBean
 {
-	private Node dataNode;
-
 	public static final String ID = "sender_id";
 
 	public static final String NAME = "name";
@@ -92,56 +90,17 @@ public class Sender
 
 	public void setName(String name)
 	{
-		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try
-		{
-			dataNode.setProperty(NAME, name);
-			tx.success();
-		}
-		catch (Exception e)
-		{
-			tx.failure();
-		}
-		finally
-		{
-			tx.finish();
-		}
+		writeProperty(NAME, name);
 	}
 
 	public void setFromMail(String fromMail)
 	{
-		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try
-		{
-			dataNode.setProperty(FROM_MAIL, fromMail);
-			tx.success();
-		}
-		catch (Exception e)
-		{
-			tx.failure();
-		}
-		finally
-		{
-			tx.finish();
-		}
+		writeProperty(FROM_MAIL, fromMail);
 	}
 
 	public void setReplytoMail(String replytoMail)
 	{
-		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try
-		{
-			dataNode.setProperty(REPLYTO_MAIL, replytoMail);
-			tx.success();
-		}
-		catch (Exception e)
-		{
-			tx.failure();
-		}
-		finally
-		{
-			tx.finish();
-		}
+		writeProperty(REPLYTO_MAIL, replytoMail);
 	}
 
 	public Relationship addSentMail(Mail mail)

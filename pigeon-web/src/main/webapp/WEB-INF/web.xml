@@ -32,6 +32,20 @@
 		<servlet-class>com.trivago.mail.pigeon.web.TrackingServlet</servlet-class>
 	</servlet>
 
+	<servlet>
+		<servlet-name>Recipient Webservice</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.trivago.mail.pigeon.web.webservice</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Recipient Webservice</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>Tracking Servlet</servlet-name>
 		<url-pattern>/tracking</url-pattern>

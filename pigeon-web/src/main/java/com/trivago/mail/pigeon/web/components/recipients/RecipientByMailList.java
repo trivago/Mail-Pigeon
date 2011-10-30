@@ -50,12 +50,12 @@ public class RecipientByMailList extends CustomComponent
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		viewTable.setVisibleColumns(new String[]
 				{
-						"id", "name", "email", "openmail", //"bounce"
+						"id", "firstname", "lastname", "email", "openmail", //"bounce"
 				});
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Name", "E-Mail", "Opened Mail", //"Bounced"
+						"ID", "Firstname", "Lastname", "E-Mail", "Opened Mail", //"Bounced"
 				});
 
 		viewTable.setColumnExpandRatio(3, 2);

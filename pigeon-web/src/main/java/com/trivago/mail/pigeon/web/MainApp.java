@@ -21,7 +21,7 @@ import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.web.components.groups.GroupList;
 import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
-import com.trivago.mail.pigeon.web.components.wizzard.WizardBaseComponent;
+import com.trivago.mail.pigeon.web.components.wizard.setup.SetupWizardComponent;
 import com.vaadin.Application;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
@@ -109,7 +109,7 @@ public class MainApp extends Application
 
 	public void startWizard()
 	{
-		WizardBaseComponent wb = new WizardBaseComponent();
+		SetupWizardComponent wb = new SetupWizardComponent();
 		window.addComponent(wb);
 	}
 

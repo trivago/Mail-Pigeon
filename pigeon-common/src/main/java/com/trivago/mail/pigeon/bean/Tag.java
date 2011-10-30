@@ -11,9 +11,8 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-public class Tag {
-	private Node dataNode;
-
+public class Tag extends AbstractBean
+{
 	public static final String ID = "tag_id";
 	public static final String DATE = "creation_date";
 	public static final String NAME = "name";
@@ -55,6 +54,11 @@ public class Tag {
 
 	public String getName() {
 		return (String) dataNode.getProperty(NAME);
+	}
+	
+	public void setName(String name)
+	{
+		writeProperty(NAME, name);
 	}
 
 	public Node getDataNode() {

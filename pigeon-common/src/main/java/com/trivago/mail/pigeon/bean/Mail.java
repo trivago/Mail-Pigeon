@@ -11,16 +11,15 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-public class Mail
+public class Mail extends AbstractBean
 {
-	private Node dataNode;
-
 	public static final String ID = "newsletter_id";
 	public static final String DATE = "send_date";
 	public static final String SUBJECT = "subject";
 	public static final String TEXT = "text_content";
 	public static final String HTML = "html_content";
 	public static final String DONE = "done";
+	public static final String SENT = "sent";
 
 	public Mail(final Node underlayingNode)
 	{
@@ -50,6 +49,7 @@ public class Mail
 			dataNode.setProperty(TEXT, text);
 			dataNode.setProperty(HTML, html);
 			dataNode.setProperty(DONE, false);
+			dataNode.setProperty(SENT, false);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.NEWSLETTER_ID, mailId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.NEWSLETTER_REFERENCE);
@@ -103,20 +103,17 @@ public class Mail
 
 	public void setDone()
 	{
-		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try
-		{
-			dataNode.setProperty(DONE, true);
-			tx.success();
-		}
-		catch (Exception e)
-		{
-			tx.failure();
-		}
-		finally
-		{
-			tx.finish();
-		}
+		writeProperty(DONE, true);
+	}
+
+	public boolean isSent()
+	{
+		return (Boolean) this.dataNode.getProperty(SENT);
+	}
+
+	public void setSent()
+	{
+		writeProperty(SENT, true);
 	}
 
 	public Relationship addRecipient(Recipient recipient)

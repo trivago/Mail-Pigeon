@@ -82,13 +82,13 @@ public class Csv
 
 					// user does not exist, create it
 
-					recipient = new Recipient(userId, parts[1], parts[2]);
+					recipient = new Recipient(userId, parts[1], parts[2], parts[3]);
 					log.debug("Created new user with id " + recipient.getId());
 				}
 				else
 				{
 					long rndUserId = Util.generateId();
-					recipient = new Recipient(rndUserId, parts[1], parts[2]);
+					recipient = new Recipient(rndUserId, parts[1], parts[2], parts[3]);
 				}
 
 

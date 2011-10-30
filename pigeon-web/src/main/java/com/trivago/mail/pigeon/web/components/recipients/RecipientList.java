@@ -123,12 +123,12 @@ public class RecipientList extends CustomComponent
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		viewTable.setVisibleColumns(new String[]
 				{
-						"id", "name", "email", "Actions"
+						"id", "firstname", "lastname", "email", "Actions"
 				});
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Name", "E-Mail", "Actions"
+						"ID", "Firstname", "Lastname", "E-Mail", "Actions"
 				});
 
 		viewTable.setColumnExpandRatio(3, 2);

@@ -1,17 +1,21 @@
-package com.trivago.mail.pigeon.web.components.wizzard;
+package com.trivago.mail.pigeon.web.components.wizard.setup;
 
 import com.trivago.mail.pigeon.web.MainApp;
+import com.trivago.mail.pigeon.web.components.wizard.setup.steps.WizardAddRecipientGroupComponent;
+import com.trivago.mail.pigeon.web.components.wizard.setup.steps.WizardAddSenderComponent;
+import com.trivago.mail.pigeon.web.components.wizard.setup.steps.WizardFinishedComponent;
+import com.trivago.mail.pigeon.web.components.wizard.setup.steps.WizardGreetingPageComponent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.VerticalLayout;
 import org.vaadin.teemu.wizards.Wizard;
 import org.vaadin.teemu.wizards.event.*;
 
-public class WizardBaseComponent extends CustomComponent implements WizardProgressListener
+public class SetupWizardComponent extends CustomComponent implements WizardProgressListener
 {
 	private final Wizard wizard;
 
-	public WizardBaseComponent()
+	public SetupWizardComponent()
 	{
 		wizard = new Wizard();
 		wizard.addStep(new WizardGreetingPageComponent(), "start");

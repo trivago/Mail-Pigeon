@@ -12,12 +12,8 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-public class RecipientGroup
+public class RecipientGroup extends AbstractBean
 {
-	private static final Logger log = Logger.getLogger(RecipientGroup.class);
-
-	private Node dataNode;
-
 	public static final String ID = "group_id";
 
 	public static final String NAME = "name";
@@ -137,19 +133,6 @@ public class RecipientGroup
 	
 	public void setName(String name)
 	{
-		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try
-		{
-			dataNode.setProperty(NAME, name);
-			tx.success();
-		}
-		catch (Exception e)
-		{
-			tx.failure();
-		}
-		finally
-		{
-			tx.finish();
-		}
+		writeProperty(NAME, name);
 	}
 }

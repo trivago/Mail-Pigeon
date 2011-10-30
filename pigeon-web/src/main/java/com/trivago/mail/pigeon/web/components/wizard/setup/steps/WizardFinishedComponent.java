@@ -1,4 +1,4 @@
-package com.trivago.mail.pigeon.web.components.wizzard;
+package com.trivago.mail.pigeon.web.components.wizard.setup.steps;
 
 
 import com.vaadin.ui.Component;

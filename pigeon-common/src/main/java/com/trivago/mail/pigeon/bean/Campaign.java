@@ -9,13 +9,11 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
-public class Campaign
+public class Campaign extends AbstractBean
 {
-	private Node dataNode;
-
 	public static final String ID = "campaign_id";
 	public static final String DATE = "send_date";
-	public static final String NAME = "name";
+	public static final String TITLE = "title";
 	public static final String URL_PARAM = "url_param";
 
 	public Campaign(final Node underlayingNode)
@@ -37,7 +35,7 @@ public class Campaign
 			dataNode.setProperty(ID, campaignId);
 			dataNode.setProperty("type", getClass().getName());
 			dataNode.setProperty(DATE, creationDate.getTime());
-			dataNode.setProperty(NAME, campaignTitle);
+			dataNode.setProperty(TITLE, campaignTitle);
 			dataNode.setProperty(URL_PARAM, urlParams);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.CAMPAIGN_ID, campaignId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
@@ -63,12 +61,22 @@ public class Campaign
 	{
 		return  new Date((Long) dataNode.getProperty(DATE));
 	}
+	
+	public void setCreationDate(final Date creationDate)
+	{
+		writeProperty(DATE, creationDate.getTime());
+	}
 
 	public String getTitle()
 	{
-		return (String) dataNode.getProperty(NAME);
+		return (String) dataNode.getProperty(TITLE);
 	}
-
+	
+	public void setTitle(final String title)
+	{
+		writeProperty(TITLE, title);
+	}
+	
 	public Node getDataNode()
 	{
 		return this.dataNode;
@@ -78,7 +86,12 @@ public class Campaign
 	{
 		return (String) this.dataNode.getProperty(URL_PARAM);
 	}
-
+	
+	public void setUrlParams(final String urlParams)
+	{
+		writeProperty(URL_PARAM, urlParams);
+	}
+	
 	public static IndexHits<Node> getAll()
 	{
 		return ConnectionFactory.getCampaignIndex().get("type", Campaign.class.getName());

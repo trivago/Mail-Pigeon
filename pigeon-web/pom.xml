@@ -289,6 +289,11 @@
             <artifactId>wizards-for-vaadin</artifactId>
             <version>0.4.0</version>
         </dependency>
+		<dependency>
+		    <groupId>com.sun.jersey</groupId>
+		    <artifactId>jersey-server</artifactId>
+		    <version>1.9.1</version>
+		</dependency>
     </dependencies>
 
 </project>

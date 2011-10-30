@@ -1,4 +1,4 @@
-package com.trivago.mail.pigeon.web.components.wizzard;
+package com.trivago.mail.pigeon.web.components.wizard.setup.steps;
 
 import com.trivago.mail.pigeon.bean.Sender;
 import com.vaadin.terminal.UserError;
