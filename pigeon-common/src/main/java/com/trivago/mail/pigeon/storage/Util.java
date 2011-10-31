@@ -25,7 +25,7 @@ public abstract class Util
 			T s = null;
 			try
 			{
-				s = clazz.getConstructor(new Class[] {node.getClass()}).newInstance(node);
+				s = clazz.getConstructor(new Class[]{node.getClass()}).newInstance(node);
 				list.add(s);
 			}
 			catch (InstantiationException e)
@@ -49,8 +49,8 @@ public abstract class Util
 		return list;
 	}
 
-    public static long generateId()
-    {
-        return Math.round(new Date().getTime() * Math.random());
-    }
+	public static long generateId()
+	{
+		return Math.round(new Date().getTime() * Math.random());
+	}
 }

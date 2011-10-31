@@ -16,7 +16,7 @@ public class ConnectionFactory
 	private static Index<Node> userIndex;
 
 	private static Index<Node> groupIndex;
-	
+
 	private static Index<Node> senderIndex;
 
 	private static Index<Node> bounceIndex;
@@ -40,7 +40,7 @@ public class ConnectionFactory
 			senderIndex = graphDb.index().forNodes("sender");
 			senderIndex = graphDb.index().forNodes("bounce");
 			campaignIndex = graphDb.index().forNodes("campaign");
-            templateIndex = graphDb.index().forNodes("template");
+			templateIndex = graphDb.index().forNodes("template");
 
 			registerShutdownHook();
 		}
@@ -101,7 +101,7 @@ public class ConnectionFactory
 		return campaignIndex;
 	}
 
-    public static Index<Node> getTemplateIndex()
+	public static Index<Node> getTemplateIndex()
 	{
 		if (graphDb == null)
 		{
@@ -120,22 +120,22 @@ public class ConnectionFactory
 	}
 
 	private static void shutdown()
-    {
-        graphDb.shutdown();
-    }
+	{
+		graphDb.shutdown();
+	}
 
 	private static void registerShutdownHook()
-    {
-        // Registers a shutdown hook for the Neo4j and index service instances
-        // so that it shuts down nicely when the VM exits (even if you
-        // "Ctrl-C" the running example before it's completed)
-        Runtime.getRuntime().addShutdownHook( new Thread()
-        {
-            @Override
-            public void run()
-            {
-                shutdown();
-            }
-        } );
-    }
+	{
+		// Registers a shutdown hook for the Neo4j and index service instances
+		// so that it shuts down nicely when the VM exits (even if you
+		// "Ctrl-C" the running example before it's completed)
+		Runtime.getRuntime().addShutdownHook(new Thread()
+		{
+			@Override
+			public void run()
+			{
+				shutdown();
+			}
+		});
+	}
 }

@@ -15,17 +15,21 @@ public class MailTemplate extends AbstractBean
 	public static final String TEXT = "text_content";
 	public static final String HTML = "html_content";
 
-	public MailTemplate(final Node underlayingNode) {
+	public MailTemplate(final Node underlayingNode)
+	{
 		this.dataNode = underlayingNode;
 	}
 
-	public MailTemplate(final long templateId) {
+	public MailTemplate(final long templateId)
+	{
 		dataNode = ConnectionFactory.getTemplateIndex().get(IndexTypes.TEMPLATE_ID, templateId).getSingle();
 	}
 
-	public MailTemplate(final long templateId, final String text, final String html, final String subject) {
+	public MailTemplate(final long templateId, final String text, final String html, final String subject)
+	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try {
+		try
+		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
 			dataNode.setProperty(ID, templateId);
 			dataNode.setProperty("type", getClass().getName());
@@ -36,49 +40,59 @@ public class MailTemplate extends AbstractBean
 			ConnectionFactory.getTemplateIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.MAIL_TEMPLATE_REFERENCE);
 			tx.success();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			tx.failure();
-		} finally {
+		}
+		finally
+		{
 			tx.finish();
 		}
 	}
 
-	public long getId() {
+	public long getId()
+	{
 		return (Long) dataNode.getProperty(ID);
 	}
 
-	public String getSubject() {
+	public String getSubject()
+	{
 		return (String) dataNode.getProperty(SUBJECT);
 	}
-	
+
 	public void setSubject(final String subject)
 	{
 		writeProperty(SUBJECT, subject);
 	}
 
-	public Node getDataNode() {
+	public Node getDataNode()
+	{
 		return this.dataNode;
 	}
 
-	public String getText() {
+	public String getText()
+	{
 		return (String) this.dataNode.getProperty(TEXT);
 	}
-	
+
 	public void setText(final String text)
 	{
 		writeProperty(TEXT, text);
 	}
 
-	public String getHtml() {
+	public String getHtml()
+	{
 		return (String) this.dataNode.getProperty(HTML);
 	}
-	
+
 	public void setHtml(final String html)
 	{
 		writeProperty(HTML, html);
 	}
 
-	public static IndexHits<Node> getAll() {
+	public static IndexHits<Node> getAll()
+	{
 		return ConnectionFactory.getTemplateIndex().get("type", MailTemplate.class.getName());
 	}
 }

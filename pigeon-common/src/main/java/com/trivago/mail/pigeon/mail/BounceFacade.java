@@ -26,7 +26,6 @@ public class BounceFacade
 			}
 
 
-
 			return isHardBounce || isSoftBounce;
 		}
 		catch (MessagingException e)

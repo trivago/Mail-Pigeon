@@ -1,299 +1,299 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>mail-pigeon</artifactId>
-        <groupId>com.trivago</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <groupId>com.trivago</groupId>
-    <artifactId>pigeon-web</artifactId>
-    <packaging>war</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>Mail Pidgeon WebApp</name>
-    <url>http://trivago.com</url>
-    <description>
-        Mail Pigeon is a mail delivery platform for high volume mailing actions.
-    </description>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>mail-pigeon</artifactId>
+		<groupId>com.trivago</groupId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	<groupId>com.trivago</groupId>
+	<artifactId>pigeon-web</artifactId>
+	<packaging>war</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>Mail Pidgeon WebApp</name>
+	<url>http://trivago.com</url>
+	<description>
+		Mail Pigeon is a mail delivery platform for high volume mailing actions.
+	</description>
 
-    <developers>
-        <developer>
-            <id>mmueller</id>
-            <email>mario.mueller@trivago.com</email>
-            <name>Mario Mueller</name>
-            <organization>trivago GmbH</organization>
-        </developer>
-        <developer>
-            <id>ckrause</id>
-            <email>christian.krause@trivago.com</email>
-            <name>Christian Krause</name>
-            <organization>trivago GmbH</organization>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<id>mmueller</id>
+			<email>mario.mueller@trivago.com</email>
+			<name>Mario Mueller</name>
+			<organization>trivago GmbH</organization>
+		</developer>
+		<developer>
+			<id>ckrause</id>
+			<email>christian.krause@trivago.com</email>
+			<name>Christian Krause</name>
+			<organization>trivago GmbH</organization>
+		</developer>
+	</developers>
 
-    <inceptionYear>2011</inceptionYear>
+	<inceptionYear>2011</inceptionYear>
 
-    <issueManagement>
-        <system>mantis</system>
-        <url>http://bugs.trivago.org</url>
-    </issueManagement>
-
-
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
-            </plugin>
-        </plugins>
-    </reporting>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <vaadin.version>6.7.0</vaadin.version>
-        <gwt.version>2.3.0</gwt.version>
-        <gwt.plugin.version>2.2.0</gwt.plugin.version>
-    </properties>
-
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <targetPath>src/main/webapp/WEB-INF/classes</targetPath>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-
-            <!-- Compile custom GWT components or widget dependencies with the GWT compiler -->
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <version>${gwt.plugin.version}</version>
-                <configuration>
-                    <webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets
-                    </webappDirectory>
-                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-                    <runTarget>pigeon-web</runTarget>
-                    <hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
-                    <noServer>true</noServer>
-                    <port>8080</port>
-                    <compileReport>false</compileReport>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>resources</goal>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.google.gwt</groupId>
-                        <artifactId>gwt-dev</artifactId>
-                        <version>${gwt.version}</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>com.google.gwt</groupId>
-                        <artifactId>gwt-user</artifactId>
-                        <version>${gwt.version}</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>1.0.2</version>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <modules>
-                                <module>com.invient.vaadin.charts.widgetset</module>
-                            </modules>
-                        </configuration>
-                        <goals>
-                            <goal>update-widgetset</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+	<issueManagement>
+		<system>mantis</system>
+		<url>http://bugs.trivago.org</url>
+	</issueManagement>
 
 
-            <!-- A simple Jetty test server at http://localhost:8080/pigeon-web can be launched with the Maven goal jetty:run
-                       and stopped with jetty:stop -->
-            <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.26</version>
-                <configuration>
-                    <stopPort>9966</stopPort>
-                    <stopKey>pigeon-web</stopKey>
-                    <!-- Redeploy every x seconds if changes are detected, 0 for no automatic redeployment -->
-                    <scanIntervalSeconds>5</scanIntervalSeconds>
-                    <!-- make sure Jetty also finds the widgetset -->
-                    <webAppConfig>
-                        <contextPath>/pigeon-web</contextPath>
-                        <!--
-                              <baseResource implementation="org.mortbay.resource.ResourceCollection"> -->
-                        <!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
-                        <!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
-                        <!-- <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
-                                   </resourcesAsCSV>
-                               </baseResource>
-                           -->
-                    </webAppConfig>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.0.4</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadoc</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
-    <repositories>
-        <repository>
-            <id>vaadin-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>vaadin-addons</id>
-            <url>http://maven.vaadin.com/vaadin-addons</url>
-        </repository>
-    </repositories>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<vaadin.version>6.7.0</vaadin.version>
+		<gwt.version>2.3.0</gwt.version>
+		<gwt.plugin.version>2.2.0</gwt.plugin.version>
+	</properties>
 
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>src/main/webapp/WEB-INF/classes</targetPath>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>codehaus-snapshots</id>
-            <url>http://nexus.codehaus.org/snapshots</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-        <pluginRepository>
-            <id>vaadin-snapshots</id>
-            <url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
+			<!-- Compile custom GWT components or widget dependencies with the GWT compiler -->
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<version>${gwt.plugin.version}</version>
+				<configuration>
+					<webappDirectory>${project.build.directory}/${project.build.finalName}/VAADIN/widgetsets
+					</webappDirectory>
+					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+					<runTarget>pigeon-web</runTarget>
+					<hostedWebapp>${project.build.directory}/${project.build.finalName}</hostedWebapp>
+					<noServer>true</noServer>
+					<port>8080</port>
+					<compileReport>false</compileReport>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>resources</goal>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.google.gwt</groupId>
+						<artifactId>gwt-dev</artifactId>
+						<version>${gwt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.google.gwt</groupId>
+						<artifactId>gwt-user</artifactId>
+						<version>${gwt.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-maven-plugin</artifactId>
+				<version>1.0.2</version>
+				<executions>
+					<execution>
+						<configuration>
+							<modules>
+								<module>com.invient.vaadin.charts.widgetset</module>
+							</modules>
+						</configuration>
+						<goals>
+							<goal>update-widgetset</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
 
-    <dependencies>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin</artifactId>
-            <version>${vaadin.version}</version>
-        </dependency>
+			<!-- A simple Jetty test server at http://localhost:8080/pigeon-web can be launched with the Maven goal jetty:run
+								   and stopped with jetty:stop -->
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.26</version>
+				<configuration>
+					<stopPort>9966</stopPort>
+					<stopKey>pigeon-web</stopKey>
+					<!-- Redeploy every x seconds if changes are detected, 0 for no automatic redeployment -->
+					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<!-- make sure Jetty also finds the widgetset -->
+					<webAppConfig>
+						<contextPath>/pigeon-web</contextPath>
+						<!--
+													  <baseResource implementation="org.mortbay.resource.ResourceCollection"> -->
+						<!-- Workaround for Maven/Jetty issue http://jira.codehaus.org/browse/JETTY-680 -->
+						<!-- <resources>src/main/webapp,${project.build.directory}/${project.build.finalName}</resources> -->
+						<!-- <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}
+														   </resourcesAsCSV>
+													   </baseResource>
+												   -->
+					</webAppConfig>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.0.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>attach-javadoc</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-user</artifactId>
-            <version>${gwt.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
+	<repositories>
+		<repository>
+			<id>vaadin-snapshots</id>
+			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+	</repositories>
 
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.18</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.trivago</groupId>
-            <artifactId>pigeon-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>codehaus-snapshots</id>
+			<url>http://nexus.codehaus.org/snapshots</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>vaadin-snapshots</id>
+			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>tableexport</artifactId>
-            <version>1.2.6</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>invient-charts</artifactId>
-            <version>0.8.5</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi</artifactId>
-            <version>3.8-beta4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.vaadin.addons</groupId>
-            <artifactId>wizards-for-vaadin</artifactId>
-            <version>0.4.0</version>
-        </dependency>
+	<dependencies>
 		<dependency>
-		    <groupId>com.sun.jersey</groupId>
-		    <artifactId>jersey-server</artifactId>
-		    <version>1.9.1</version>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin</artifactId>
+			<version>${vaadin.version}</version>
 		</dependency>
-    </dependencies>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.0.0.GA</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.trivago</groupId>
+			<artifactId>pigeon-common</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>tableexport</artifactId>
+			<version>1.2.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>invient-charts</artifactId>
+			<version>0.8.5</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.8-beta4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.vaadin.addons</groupId>
+			<artifactId>wizards-for-vaadin</artifactId>
+			<version>0.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>1.9.1</version>
+		</dependency>
+	</dependencies>
 
 </project>

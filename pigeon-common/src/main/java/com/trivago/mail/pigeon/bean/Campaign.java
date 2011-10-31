@@ -59,9 +59,9 @@ public class Campaign extends AbstractBean
 
 	public Date getCreationDate()
 	{
-		return  new Date((Long) dataNode.getProperty(DATE));
+		return new Date((Long) dataNode.getProperty(DATE));
 	}
-	
+
 	public void setCreationDate(final Date creationDate)
 	{
 		writeProperty(DATE, creationDate.getTime());
@@ -71,12 +71,12 @@ public class Campaign extends AbstractBean
 	{
 		return (String) dataNode.getProperty(TITLE);
 	}
-	
+
 	public void setTitle(final String title)
 	{
 		writeProperty(TITLE, title);
 	}
-	
+
 	public Node getDataNode()
 	{
 		return this.dataNode;
@@ -86,12 +86,12 @@ public class Campaign extends AbstractBean
 	{
 		return (String) this.dataNode.getProperty(URL_PARAM);
 	}
-	
+
 	public void setUrlParams(final String urlParams)
 	{
 		writeProperty(URL_PARAM, urlParams);
 	}
-	
+
 	public static IndexHits<Node> getAll()
 	{
 		return ConnectionFactory.getCampaignIndex().get("type", Campaign.class.getName());

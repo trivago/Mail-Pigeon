@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 
 /**
- * Represents the connection pool for the 
+ * Represents the connection pool for the
  */
 public class ConnectionPool
 {

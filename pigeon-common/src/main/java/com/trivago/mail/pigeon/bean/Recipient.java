@@ -38,8 +38,8 @@ public class Recipient extends AbstractBean
 		dataNode = ConnectionFactory.getUserIndex().get(IndexTypes.USER_ID, userId).getSingle();
 	}
 
-	public Recipient(final long userId, 
-					 final String firstname, 
+	public Recipient(final long userId,
+					 final String firstname,
 					 final String lastname,
 					 final String email)
 	{
@@ -101,42 +101,42 @@ public class Recipient extends AbstractBean
 	{
 		return getProperty(Gender.class, GENDER);
 	}
-	
+
 	public void setGender(final Gender gender)
 	{
 		writeProperty(GENDER, gender);
 	}
-	
+
 	public String getTitle()
 	{
 		return getProperty(String.class, TITLE);
 	}
-	
+
 	public void setTitle(final String title)
 	{
 		writeProperty(TITLE, title);
 	}
-	
+
 	public String getCity()
 	{
 		return getProperty(String.class, CITY);
 	}
-	
+
 	public void setCity(final String city)
 	{
 		writeProperty(CITY, city);
 	}
-	
+
 	public String getCountry()
 	{
 		return getProperty(String.class, COUNTRY);
 	}
-	
+
 	public void setCountry(final String country)
 	{
 		writeProperty(COUNTRY, country);
 	}
-	
+
 	public Date getBrithday()
 	{
 		return getWrappedProperty(Date.class, Long.class, BIRTHDAY);
@@ -146,27 +146,27 @@ public class Recipient extends AbstractBean
 	{
 		writeProperty(BIRTHDAY, birthday.getTime());
 	}
-	
+
 	public String getLanguage()
 	{
 		return getProperty(String.class, LANGUAGE);
 	}
-	
+
 	public void setLanguage(final String language)
 	{
 		writeProperty(LANGUAGE, language);
 	}
-	
+
 	public String getExternalId()
 	{
 		return getProperty(String.class, EXTERNAL_ID);
 	}
-	
+
 	public void setExternalId(final String externalId)
 	{
 		writeProperty(EXTERNAL_ID, externalId);
 	}
-	
+
 	public Relationship addRecievedNewsletter(Mail mail)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();

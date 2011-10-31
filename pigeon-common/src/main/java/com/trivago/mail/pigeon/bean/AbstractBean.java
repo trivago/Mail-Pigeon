@@ -7,9 +7,8 @@ import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Transaction;
 import org.svenson.JSONProperty;
 
-import java.lang.reflect.InvocationTargetException;
-
-public abstract class AbstractBean {
+public abstract class AbstractBean
+{
 
 	protected Node dataNode;
 
@@ -21,14 +20,20 @@ public abstract class AbstractBean {
 		return dataNode;
 	}
 
-	protected void writeProperty(final String key, final Object value) {
+	protected void writeProperty(final String key, final Object value)
+	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
-		try {
+		try
+		{
 			dataNode.setProperty(key, value);
 			tx.success();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			tx.failure();
-		} finally {
+		}
+		finally
+		{
 			tx.finish();
 		}
 	}
@@ -37,7 +42,7 @@ public abstract class AbstractBean {
 	{
 		try
 		{
-			 return type.cast(getDataNode().getProperty(key));
+			return type.cast(getDataNode().getProperty(key));
 		}
 		catch (NotFoundException e)
 		{
@@ -56,13 +61,16 @@ public abstract class AbstractBean {
 	{
 		return getProperty(type, key, true);
 	}
-	
-	protected <T,W> T getWrappedProperty(Class<T> returnType, Class<W> argumentType, String key)
+
+	protected <T, W> T getWrappedProperty(Class<T> returnType, Class<W> argumentType, String key)
 	{
-		try {
+		try
+		{
 			W data = getProperty(argumentType, key);
 			return returnType.getConstructor(argumentType).newInstance(data);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			return null;
 		}
 	}

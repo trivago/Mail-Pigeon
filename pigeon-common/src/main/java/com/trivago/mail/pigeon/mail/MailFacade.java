@@ -19,11 +19,11 @@ import java.util.Properties;
 public class MailFacade
 {
 	private static final Logger log = Logger.getLogger(MailFacade.class);
-	
+
 	public void sendMail(MailTransport mailTransport)
 	{
 		log.debug("Mail delivery started");
-		File propertyfile = ((PropertiesConfiguration)Settings.create().getConfiguration()).getFile();
+		File propertyfile = ((PropertiesConfiguration) Settings.create().getConfiguration()).getFile();
 		Properties config = new Properties();
 
 		try
@@ -101,12 +101,12 @@ public class MailFacade
 		Store store = session.getStore("pop3");
 
 		store.connect();
-		
+
 		// Get folder
 		Folder folder = store.getFolder("INBOX");
 		folder.open(Folder.READ_ONLY);
 
-		if( folder.hasNewMessages())
+		if (folder.hasNewMessages())
 		{
 			// Get directory
 			Message message[] = folder.getMessages();

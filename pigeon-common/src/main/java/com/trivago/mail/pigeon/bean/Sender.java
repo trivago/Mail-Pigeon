@@ -37,7 +37,7 @@ public class Sender extends AbstractBean
 		{
 			throw new RuntimeException("This sender does already exist");
 		}
-		
+
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
 		{

@@ -4,7 +4,6 @@ package com.trivago.mail.pigeon.bean;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.storage.IndexTypes;
 import com.trivago.mail.pigeon.storage.RelationTypes;
-import org.apache.log4j.Logger;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
@@ -130,7 +129,7 @@ public class RecipientGroup extends AbstractBean
 	{
 		return ConnectionFactory.getGroupIndex().get("type", RecipientGroup.class.getName());
 	}
-	
+
 	public void setName(String name)
 	{
 		writeProperty(NAME, name);
