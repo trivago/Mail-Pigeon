@@ -1,2 +1,3 @@
-1;"Mario";"Mueller";"mario.mueller@xenji.com"
-2;"Mario";"Mueller";"mario.mueller@trivago.com"
+"firstname";"lastname";"email";"gender";"title";"birthday";"country";"language";"city";external_id";"active"
+"Mario";"Mueller";"mario.mueller@xenji.com";"male";"Mr.";"1983-01-30";"Germany";"de";"Düsseldorf";"";true
+"Mario";"Mueller";"mario.mueller@trivago.com";"male";"Mr.";"1983-01-30";"Germany";"de";"Düsseldorf";"";true

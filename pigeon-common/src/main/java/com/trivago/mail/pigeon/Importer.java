@@ -21,7 +21,6 @@ public class Importer
 		Settings s = Settings.create("/home/mmueller/Development/Checkouts/mail-pigeon/pigeon-common/src/main/resources/configuration.properties", true);
 
 		// doCsv();
-		doAddRecipientGroup();
 
 	}
 
@@ -50,12 +49,5 @@ public class Importer
 	private static void doAddSender()
 	{
 		Sender s = new Sender(1L, "mario.mueller@trivago.com", "mario.mueller@trivago.com", "Mario Mueller");
-	}
-
-	private static void doAddRecipientGroup()
-	{
-		Recipient r = new Recipient(42L, "Mario", "Mueller", "mario.mueller@xenji.com");
-		RecipientGroup rg = new RecipientGroup(1337L, "Tester Group");
-		rg.addRecipient(r);
 	}
 }

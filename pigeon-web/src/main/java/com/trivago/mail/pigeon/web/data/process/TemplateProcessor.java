@@ -52,7 +52,7 @@ public class TemplateProcessor
 		ctx.put("recipient.name.last", recipient.getFirstname());
 
 		ctx.put("recipient.gender", recipient.getGender().toString());
-		ctx.put("recipient.birthday", recipient.getBrithday());
+		ctx.put("recipient.birthday", recipient.getBirthday());
 
 		ctx.put("recipient.language", recipient.getLanguage());
 		ctx.put("recipient.location.city", recipient.getCity());

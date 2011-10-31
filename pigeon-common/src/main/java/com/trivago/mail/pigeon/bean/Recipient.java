@@ -42,7 +42,24 @@ public class Recipient extends AbstractBean
 	public Recipient(final long userId,
 					 final String firstname,
 					 final String lastname,
-					 final String email)
+					 final String email,
+					 final boolean active)
+	{
+		this(userId, firstname, lastname, email, active, Gender.UNKNOWN, null, null, null, null, null, null);
+	}
+
+	public Recipient(final long userId,
+					 final String firstname,
+					 final String lastname,
+					 final String email,
+					 final boolean active,
+					 final Gender gender,
+					 final Date birthday,
+					 final String title,
+					 final String city,
+					 final String country,
+					 final String language,
+					 final String externalId)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
@@ -53,6 +70,15 @@ public class Recipient extends AbstractBean
 			dataNode.setProperty(FIRSTNAME, firstname);
 			dataNode.setProperty(LASTNAME, lastname);
 			dataNode.setProperty(EMAIL, email);
+			dataNode.setProperty(ACTIVE, active);
+			dataNode.setProperty(GENDER, gender.toString());
+			dataNode.setProperty(BIRTHDAY, birthday.getTime());
+			dataNode.setProperty(TITLE, title);
+			dataNode.setProperty(CITY, city);
+			dataNode.setProperty(COUNTRY, country);
+			dataNode.setProperty(LANGUAGE, language);
+			dataNode.setProperty(EXTERNAL_ID, externalId);
+
 			ConnectionFactory.getUserIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
 			ConnectionFactory.getUserIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.USER_REFERENCE);
@@ -60,6 +86,7 @@ public class Recipient extends AbstractBean
 		}
 		catch (Exception e)
 		{
+			log.error("Error while creating the recipient", e);
 			tx.failure();
 		}
 		finally
@@ -100,7 +127,7 @@ public class Recipient extends AbstractBean
 
 	public Gender getGender()
 	{
-		return getProperty(Gender.class, GENDER);
+		return Gender.fromString(getProperty(String.class, GENDER));
 	}
 
 	public void setGender(final Gender gender)
@@ -138,7 +165,7 @@ public class Recipient extends AbstractBean
 		writeProperty(COUNTRY, country);
 	}
 
-	public Date getBrithday()
+	public Date getBirthday()
 	{
 		return getWrappedProperty(Date.class, Long.class, BIRTHDAY);
 	}
@@ -191,6 +218,7 @@ public class Recipient extends AbstractBean
 		}
 		catch (Exception e)
 		{
+			log.error("Error while creating node", e);
 			tx.failure();
 		}
 		finally

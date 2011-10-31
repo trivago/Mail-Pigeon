@@ -131,6 +131,7 @@ public class RecipientList extends CustomComponent
 						"ID", "Title", "Firstname", "Lastname", "E-Mail", "Active", "Gender", "Birthday", "City", "Country", "Language", "Actions"
 				});
 
+		viewTable.setColumnCollapsingAllowed(true);
 
 		viewTable.setColumnCollapsed("gender", true);
 		viewTable.setColumnCollapsed("title", true);
@@ -138,8 +139,6 @@ public class RecipientList extends CustomComponent
 		viewTable.setColumnCollapsed("city", true);
 		viewTable.setColumnCollapsed("country", true);
 		viewTable.setColumnCollapsed("language", true);
-
-		viewTable.setColumnCollapsingAllowed(true);
 
 		viewTable.setColumnExpandRatio(3, 2);
 		viewTable.setColumnExpandRatio(4, 2);
