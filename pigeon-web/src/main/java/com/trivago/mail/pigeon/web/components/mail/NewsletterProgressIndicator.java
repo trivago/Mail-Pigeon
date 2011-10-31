@@ -1,7 +1,7 @@
 package com.trivago.mail.pigeon.web.components.mail;
 
 import com.trivago.mail.pigeon.bean.Mail;
-import com.trivago.mail.pigeon.process.QueueNewsletter;
+import com.trivago.mail.pigeon.web.data.process.QueueNewsletter;
 import com.vaadin.ui.ProgressIndicator;
 import org.neo4j.graphdb.Relationship;
 

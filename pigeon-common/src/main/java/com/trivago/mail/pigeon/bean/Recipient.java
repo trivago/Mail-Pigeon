@@ -27,6 +27,7 @@ public class Recipient extends AbstractBean
 	public static final String EXTERNAL_ID = "external_id";
 	public static final String EMAIL = "email";
 	public static final String DATE = "date";
+	public static final String ACTIVE = "active";
 
 	public Recipient(final Node underlayingNode)
 	{
@@ -165,6 +166,16 @@ public class Recipient extends AbstractBean
 	public void setExternalId(final String externalId)
 	{
 		writeProperty(EXTERNAL_ID, externalId);
+	}
+
+	public void setActive(final boolean active)
+	{
+		writeProperty(ACTIVE, active);
+	}
+
+	public boolean isActive()
+	{
+		return getProperty(Boolean.class, ACTIVE);
 	}
 
 	public Relationship addRecievedNewsletter(Mail mail)

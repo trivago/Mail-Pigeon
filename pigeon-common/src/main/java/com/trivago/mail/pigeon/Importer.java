@@ -54,7 +54,7 @@ public class Importer
 
 	private static void doAddRecipientGroup()
 	{
-		Recipient r = new Recipient(42L, "Mario Mueller", "mario.mueller@xenji.com");
+		Recipient r = new Recipient(42L, "Mario", "Mueller", "mario.mueller@xenji.com");
 		RecipientGroup rg = new RecipientGroup(1337L, "Tester Group");
 		rg.addRecipient(r);
 	}

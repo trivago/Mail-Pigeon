@@ -48,7 +48,7 @@ public abstract class AbstractBean
 		{
 			if (ignoreMissing)
 			{
-				return null;
+				return (T) "";
 			}
 			else
 			{
