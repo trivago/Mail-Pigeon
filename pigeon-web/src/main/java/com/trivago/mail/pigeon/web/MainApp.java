@@ -20,9 +20,13 @@ import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.ConnectionFactory;
 import com.trivago.mail.pigeon.web.components.groups.GroupList;
 import com.trivago.mail.pigeon.web.components.mail.NewsletterList;
+import com.trivago.mail.pigeon.web.components.menu.MenuBar;
+import com.trivago.mail.pigeon.web.components.recipients.RecipientList;
 import com.trivago.mail.pigeon.web.components.sender.SenderList;
+import com.trivago.mail.pigeon.web.components.templates.TemplateList;
 import com.trivago.mail.pigeon.web.components.wizard.setup.SetupWizardComponent;
 import com.vaadin.Application;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -38,6 +42,7 @@ import java.util.NoSuchElementException;
 public class MainApp extends Application
 {
 	private Window window;
+	private MenuBar menu;
 
 	@Override
 	public void init()
@@ -70,41 +75,81 @@ public class MainApp extends Application
 		}
 		else
 		{
-			setNormalComponents();
+			menu = new MenuBar(this);
+			window.addComponent(menu);
+			setDashBoard();
 		}
 
 	}
 
-	public void setNormalComponents()
+	public void initMenu()
 	{
-		GroupList groupList = new GroupList();
-		//RecipientList recipientList = new RecipientList();
+		menu = new MenuBar(this);
+		window.addComponent(menu);
+	}
+
+	public void clearWindow()
+	{
+		window.removeAllComponents();
+		initMenu();
+	}
+
+	public void setDashBoard()
+	{
+		VerticalLayout dbLayout = new VerticalLayout();
+		dbLayout.addComponent(new Label("Can I haz Dashboard?"));
+		window.addComponent(dbLayout);
+
+	}
+
+	public void setNewsletterList()
+	{
 		NewsletterList newsletterList = new NewsletterList();
-		SenderList senderList = new SenderList();
-
-		TabSheet tabSheet = new TabSheet();
-
 		VerticalLayout nlLayout = new VerticalLayout();
 		nlLayout.addComponent(newsletterList);
 		nlLayout.setMargin(true);
-		tabSheet.addTab(nlLayout).setCaption("Newsletter");
+		clearWindow();
+		window.addComponent(nlLayout);
+	}
 
-//		VerticalLayout rLayout = new VerticalLayout();
-//		rLayout.addComponent(recipientList);
-//		rLayout.setMargin(true);
-//		tabSheet.addTab(rLayout).setCaption("Recipients");
-
-		VerticalLayout rgLayout = new VerticalLayout();
-		rgLayout.addComponent(groupList);
-		rgLayout.setMargin(true);
-		tabSheet.addTab(rgLayout).setCaption("Recipient Groups");
-
+	public void setSenderList()
+	{
+		SenderList senderList = new SenderList();
 		VerticalLayout slLayout = new VerticalLayout();
 		slLayout.addComponent(senderList);
 		slLayout.setMargin(true);
-		tabSheet.addTab(slLayout).setCaption("Sender List");
+		clearWindow();
+		window.addComponent(slLayout);
+	}
 
-		window.addComponent(tabSheet);
+	public void setRecipientGroupList()
+	{
+		GroupList groupList = new GroupList();
+		VerticalLayout rgLayout = new VerticalLayout();
+		rgLayout.addComponent(groupList);
+		rgLayout.setMargin(true);
+		clearWindow();
+		window.addComponent(rgLayout);
+	}
+
+	public void setRecipientList()
+	{
+		RecipientList recipientList = new RecipientList();
+		VerticalLayout rLayout = new VerticalLayout();
+		rLayout.addComponent(recipientList);
+		rLayout.setMargin(true);
+		clearWindow();
+		window.addComponent(rLayout);
+	}
+
+	public void setTemplateList()
+	{
+		TemplateList templateList = new TemplateList();
+		VerticalLayout tlLayout = new VerticalLayout();
+		tlLayout.addComponent(templateList);
+		tlLayout.setMargin(true);
+		clearWindow();
+		window.addComponent(tlLayout);
 	}
 
 	public void startWizard()
@@ -113,6 +158,15 @@ public class MainApp extends Application
 		window.addComponent(wb);
 	}
 
+	public MenuBar getMenu()
+	{
+		return menu;
+	}
+
+	public void setMenu(MenuBar menu)
+	{
+		this.menu = menu;
+	}
 
 	@Override
 	public void close()

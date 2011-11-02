@@ -7,6 +7,8 @@ import org.neo4j.graphdb.NotFoundException;
 import org.neo4j.graphdb.Transaction;
 import org.svenson.JSONProperty;
 
+import java.lang.reflect.InvocationTargetException;
+
 public abstract class AbstractBean
 {
 
@@ -48,7 +50,14 @@ public abstract class AbstractBean
 		{
 			if (ignoreMissing)
 			{
-				return (T) "";
+				try
+				{
+					return type.getConstructor(String.class).newInstance("");
+				}
+				catch (Exception e1)
+				{
+					return null;
+				}
 			}
 			else
 			{
@@ -67,7 +76,14 @@ public abstract class AbstractBean
 		try
 		{
 			W data = getProperty(argumentType, key);
-			return returnType.getConstructor(argumentType).newInstance(data);
+			try
+			{
+				return returnType.getConstructor(argumentType).newInstance(data);
+			}
+			catch (NullPointerException ex)
+			{
+				return null;
+			}
 		}
 		catch (Exception e)
 		{

@@ -26,15 +26,7 @@ public class ModalAddNewGroup extends Window
 		VerticalLayout formLayout = new VerticalLayout();
 
 		final TextField tfName = new TextField("Name");
-		tfName.addListener(new Property.ValueChangeListener()
-		{
-			@Override
-			public void valueChange(Property.ValueChangeEvent event)
-			{
-				name = event.getProperty().getValue().toString();
-			}
-		});
-		
+
 		verticalLayout.addComponent(tfName);
 		
 		HorizontalLayout buttonLayout = new HorizontalLayout();

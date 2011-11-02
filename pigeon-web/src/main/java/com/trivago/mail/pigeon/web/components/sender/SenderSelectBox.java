@@ -21,7 +21,7 @@ public class SenderSelectBox extends CustomComponent
 		Panel rootPanel = new Panel("Select Sender");
 		select = new Select("Available Senders");
 		select.setFilteringMode(AbstractSelect.Filtering.FILTERINGMODE_CONTAINS);
-
+		select.setNullSelectionAllowed(false);
 		reloadSelect();
 		select.addListener(new Select.ValueChangeListener()
 		{

@@ -53,13 +53,17 @@ public class SetupWizardComponent extends CustomComponent implements WizardProgr
 	public void wizardCompleted(WizardCompletedEvent wizardCompletedEvent)
 	{
 		wizard.setVisible(false);
-		((MainApp) wizardCompletedEvent.getComponent().getApplication()).setNormalComponents();
+		MainApp app = ((MainApp) wizardCompletedEvent.getComponent().getApplication());
+		app.initMenu();
+		app.setDashBoard();
 	}
 
 	@Override
 	public void wizardCancelled(WizardCancelledEvent wizardCancelledEvent)
 	{
 		wizard.setVisible(false);
-		((MainApp) wizardCancelledEvent.getComponent().getApplication()).setNormalComponents();
+		MainApp app = ((MainApp) wizardCancelledEvent.getComponent().getApplication());
+		app.initMenu();
+		app.setDashBoard();
 	}
 }

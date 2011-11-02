@@ -28,4 +28,6 @@
     <inherits name="com.invient.vaadin.charts.widgetset" />
 
     <inherits name="org.vaadin.teemu.wizards.WizardsforvaadinWidgetset" />
+
+    <inherits name="org.vaadin.openesignforms.ckeditor.widgetset.VaadinCKEditorWidgetset" />
 </module>

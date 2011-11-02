@@ -48,19 +48,7 @@ public class TemplateList extends CustomComponent
 				modalNewWindow.setVisible(true);
 			}
 		});
-		Button statusPopup = new Button("Show delivery status");
-		statusPopup.setImmediate(true);
-		statusPopup.setIcon(new ThemeResource("../runo/icons/16/globe.png"));
-		statusPopup.addListener(new Button.ClickListener()
-		{
-			@Override
-			public void buttonClick(Button.ClickEvent event)
-			{
-				Window modalNewWindow = new PopupActiveNewsletters();
-				event.getButton().getWindow().addWindow(modalNewWindow);
-				modalNewWindow.setVisible(true);
-			}
-		});
+
 
 		List<MailTemplate> mailList = getTemplateList();
 		for (MailTemplate mail : mailList)
@@ -75,12 +63,12 @@ public class TemplateList extends CustomComponent
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)
 		viewTable.setVisibleColumns(new String[]
 				{
-						"id", "subject", "sendDate", "Sender", "done", "Actions"
+						"id", "subject", "Actions"
 				});
 
 		viewTable.setColumnHeaders(new String[]
 				{
-						"ID", "Subject", "Send Date", "Sender", "Finished","Actions"
+						"ID", "Subject", "Actions"
 				});
 
 

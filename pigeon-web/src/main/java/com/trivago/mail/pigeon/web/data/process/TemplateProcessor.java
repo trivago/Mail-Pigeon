@@ -42,7 +42,7 @@ public class TemplateProcessor
 		ctx.put("sender.email.from", sender.getFromMail());
 		ctx.put("sender.email.replyto", sender.getReplytoMail());
 
-		ctx.put("recipient.id", recipient.getId());
+		ctx.put("recipient.uuid.id", recipient.getId());
 		ctx.put("recipient.uuid.external", recipient.getExternalId());
 		
 		ctx.put("recipient.email", recipient.getEmail());
@@ -59,7 +59,7 @@ public class TemplateProcessor
 		ctx.put("recipient.location.country", recipient.getCountry());
 
 		ctx.put("mail.date", mail.getSendDate());
-		ctx.put("mail.id", mail.getId());
+		ctx.put("mail.uuid.id", mail.getId());
 
 		ctx.put("campaign.id", campaign.getId());
 		ctx.put("campaign.title", campaign.getTitle());

@@ -39,8 +39,7 @@ public class RecipientList extends CustomComponent
 
 	private void init()
 	{
-		final RecipientList sl = this;
-		final Panel rootPanel = new Panel("Sender");
+		final Panel rootPanel = new Panel("Recipients");
 		rootPanel.setWidth("800px");
 
 		//		Button senderListNewButton = new Button("Add Sender");

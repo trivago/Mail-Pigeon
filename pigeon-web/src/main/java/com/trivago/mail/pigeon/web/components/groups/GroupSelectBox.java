@@ -22,7 +22,7 @@ public class GroupSelectBox extends CustomComponent
 		Panel rootPanel = new Panel("Select Recipient Group");
 		select = new Select("Available Groups");
 		select.setFilteringMode(AbstractSelect.Filtering.FILTERINGMODE_CONTAINS);
-
+		select.setNullSelectionAllowed(false);
 		reloadSelect();
 		select.addListener(new Select.ValueChangeListener()
 		{
