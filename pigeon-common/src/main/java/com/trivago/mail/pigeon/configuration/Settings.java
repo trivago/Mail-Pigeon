@@ -42,7 +42,7 @@ public class Settings
 
 			if (propertyFileName == null || propertyFileName.equals(""))
 			{
-				log.error("ENV is empty and no filename was given -> no config properties found! Using configuration.properties");
+				log.warn("ENV is empty and no filename was given -> no config properties found! Using configuration.properties");
 			}
 
 			URL resource = Thread.currentThread().getContextClassLoader().getResource("configuration.properties");
