@@ -1,5 +1,7 @@
 package com.trivago.mail.pigeon.json;
 
+import java.util.Date;
+
 public class MailTransport
 {
 	private String from;
@@ -17,6 +19,8 @@ public class MailTransport
 	private String mId;
 
 	private String uId;
+
+    private Date sendDate;
 
 	public String getFrom()
 	{
@@ -97,4 +101,14 @@ public class MailTransport
 	{
 		this.uId = uId;
 	}
+
+    public Date getSendDate()
+    {
+        return sendDate;
+    }
+
+    public void setSendDate(Date sendDate)
+    {
+        this.sendDate = sendDate;
+    }
 }
