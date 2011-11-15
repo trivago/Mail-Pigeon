@@ -99,6 +99,8 @@ public class TemplateProcessor
 		transport.setmId(String.valueOf(mail.getId()));
 		transport.setuId(String.valueOf(recipient.getId()));
 
+		transport.setSendDate(mail.getSendDate());
+
 		return transport;
 	}
     
