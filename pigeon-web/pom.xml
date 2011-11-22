@@ -164,7 +164,7 @@
                 <configuration>
                     <glassfishDirectory>/opt/server/java/glassfish/glassfish3</glassfishDirectory>
                     <user>xenji</user>
-			<passwordFile>~/.asadminpass</passwordFile>
+			<passwordFile>/var/lib/jenkins/.asadminpass</passwordFile>
                     <autoCreate>true</autoCreate>
                     <debug>true</debug>
                     <echo>false</echo>
