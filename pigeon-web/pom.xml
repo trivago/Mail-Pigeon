@@ -157,6 +157,36 @@
 					</webAppConfig>
 				</configuration>
 			</plugin>
+<plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <glassfishDirectory>/opt/server/java/glassfish/glassfish3</glassfishDirectory>
+                    <user>xenji</user>
+			<passwordFile>~/.asadminpass</passwordFile>
+                    <autoCreate>true</autoCreate>
+                    <debug>true</debug>
+                    <echo>false</echo>
+                    <terse>true</terse>
+                    <skip>${test.int.skip}</skip>
+                    <domain>
+			<name>d1.xenji.it</name>
+                        <adminPort>24848</adminPort>
+                        <httpPort>28080</httpPort>
+                        <httpsPort>28181</httpsPort>
+                        <iiopPort>3700</iiopPort>
+                        <jmsPort>7676</jmsPort>
+		</domain>
+<components>
+                        <component>
+                            <name>${project.artifactId}</name>
+                            <artifact>${project.build.directory}/target/${project.build.finalName}.war</artifact>
+                        </component>
+                    </components>
+</configuration>
+</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
