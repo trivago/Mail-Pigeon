@@ -6,6 +6,7 @@ import java.util.Calendar
 object DateFilter {
 
     def filterIfDateIsNotReached(msg: MailTransport): Boolean = {
-        Calendar.getInstance.after(msg.getSendDate)
+		val date = new java.util.Date()
+		date.getTime < msg.getSendDate.getTime
     }
 }

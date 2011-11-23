@@ -13,7 +13,6 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>Mail Pigeon Commons</name>
 
-	<url>http://trivago.com</url>
 	<description>
 		Mail Pigeon is a mail delivery platform for high volume mailing actions.
 	</description>

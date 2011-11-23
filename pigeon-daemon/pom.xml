@@ -84,7 +84,12 @@
             <artifactId>scala-library</artifactId>
             <version>2.9.0</version>
         </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>
+	</dependencies>
 
     <build>
         <plugins>
