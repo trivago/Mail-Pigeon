@@ -11,7 +11,7 @@
 	<groupId>com.trivago</groupId>
 	<artifactId>pigeon-common</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<name>pigeon-common</name>
+	<name>Mail Pigeon Commons</name>
 
 	<url>http://trivago.com</url>
 	<description>
