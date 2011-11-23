@@ -2,7 +2,6 @@ package com.trivago.mail.pigeon.web.components.templates;
 
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.ui.*;
-import org.vaadin.openesignforms.ckeditor.CKEditorConfig;
 import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 
 

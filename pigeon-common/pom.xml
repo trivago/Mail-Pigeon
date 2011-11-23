@@ -36,10 +36,22 @@
 	<inceptionYear>2011</inceptionYear>
 
 	<issueManagement>
-		<system>mantis</system>
-		<url>http://bugs.trivago.org</url>
+		<system>github</system>
+		<url>https://github.com/xenji/mail-pigeon/issues</url>
 	</issueManagement>
 
+	<scm>
+		<connection>scm:git:https://xenji@github.com/xenji/mail-pigeon.git</connection>
+		<developerConnection>scm:git:git@github.com:xenji/mail-pigeon.git</developerConnection>
+		<url>https://github.com/xenji/mail-pigeon</url>
+	</scm>
+
+	<licenses>
+		<license>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<name>The Apache Software License, Version 2.0</name>
+		</license>
+	</licenses>
 
 	<reporting>
 		<plugins>

@@ -4,7 +4,6 @@ import com.trivago.mail.pigeon.bean.Recipient;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.IndexHits;
 import org.svenson.JSON;
-import org.svenson.util.JSONBeanUtil;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

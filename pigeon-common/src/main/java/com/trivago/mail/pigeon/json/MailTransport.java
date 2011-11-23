@@ -20,7 +20,7 @@ public class MailTransport
 
 	private String uId;
 
-    private Date sendDate;
+	private Date sendDate;
 
 	public String getFrom()
 	{
@@ -102,13 +102,13 @@ public class MailTransport
 		this.uId = uId;
 	}
 
-    public Date getSendDate()
-    {
-        return sendDate;
-    }
+	public Date getSendDate()
+	{
+		return sendDate;
+	}
 
-    public void setSendDate(Date sendDate)
-    {
-        this.sendDate = sendDate;
-    }
+	public void setSendDate(Date sendDate)
+	{
+		this.sendDate = sendDate;
+	}
 }

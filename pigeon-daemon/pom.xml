@@ -14,6 +14,24 @@
     <name>pigeon-daemon</name>
     <url>http://maven.apache.org</url>
 
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/xenji/mail-pigeon/issues</url>
+	</issueManagement>
+
+	<scm>
+		<connection>scm:git:https://xenji@github.com/xenji/mail-pigeon.git</connection>
+		<developerConnection>scm:git:git@github.com:xenji/mail-pigeon.git</developerConnection>
+		<url>https://github.com/xenji/mail-pigeon</url>
+	</scm>
+
+	<licenses>
+        <license>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>The Apache Software License, Version 2.0</name>
+        </license>
+    </licenses>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

@@ -27,7 +27,6 @@ import com.trivago.mail.pigeon.web.components.templates.TemplateList;
 import com.trivago.mail.pigeon.web.components.wizard.setup.SetupWizardComponent;
 import com.vaadin.Application;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.apache.log4j.Logger;

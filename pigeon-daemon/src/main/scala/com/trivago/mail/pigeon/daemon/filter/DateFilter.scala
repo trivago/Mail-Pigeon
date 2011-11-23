@@ -2,7 +2,6 @@ package com.trivago.mail.pigeon.daemon.filter
 
 import com.trivago.mail.pigeon.json.MailTransport
 import java.util.Calendar
-import java.text.SimpleDateFormat
 
 object DateFilter {
 

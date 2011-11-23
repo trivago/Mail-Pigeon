@@ -1,7 +1,5 @@
 package com.trivago.mail.pigeon;
 
-import com.trivago.mail.pigeon.bean.Recipient;
-import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.configuration.Settings;
 import com.trivago.mail.pigeon.importer.Csv;
