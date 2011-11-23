@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Mail Pidgeon Web Application">
+	<body>
+		<breadcrumbs>
+			<item name="Mail Pidgeon Web Application" href="index.html" mce_href="index.html"/>
+		</breadcrumbs>
+		<menu ref="parent"/>
+		<menu ref="modules"/>
+		<menu ref="reports"/>
+	</body>
+</project>
