@@ -64,14 +64,6 @@ public class MailFacade
 			message.addHeader("X-TRV-MID", mailTransport.getmId());
 			message.addHeader("X-TRV-UID", mailTransport.getuId());
 
-			log.debug("Adding tracking code");
-			StringBuilder imageTag = new StringBuilder("<img src=\"");
-			String trackingHost = Settings.create().getConfiguration().getString("tracking.url");
-			imageTag.append(trackingHost).append("?user_id=").append(mailTransport.getuId()).append("&newsletter_id=");
-			imageTag.append(mailTransport.getmId()).append("\"/>");
-
-			html = html.replaceAll("</body>", imageTag.append("</body>").toString());
-
 			// Content
 			MimeBodyPart messageTextPart = new MimeBodyPart();
 			messageTextPart.setText(text);
