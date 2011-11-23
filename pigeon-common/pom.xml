@@ -54,9 +54,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<neo4j-version>1.4.1</neo4j-version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<!-- neo4j-version>1.5.M02</neo4j-version -->
+		<neo4j-version>1.5</neo4j-version>
 	</properties>
 
 	<dependencies>
@@ -78,7 +77,18 @@
 		</dependency>
 		<dependency>
 			<groupId>org.neo4j</groupId>
-			<artifactId>neo4j</artifactId>
+			<artifactId>neo4j-enterprise</artifactId>
+			<version>${neo4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j.app</groupId>
+			<artifactId>neo4j-server-enterprise</artifactId>
+			<version>${neo4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.neo4j.app</groupId>
+			<artifactId>neo4j-server</artifactId>
+			<classifier>static-web</classifier>
 			<version>${neo4j-version}</version>
 		</dependency>
 		<dependency>
