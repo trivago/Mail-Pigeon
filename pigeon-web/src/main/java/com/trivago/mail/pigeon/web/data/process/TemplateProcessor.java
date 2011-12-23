@@ -62,9 +62,12 @@ public class TemplateProcessor
 		ctx.put("mail.date", mail.getSendDate());
 		ctx.put("mail.uuid.id", mail.getId());
 
-		ctx.put("campaign.id", campaign.getId());
-		ctx.put("campaign.title", campaign.getTitle());
-		ctx.put("campaign.params", campaign.getUrlParams());
+		if (campaign != null)
+		{
+			ctx.put("campaign.id", campaign.getId());
+			ctx.put("campaign.title", campaign.getTitle());
+			ctx.put("campaign.params", campaign.getUrlParams());
+		}
 		
 		StringBuilder imageTag = new StringBuilder("<img src=\"");
 		String trackingHost = Settings.create().getConfiguration().getString("tracking.url");
@@ -80,7 +83,7 @@ public class TemplateProcessor
 
 
 		String renderText = mail.getText();
-        if (autoReplaceCampaign)
+        if (campaign != null && autoReplaceCampaign)
         {
             renderText = addCampaignToLinks(renderText, campaign.getUrlParams());
         }
@@ -89,7 +92,7 @@ public class TemplateProcessor
 		velocity.evaluate( ctx, outputText, "textrender", renderText);
 
 		String renderHtml = mail.getHtml();
-        if (autoReplaceCampaign)
+        if (campaign != null && autoReplaceCampaign)
         {
             renderHtml = addCampaignToLinks(renderHtml, campaign.getUrlParams());
         }

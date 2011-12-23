@@ -1,13 +1,16 @@
 package com.trivago.mail.pigeon.web.components.templates;
 
+import com.trivago.mail.pigeon.bean.MailTemplate;
+import com.trivago.mail.pigeon.storage.Util;
 import com.vaadin.terminal.ExternalResource;
+import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
 import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 
 
 public class ModalAddTemplate extends Window
 {
-	public ModalAddTemplate(TemplateList tl)
+	public ModalAddTemplate(final TemplateList tl)
 	{
 		setResizable(true);
 		setWidth("972px");
@@ -16,19 +19,85 @@ public class ModalAddTemplate extends Window
 		TabSheet tSheet = new TabSheet();
 		HorizontalLayout hLayout = new HorizontalLayout();
 
-		TextField title = new TextField("Template description");
-		TextField subject = new TextField("Newsletter Subject");
+		final TextField title = new TextField("Template description");
+		final TextField subject = new TextField("Newsletter Subject");
 
-		TextArea textContent = new TextArea("Text Version");
+		final TextArea textContent = new TextArea("Text Version");
 		textContent.setRows(40);
 		textContent.setColumns(100);
 
-		CKEditorTextField htmlContent = new CKEditorTextField();
+		final CKEditorTextField htmlContent = new CKEditorTextField();
 		htmlContent.setWidth("100%");
 		htmlContent.setHeight("650px");
 
 		Button saveButton = new Button("Save");
 		Button cancel = new Button("Cancel");
+
+
+		saveButton.addListener(new Button.ClickListener() {
+			@Override
+			public void buttonClick(Button.ClickEvent event)
+			{
+				boolean hasError = false;
+				if (title.getValue().equals(""))
+				{
+					title.setComponentError(new UserError("Name must not be empty"));
+					hasError = true;
+				}
+				else
+				{
+					title.setComponentError(null);
+				}
+
+				if (subject.getValue().equals(""))
+				{
+					subject.setComponentError(new UserError("Subject must not be empty"));
+					hasError = true;
+				}
+				else
+				{
+					subject.setComponentError(null);
+				}
+
+				if (htmlContent.getValue().equals(""))
+				{
+					htmlContent.setComponentError(new UserError("Please provide some HTML content"));
+					hasError = true;
+				}
+				else
+				{
+					htmlContent.setComponentError(null);
+				}
+
+				if (textContent.getValue().equals(""))
+				{
+					textContent.setComponentError(new UserError("Please provide some text content"));
+					hasError = true;
+				}
+				else
+				{
+					textContent.setComponentError(null);
+				}
+
+				if (!hasError)
+				{
+					long templateId = Util.generateId();
+					try
+					{
+						MailTemplate mt = new MailTemplate(templateId, title.getValue().toString(), htmlContent.getValue().toString(), textContent.getValue().toString(), subject.getValue().toString());
+						event.getButton().getWindow().setVisible(false);
+						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
+						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
+						tl.getBeanContainer().addItem(mt.getId(), mt);
+					}
+					catch (RuntimeException e)
+					{
+						// Should never happen ... hopefully :D
+					}
+				}
+			}
+		});
+
 
 		hLayout.addComponent(saveButton);
 		hLayout.addComponent(cancel);
