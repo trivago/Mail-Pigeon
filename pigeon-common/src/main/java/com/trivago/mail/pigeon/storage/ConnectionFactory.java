@@ -4,12 +4,14 @@ import com.trivago.mail.pigeon.configuration.Settings;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.index.Index;
+import org.neo4j.kernel.AbstractGraphDatabase;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
+import org.neo4j.server.WrappingNeoServerBootstrapper;
 
 public class ConnectionFactory
 {
 
-	private static GraphDatabaseService graphDb;
+	private static AbstractGraphDatabase graphDb = new EmbeddedGraphDatabase(Settings.create().getConfiguration().getString("neo4j.path"));
 
 	private static Index<Node> newsletterIndex;
 
@@ -29,98 +31,88 @@ public class ConnectionFactory
 
 	public static final long DEFAULT_BOUNCE_NODE = 1337L;
 
+	private static boolean notStarted = true;
+
+	/**
+	 * The wrapper for the graph db to be exposed as server
+	 */
+	private static WrappingNeoServerBootstrapper srv;
+
+	static
+	{
+		newsletterIndex = graphDb.index().forNodes("newsletter");
+		userIndex = graphDb.index().forNodes("user");
+		groupIndex = graphDb.index().forNodes("group");
+		senderIndex = graphDb.index().forNodes("sender");
+		senderIndex = graphDb.index().forNodes("bounce");
+		campaignIndex = graphDb.index().forNodes("campaign");
+		templateIndex = graphDb.index().forNodes("template");
+		if (notStarted)
+		{
+			srv = new WrappingNeoServerBootstrapper(graphDb);
+			srv.start();
+			registerShutdownHook();
+			notStarted = false;
+		}
+	}
+
+	private ConnectionFactory()
+	{
+	}
+
+	/**
+	 * Singleton like getter for the graph db.
+	 *
+	 * @return the graphdb instance
+	 */
 	public static GraphDatabaseService getDatabase()
 	{
-		if (graphDb == null)
-		{
-			graphDb = new EmbeddedGraphDatabase(Settings.create().getConfiguration().getString("neo4j.path"));
-			newsletterIndex = graphDb.index().forNodes("newsletter");
-			userIndex = graphDb.index().forNodes("user");
-			groupIndex = graphDb.index().forNodes("group");
-			senderIndex = graphDb.index().forNodes("sender");
-			senderIndex = graphDb.index().forNodes("bounce");
-			campaignIndex = graphDb.index().forNodes("campaign");
-			templateIndex = graphDb.index().forNodes("template");
-
-			registerShutdownHook();
-		}
 		return graphDb;
 	}
 
 	public static Index<Node> getNewsletterIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return newsletterIndex;
 	}
 
 	public static Index<Node> getUserIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return userIndex;
 	}
 
 	public static Index<Node> getGroupIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return groupIndex;
 	}
 
 	public static Index<Node> getSenderIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return senderIndex;
 	}
 
 	public static Index<Node> getBounceIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return bounceIndex;
 	}
 
 	public static Index<Node> getCampaignIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return campaignIndex;
 	}
 
 	public static Index<Node> getTemplateIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return templateIndex;
 	}
 
 	public static Index<Node> getTagIndex()
 	{
-		if (graphDb == null)
-		{
-			getDatabase();
-		}
 		return tagIndex;
 	}
 
 	private static void shutdown()
 	{
+		srv.stop();
 		graphDb.shutdown();
 	}
 

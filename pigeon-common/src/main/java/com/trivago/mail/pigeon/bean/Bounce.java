@@ -11,13 +11,30 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
+/**
+ * Represents a bounce node. Bounces are mails that are not successful delivered to a recipient for technical reasons.
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class Bounce extends AbstractBean
 {
+	/**
+	 * Construct the bounce from a node e.g. returned by a search.
+	 *
+	 * There is no check for the node to be of the classes type. Be careful.
+	 *
+	 * @param underlayingNode The node that should be used as data source
+	 */
 	public Bounce(final Node underlayingNode)
 	{
 		this.dataNode = underlayingNode;
 	}
 
+	/**
+	 * ID based constructor. This is not the neo4j node ID, but the mail-pigeon internal id.
+	 *
+	 * @param rawBounceNodeId the  
+	 */
 	public Bounce(final long rawBounceNodeId)
 	{
 		dataNode = ConnectionFactory.getDatabase().getNodeById(rawBounceNodeId);
@@ -51,11 +68,12 @@ public class Bounce extends AbstractBean
 		}
 	}
 
-	public Node getDataNode()
-	{
-		return dataNode;
-	}
 
+	/**
+	 * Adds a new relation between a mail and the recipient and the bounce node.
+	 * @param mail The mail bean
+	 * @param recipient The recipient bean
+	 */
 	public void addBouncedMail(Mail mail, Recipient recipient)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();

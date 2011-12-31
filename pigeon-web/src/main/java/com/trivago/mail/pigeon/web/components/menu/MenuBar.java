@@ -1,7 +1,6 @@
 package com.trivago.mail.pigeon.web.components.menu;
 
 import com.trivago.mail.pigeon.web.MainApp;
-import scala.App;
 
 import java.lang.reflect.InvocationTargetException;
 

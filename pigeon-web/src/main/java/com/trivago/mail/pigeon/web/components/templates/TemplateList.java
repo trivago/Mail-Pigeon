@@ -1,9 +1,7 @@
 package com.trivago.mail.pigeon.web.components.templates;
 
-import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.MailTemplate;
 import com.trivago.mail.pigeon.web.components.mail.ActionButtonColumnGenerator;
-import com.trivago.mail.pigeon.web.components.mail.PopupActiveNewsletters;
 import com.trivago.mail.pigeon.web.components.mail.SenderColumnGenerator;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;

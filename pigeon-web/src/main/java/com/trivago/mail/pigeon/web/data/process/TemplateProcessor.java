@@ -5,6 +5,7 @@ import com.trivago.mail.pigeon.bean.Campaign;
 import com.trivago.mail.pigeon.bean.Mail;
 import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.Sender;
+import com.trivago.mail.pigeon.configuration.Settings;
 import com.trivago.mail.pigeon.json.MailTransport;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -61,10 +62,19 @@ public class TemplateProcessor
 		ctx.put("mail.date", mail.getSendDate());
 		ctx.put("mail.uuid.id", mail.getId());
 
-		ctx.put("campaign.id", campaign.getId());
-		ctx.put("campaign.title", campaign.getTitle());
-		ctx.put("campaign.params", campaign.getUrlParams());
+		if (campaign != null)
+		{
+			ctx.put("campaign.id", campaign.getId());
+			ctx.put("campaign.title", campaign.getTitle());
+			ctx.put("campaign.params", campaign.getUrlParams());
+		}
+		
+		StringBuilder imageTag = new StringBuilder("<img src=\"");
+		String trackingHost = Settings.create().getConfiguration().getString("tracking.url");
+		imageTag.append(trackingHost).append("?user_id=").append(recipient.getId()).append("&newsletter_id=");
+		imageTag.append(mail.getId()).append("\"/>");
 
+		ctx.put("campaign.trackingpixel", imageTag.toString());
 
 		String renderSubject = mail.getSubject();
 		StringWriter outputSubject = new StringWriter();
@@ -73,7 +83,7 @@ public class TemplateProcessor
 
 
 		String renderText = mail.getText();
-        if (autoReplaceCampaign)
+        if (campaign != null && autoReplaceCampaign)
         {
             renderText = addCampaignToLinks(renderText, campaign.getUrlParams());
         }
@@ -82,7 +92,7 @@ public class TemplateProcessor
 		velocity.evaluate( ctx, outputText, "textrender", renderText);
 
 		String renderHtml = mail.getHtml();
-        if (autoReplaceCampaign)
+        if (campaign != null && autoReplaceCampaign)
         {
             renderHtml = addCampaignToLinks(renderHtml, campaign.getUrlParams());
         }
@@ -98,6 +108,8 @@ public class TemplateProcessor
 
 		transport.setmId(String.valueOf(mail.getId()));
 		transport.setuId(String.valueOf(recipient.getId()));
+
+		transport.setSendDate(mail.getSendDate());
 
 		return transport;
 	}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Mail Pigeon Commons">
+	<body>
+		<breadcrumbs>
+			<item name="Mail Pigeon Commons" href="index.html" mce_href="index.html"/>
+		</breadcrumbs>
+		<menu ref="parent"/>
+		<menu ref="modules"/>
+		<menu ref="reports"/>
+	</body>
+</project>

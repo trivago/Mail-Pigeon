@@ -14,6 +14,8 @@ public class MailTemplate extends AbstractBean
 	public static final String SUBJECT = "subject";
 	public static final String TEXT = "text_content";
 	public static final String HTML = "html_content";
+	public static final String TITLE = "title";
+
 
 	public MailTemplate(final Node underlayingNode)
 	{
@@ -25,7 +27,7 @@ public class MailTemplate extends AbstractBean
 		dataNode = ConnectionFactory.getTemplateIndex().get(IndexTypes.TEMPLATE_ID, templateId).getSingle();
 	}
 
-	public MailTemplate(final long templateId, final String text, final String html, final String subject)
+	public MailTemplate(final long templateId, final String title, final String text, final String html, final String subject)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
 		try
@@ -36,6 +38,7 @@ public class MailTemplate extends AbstractBean
 			dataNode.setProperty(SUBJECT, subject);
 			dataNode.setProperty(TEXT, text);
 			dataNode.setProperty(HTML, html);
+			dataNode.setProperty(TITLE, title);
 			ConnectionFactory.getTemplateIndex().add(this.dataNode, IndexTypes.TEMPLATE_ID, templateId);
 			ConnectionFactory.getTemplateIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.MAIL_TEMPLATE_REFERENCE);
@@ -89,6 +92,16 @@ public class MailTemplate extends AbstractBean
 	public void setHtml(final String html)
 	{
 		writeProperty(HTML, html);
+	}
+
+	public String getTitle()
+	{
+		return (String) this.dataNode.getProperty(TITLE);
+	}
+
+	public void setTitle(final String title)
+	{
+		writeProperty(TITLE, title);
 	}
 
 	public static IndexHits<Node> getAll()

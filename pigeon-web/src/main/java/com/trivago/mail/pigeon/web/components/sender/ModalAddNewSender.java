@@ -7,12 +7,6 @@ import com.vaadin.ui.*;
 
 public class ModalAddNewSender extends Window
 {
-	private String name;
-
-	private String fromMail;
-
-	private String replytoMail;
-
 	public ModalAddNewSender(final SenderList sl)
 	{
 		super();

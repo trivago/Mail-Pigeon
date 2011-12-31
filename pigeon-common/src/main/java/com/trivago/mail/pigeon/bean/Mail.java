@@ -10,6 +10,7 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
+import java.util.Iterator;
 
 public class Mail extends AbstractBean
 {
@@ -178,6 +179,11 @@ public class Mail extends AbstractBean
 	public Campaign getCampaign()
 	{
 		final Iterable<Relationship> relationships = dataNode.getRelationships(RelationTypes.PART_OF_CAMPAIGN);
-		return new Campaign(relationships.iterator().next().getStartNode());
+
+		Iterator<Relationship> iterator = relationships.iterator();
+		if (iterator.hasNext())
+			return new Campaign(iterator.next().getStartNode());
+		else
+			return null;
 	}
 }

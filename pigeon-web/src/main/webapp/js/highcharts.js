@@ -2770,7 +2770,10 @@
 	},css:function(a)
 	{
 		var b = this.element;
-		if (a && a.color)a.fill = a.color;
+		if (a && a.color)
+		{
+			a.fill = a.color;
+		}
 		a = ma(this.styles, a);
 		Ac && !xc ? La(this.element, a) : this.attr({style:Vd(a)});
 		this.styles = a;
@@ -2807,9 +2810,18 @@
 			a += this.attr("width");
 			b += this.attr("height")
 		}
-		if (a || b)e.push("translate(" + a + "," + b + ")");
-		if (c)e.push("rotate(90) scale(-1,1)");
-		else d && e.push("rotate(" + d + " " + this.x + " " + this.y + ")");
+		if (a || b)
+		{
+			e.push("translate(" + a + "," + b + ")");
+		}
+		if (c)
+		{
+			e.push("rotate(90) scale(-1,1)");
+		}
+		else
+		{
+			d && e.push("rotate(" + d + " " + this.x + " " + this.y + ")");
+		}
 		e.length && xa(this.element, "transform", e.join(" "))
 	},toFront:function()
 	{
@@ -2832,9 +2844,15 @@
 		}
 		c = y(c, this.renderer);
 		var d = a.align,e = a.verticalAlign,f = (c.x || 0) + (a.x || 0),g = (c.y || 0) + (a.y || 0),i = {};
-		if (/^(right|center)$/.test(d))f += (c.width - (a.width || 0)) / {right:1,center:2}[d];
+		if (/^(right|center)$/.test(d))
+		{
+			f += (c.width - (a.width || 0)) / {right:1,center:2}[d];
+		}
 		i[b ? "translateX" : "x"] = f;
-		if (/^(bottom|middle)$/.test(e))g += (c.height - (a.height || 0)) / ({bottom:1,middle:2}[e] || 1);
+		if (/^(bottom|middle)$/.test(e))
+		{
+			g += (c.height - (a.height || 0)) / ({bottom:1,middle:2}[e] || 1);
+		}
 		i[b ? "translateY" : "y"] = g;
 		this[this.placed ? "animate" : "attr"](i);
 		this.placed = true;
@@ -2874,15 +2892,18 @@
 			c.handleZ = true;
 			g = oa(g)
 		}
-		if (c.handleZ)for (j =
-								   0; j < e.length; j++)
+		if (c.handleZ)
 		{
-			a = e[j];
-			c = xa(a, "zIndex");
-			if (a != f && (oa(c) > g || !L(g) && L(c)))
+			for (j =
+						 0; j < e.length; j++)
 			{
-				d.insertBefore(f, a);
-				return this
+				a = e[j];
+				c = xa(a, "zIndex");
+				if (a != f && (oa(c) > g || !L(g) && L(c)))
+				{
+					d.insertBefore(f, a);
+					return this
+				}
 			}
 		}
 		if (i !== undefined)
@@ -2903,12 +2924,18 @@
 			(c = e.parentNode) && c.removeChild(e)
 		});
 		mc(this.renderer.alignedObjects, this);
-		for (d in this)delete this[d];
+		for (d in this)
+		{
+			delete this[d];
+		}
 		return null
 	},empty:function()
 	{
 		for (var a =
-				this.element,b = a.childNodes,c = b.length; c--;)a.removeChild(b[c])
+				this.element,b = a.childNodes,c = b.length; c--;)
+		{
+			a.removeChild(b[c])
+		}
 	},shadow:function(a)
 	{
 		var b = [],c,d = this.element,e = this.parentInverted ? "(-1,-1)" : "(1,1)";
@@ -2950,7 +2977,10 @@
 	{
 		var b = a.element,c = y(a.textStr, "").toString().replace(/<(b|strong)>/g, '<span style="font-weight:bold">').replace(/<(i|em)>/g, '<span style="font-style:italic">').replace(/<a/g,
 				"<span").replace(/<\/(b|strong|i|em|a)>/g, "</span>").split(/<br[^>]?>/g),d = b.childNodes,e = /style="([^"]+)"/,f = /href="([^"]+)"/,g = xa(b, "x"),i = (a = a.styles) && oa(a.width),j = a && a.lineHeight,k;
-		for (a = d.length; a--;)b.removeChild(d[a]);
+		for (a = d.length; a--;)
+		{
+			b.removeChild(d[a]);
+		}
 		i && this.box.appendChild(b);
 		t(c, function(n, z)
 		{
@@ -2971,14 +3001,23 @@
 					}
 					K = K.replace(/<(.|\n)*?>/g, "") || " ";
 					A.appendChild(za.createTextNode(K));
-					if (ia)u.dx = 3;
-					else u.x = g;
+					if (ia)
+					{
+						u.dx = 3;
+					}
+					else
+					{
+						u.x = g;
+					}
 					if (!ia)
 					{
 						if (z)
 						{
 							T = oa(window.getComputedStyle(k, null).getPropertyValue("line-height"));
-							if (isNaN(T))T = j || k.offsetHeight || 18;
+							if (isNaN(T))
+							{
+								T = j || k.offsetHeight || 18;
+							}
 							xa(A, "dy", T)
 						}
 						k = A
@@ -3000,7 +3039,10 @@
 								A = za.createElementNS("http://www.w3.org/2000/svg", "tspan");
 								xa(A, {x:g,dy:j || 16});
 								b.appendChild(A);
-								if (ba > i)i = ba
+								if (ba > i)
+								{
+									i = ba
+								}
 							}
 							else
 							{
@@ -3015,8 +3057,14 @@
 		})
 	},crispLine:function(a, b)
 	{
-		if (a[1] == a[4])a[1] = a[4] = V(a[1]) + b % 2 / 2;
-		if (a[2] == a[5])a[2] = a[5] = V(a[2]) + b % 2 / 2;
+		if (a[1] == a[4])
+		{
+			a[1] = a[4] = V(a[1]) + b % 2 / 2;
+		}
+		if (a[2] == a[5])
+		{
+			a[2] = a[5] = V(a[2]) + b % 2 / 2;
+		}
 		return a
 	},path:function(a)
 	{
@@ -3055,7 +3103,10 @@
 				e = d.length;
 		this.width = a;
 		this.height = b;
-		for (this.boxWrapper[y(c, true) ? "animate" : "attr"]({width:a,height:b}); e--;)d[e].align()
+		for (this.boxWrapper[y(c, true) ? "animate" : "attr"]({width:a,height:b}); e--;)
+		{
+			d[e].align()
+		}
 	},g:function(a)
 	{
 		return this.createElement("g").attr(L(a) && {"class":$b + a})
@@ -3086,7 +3137,10 @@
 				f.attr({width:j[0],height:j[1]}).translate(-V(j[0] / 2), -V(j[1] / 2))
 			},src:a})
 		}
-		else f = this.circle(b, c, d);
+		else
+		{
+			f = this.circle(b, c, d);
+		}
 		return f
 	},symbols:{square:function(a, b, c)
 	{
@@ -3145,7 +3199,10 @@
 			xa(b, c + "-opacity", d.get("a"));
 			return d.get("rgb")
 		}
-		else return a
+		else
+		{
+			return a
+		}
 	},
 		text:function(a, b, c)
 		{
@@ -3163,8 +3220,14 @@
 		var fe = wb(Hc, {init:function(a, b)
 		{
 			var c = ["<",b,' filled="f" stroked="f"'],d = ["position: ",lc,";"];
-			if (b == "shape" || b == Lb)d.push("left:0;top:0;width:10px;height:10px;");
-			if (yc)d.push("visibility: ", b == Lb ? tb : Ab);
+			if (b == "shape" || b == Lb)
+			{
+				d.push("left:0;top:0;width:10px;height:10px;");
+			}
+			if (yc)
+			{
+				d.push("visibility: ", b == Lb ? tb : Ab);
+			}
 			c.push(' style="', d.join(""), '"/>');
 			if (b)
 			{
@@ -3198,90 +3261,150 @@
 				ia = c == "strokeWidth" || c == "stroke-width" ?
 						this.strokeweight : this[c]
 			}
-			else for (c in a)
+			else
 			{
-				d = a[c];
-				n = false;
-				if (k && /^(x|y|r|start|end|width|height|innerR)/.test(c))
+				for (c in a)
 				{
-					if (!z)
+					d = a[c];
+					n = false;
+					if (k && /^(x|y|r|start|end|width|height|innerR)/.test(c))
 					{
-						this.symbolAttr(a);
-						z = true
-					}
-					n = true
-				} else if (c == "d")
-				{
-					d = d || [];
-					this.d = d.join(" ");
-					e = d.length;
-					for (n = []; e--;)n[e] = bc(d[e]) ? V(d[e] * 10) - 5 : d[e] == "Z" ? "x" : d[e];
-					d = n.join(" ") || "x";
-					f.path = d;
-					if (E)for (e = E.length; e--;)E[e].path = d;
-					n = true
-				} else if (c == "zIndex" || c == "visibility")
-				{
-					if (yc && c == "visibility" && i == "DIV")
+						if (!z)
+						{
+							this.symbolAttr(a);
+							z = true
+						}
+						n = true
+					} else if (c == "d")
 					{
-						f.gVis = d;
-						n = f.childNodes;
-						for (e = n.length; e--;)La(n[e], {visibility:d});
-						if (d == Ab)d = null
-					}
-					if (d)g[c] =
-							d;
-					n = true
-				} else if (/^(width|height)$/.test(c))
-				{
-					if (this.updateClipping)
+						d = d || [];
+						this.d = d.join(" ");
+						e = d.length;
+						for (n = []; e--;)
+						{
+							n[e] = bc(d[e]) ? V(d[e] * 10) - 5 : d[e] == "Z" ? "x" : d[e];
+						}
+						d = n.join(" ") || "x";
+						f.path = d;
+						if (E)
+						{
+							for (e = E.length; e--;)
+							{
+								E[e].path = d;
+							}
+						}
+						n = true
+					} else if (c == "zIndex" || c == "visibility")
+					{
+						if (yc && c == "visibility" && i == "DIV")
+						{
+							f.gVis = d;
+							n = f.childNodes;
+							for (e = n.length; e--;)
+							{
+								La(n[e], {visibility:d});
+							}
+							if (d == Ab)
+							{
+								d = null
+							}
+						}
+						if (d)
+						{
+							g[c] =
+									d;
+						}
+						n = true
+					} else if (/^(width|height)$/.test(c))
+					{
+						if (this.updateClipping)
+						{
+							this[c] = d;
+							this.updateClipping()
+						}
+						else
+						{
+							g[c] = d;
+						}
+						n = true
+					} else if (/^(x|y)$/.test(c))
 					{
 						this[c] = d;
-						this.updateClipping()
+						if (f.tagName == "SPAN")
+						{
+							this.updateTransform();
+						}
+						else
+						{
+							g[{x:"left",y:"top"}[c]] = d
+						}
+					} else if (c == "class")
+					{
+						f.className = d;
+					} else if (c == "stroke")
+					{
+						d = j.color(d, f, c);
+						c = "strokecolor"
+					} else if (c == "stroke-width" || c == "strokeWidth")
+					{
+						f.stroked = d ? true : false;
+						c = "strokeweight";
+						this[c] = d;
+						if (bc(d))
+						{
+							d += Za
+						}
+					} else if (c == "dashstyle")
+					{
+						(f.getElementsByTagName("stroke")[0] || eb(j.prepVML(["<stroke/>"]),
+								null, null, f))[c] = d || "solid";
+						this.dashstyle = d;
+						n = true
+					} else if (c == "fill")
+					{
+						if (i == "SPAN")
+						{
+							g.color = d;
+						}
+						else
+						{
+							f.filled = d != mb ? true : false;
+							d = j.color(d, f, c);
+							c = "fillcolor"
+						}
+					} else if (c == "translateX" || c == "translateY" || c == "rotation" || c == "align")
+					{
+						if (c == "align")
+						{
+							c = "textAlign";
+						}
+						this[c] = d;
+						this.updateTransform();
+						n = true
+					} else if (c == "text")
+					{
+						f.innerHTML = d;
+						n = true
 					}
-					else g[c] = d;
-					n = true
-				} else if (/^(x|y)$/.test(c))
-				{
-					this[c] = d;
-					if (f.tagName == "SPAN")this.updateTransform();
-					else g[{x:"left",y:"top"}[c]] = d
-				} else if (c == "class")f.className = d; else if (c == "stroke")
-				{
-					d = j.color(d, f, c);
-					c = "strokecolor"
-				} else if (c == "stroke-width" || c == "strokeWidth")
-				{
-					f.stroked = d ? true : false;
-					c = "strokeweight";
-					this[c] = d;
-					if (bc(d))d += Za
-				} else if (c == "dashstyle")
-				{
-					(f.getElementsByTagName("stroke")[0] || eb(j.prepVML(["<stroke/>"]),
-							null, null, f))[c] = d || "solid";
-					this.dashstyle = d;
-					n = true
-				} else if (c == "fill")if (i == "SPAN")g.color = d;
-				else
-				{
-					f.filled = d != mb ? true : false;
-					d = j.color(d, f, c);
-					c = "fillcolor"
-				} else if (c == "translateX" || c == "translateY" || c == "rotation" || c == "align")
-				{
-					if (c == "align")c = "textAlign";
-					this[c] = d;
-					this.updateTransform();
-					n = true
-				} else if (c == "text")
-				{
-					f.innerHTML = d;
-					n = true
+					if (E && c == "visibility")
+					{
+						for (e = E.length; e--;)
+						{
+							E[e].style[c] = d;
+						}
+					}
+					if (!n)
+					{
+						if (yc)
+						{
+							f[c] = d;
+						}
+						else
+						{
+							xa(f, c, d)
+						}
+					}
 				}
-				if (E && c == "visibility")for (e = E.length; e--;)E[e].style[c] = d;
-				if (!n)if (yc)f[c] = d;
-				else xa(f, c, d)
 			}
 			return ia
 		},clip:function(a)

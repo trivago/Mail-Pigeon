@@ -4,7 +4,9 @@ import com.trivago.mail.pigeon.queue.ConnectionPool
 import com.rabbitmq.client.QueueingConsumer
 import com.trivago.mail.pigeon.mail.MailFacade
 import com.trivago.mail.pigeon.json.MailTransport
+import filter.DateFilter
 import org.svenson.JSONParser
+import queue.QueueHandler
 
 object Runner
 {
@@ -21,7 +23,6 @@ object Runner
         val consumer: QueueingConsumer = new QueueingConsumer(channel)
         val mailFacade: MailFacade = new MailFacade
 
-
         channel.basicConsume("messages", autoAck, consumer)
         while (true)
         {
@@ -36,10 +37,19 @@ object Runner
                 { // Do nothing, this is intended
                 }
             }
+			
             val jsonContent: String = new String(delivery.getBody)
             val mailTransport: MailTransport = JSONParser.defaultJSONParser.parse(classOf[MailTransport], jsonContent)
-            mailFacade.sendMail(mailTransport)
-            channel.basicAck(delivery.getEnvelope.getDeliveryTag, false)
+
+			if (DateFilter.filterIfDateIsNotReached(mailTransport))
+			{
+				mailFacade.sendMail(mailTransport)
+            	channel.basicAck(delivery.getEnvelope.getDeliveryTag, false)
+			}
+			else
+			{
+				QueueHandler.requeueMessage(mailTransport, conn, "messages")
+			}
         }
     }
 }

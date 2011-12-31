@@ -2,7 +2,6 @@ package com.trivago.mail.pigeon.web.components.groups;
 
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.storage.Util;
-import com.vaadin.data.Property;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
 import com.vaadin.ui.Button.ClickEvent;
