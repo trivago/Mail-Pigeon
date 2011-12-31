@@ -29,6 +29,7 @@ import com.vaadin.Application;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -46,7 +47,8 @@ public class MainApp extends Application
 	@Override
 	public void init()
 	{
-		DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml"));
+		//DOMConfigurator.configure(Thread.currentThread().getContextClassLoader().getResource("log4j.xml"));
+//        BasicConfigurator.configure();
 		window = new Window("Mail Pigeon");
 		setMainWindow(window);
 

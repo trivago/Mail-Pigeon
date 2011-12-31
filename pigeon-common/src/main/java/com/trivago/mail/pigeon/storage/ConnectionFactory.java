@@ -47,6 +47,7 @@ public class ConnectionFactory
 		senderIndex = graphDb.index().forNodes("bounce");
 		campaignIndex = graphDb.index().forNodes("campaign");
 		templateIndex = graphDb.index().forNodes("template");
+        
 		if (notStarted)
 		{
 			srv = new WrappingNeoServerBootstrapper(graphDb);

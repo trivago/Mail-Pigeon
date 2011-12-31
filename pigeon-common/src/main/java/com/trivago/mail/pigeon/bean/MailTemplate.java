@@ -7,6 +7,7 @@ import com.trivago.mail.pigeon.storage.RelationTypes;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
+import org.neo4j.server.rest.web.DatabaseActions;
 
 public class MailTemplate extends AbstractBean
 {
@@ -33,12 +34,12 @@ public class MailTemplate extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, templateId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(SUBJECT, subject);
-			dataNode.setProperty(TEXT, text);
-			dataNode.setProperty(HTML, html);
-			dataNode.setProperty(TITLE, title);
+			writeProperty(ID, templateId);
+			writeProperty("type", getClass().getName());
+			writeProperty(SUBJECT, subject);
+			writeProperty(TEXT, text);
+			writeProperty(HTML, html);
+			writeProperty(TITLE, title);
 			ConnectionFactory.getTemplateIndex().add(this.dataNode, IndexTypes.TEMPLATE_ID, templateId);
 			ConnectionFactory.getTemplateIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.MAIL_TEMPLATE_REFERENCE);
@@ -56,12 +57,12 @@ public class MailTemplate extends AbstractBean
 
 	public long getId()
 	{
-		return (Long) dataNode.getProperty(ID);
+		return getProperty(Long.class, ID, false);
 	}
 
 	public String getSubject()
 	{
-		return (String) dataNode.getProperty(SUBJECT);
+		return getProperty(String.class, SUBJECT);
 	}
 
 	public void setSubject(final String subject)
@@ -76,7 +77,7 @@ public class MailTemplate extends AbstractBean
 
 	public String getText()
 	{
-		return (String) this.dataNode.getProperty(TEXT);
+		return getProperty(String.class, TEXT);
 	}
 
 	public void setText(final String text)
@@ -86,7 +87,7 @@ public class MailTemplate extends AbstractBean
 
 	public String getHtml()
 	{
-		return (String) this.dataNode.getProperty(HTML);
+		return getProperty(String.class, HTML);
 	}
 
 	public void setHtml(final String html)
@@ -96,7 +97,7 @@ public class MailTemplate extends AbstractBean
 
 	public String getTitle()
 	{
-		return (String) this.dataNode.getProperty(TITLE);
+		return getProperty(String.class, TITLE);
 	}
 
 	public void setTitle(final String title)
@@ -106,6 +107,6 @@ public class MailTemplate extends AbstractBean
 
 	public static IndexHits<Node> getAll()
 	{
-		return ConnectionFactory.getTemplateIndex().get("type", MailTemplate.class.getName());
+		return ConnectionFactory.getTemplateIndex().get(IndexTypes.TYPE, MailTemplate.class.getName());
 	}
 }

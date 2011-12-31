@@ -33,9 +33,9 @@ public class RecipientGroup extends AbstractBean
 			try
 			{
 				dataNode = ConnectionFactory.getDatabase().createNode();
-				dataNode.setProperty(ID, groupId);
-				dataNode.setProperty("type", getClass().getName());
-				dataNode.setProperty(NAME, "DefaultGroup");
+				writeProperty(ID, groupId);
+				writeProperty("type", getClass().getName());
+				writeProperty(NAME, "DefaultGroup");
 				ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
 				ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 				ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
@@ -60,9 +60,9 @@ public class RecipientGroup extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, groupId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(NAME, name);
+			writeProperty(ID, groupId);
+			writeProperty("type", getClass().getName());
+			writeProperty(NAME, name);
 			ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.GROUP_ID, groupId);
 			ConnectionFactory.getGroupIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.GROUP_REFERENCE);
@@ -88,12 +88,12 @@ public class RecipientGroup extends AbstractBean
 
 	public long getId()
 	{
-		return (Long) dataNode.getProperty(ID);
+		return getProperty(Long.class, ID, false);
 	}
 
 	public String getName()
 	{
-		return (String) dataNode.getProperty(NAME);
+		return getProperty(String.class, NAME);
 	}
 
 	public Relationship addRecipient(Recipient recipient)

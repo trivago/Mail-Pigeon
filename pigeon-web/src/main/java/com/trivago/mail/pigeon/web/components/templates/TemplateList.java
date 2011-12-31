@@ -1,8 +1,7 @@
 package com.trivago.mail.pigeon.web.components.templates;
 
 import com.trivago.mail.pigeon.bean.MailTemplate;
-import com.trivago.mail.pigeon.web.components.mail.ActionButtonColumnGenerator;
-import com.trivago.mail.pigeon.web.components.mail.SenderColumnGenerator;
+import com.trivago.mail.pigeon.web.components.templates.ActionButtonColumnGenerator;
 import com.vaadin.data.util.BeanContainer;
 import com.vaadin.terminal.ThemeResource;
 import com.vaadin.ui.*;
@@ -55,7 +54,6 @@ public class TemplateList extends CustomComponent
 		}
 
 		viewTable.setContainerDataSource(beanContainer);
-		viewTable.addGeneratedColumn("Sender", new SenderColumnGenerator());
 		viewTable.addGeneratedColumn("Actions", new ActionButtonColumnGenerator());
 
 		// First set the vis. cols, then the headlines (the other way round leads to an exception)

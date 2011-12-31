@@ -42,11 +42,11 @@ public class Sender extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, senderId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(NAME, name);
-			dataNode.setProperty(FROM_MAIL, fromMail);
-			dataNode.setProperty(REPLYTO_MAIL, replytoMail);
+			writeProperty(ID, senderId);
+			writeProperty("type", getClass().getName());
+			writeProperty(NAME, name);
+			writeProperty(FROM_MAIL, fromMail);
+			writeProperty(REPLYTO_MAIL, replytoMail);
 
 			ConnectionFactory.getSenderIndex().add(this.dataNode, IndexTypes.SENDER_ID, senderId);
 			ConnectionFactory.getSenderIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
@@ -70,22 +70,22 @@ public class Sender extends AbstractBean
 
 	public long getId()
 	{
-		return (Long) dataNode.getProperty(ID);
+		return getProperty(Long.class, ID, false);
 	}
 
 	public String getName()
 	{
-		return (String) dataNode.getProperty(NAME);
+		return getProperty(String.class, NAME);
 	}
 
 	public String getFromMail()
 	{
-		return (String) dataNode.getProperty(FROM_MAIL);
+		return getProperty(String.class, FROM_MAIL);
 	}
 
 	public String getReplytoMail()
 	{
-		return (String) dataNode.getProperty(REPLYTO_MAIL);
+		return getProperty(String.class, REPLYTO_MAIL);
 	}
 
 	public void setName(String name)

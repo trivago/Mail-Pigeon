@@ -1,11 +1,13 @@
 package com.trivago.mail.pigeon.web.components.mail;
 
 import com.trivago.mail.pigeon.bean.Mail;
+import com.trivago.mail.pigeon.bean.MailTemplate;
 import com.trivago.mail.pigeon.bean.RecipientGroup;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.storage.Util;
 import com.trivago.mail.pigeon.web.components.groups.GroupSelectBox;
 import com.trivago.mail.pigeon.web.components.sender.SenderSelectBox;
+import com.trivago.mail.pigeon.web.components.templates.TemplateSelectBox;
 import com.trivago.mail.pigeon.web.data.process.QueueNewsletter;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
@@ -32,6 +34,7 @@ public class ModalAddNewsletter extends Window
 		final GroupSelectBox groupSelectBox = new GroupSelectBox();
 		final UploadTextFileComponent uploadTextfile = new UploadTextFileComponent();
 		final UploadHtmlFileComponent uploadHtmlfile = new UploadHtmlFileComponent();
+        final TemplateSelectBox templateSelectBox = new TemplateSelectBox();
 		final TextField tfSubject = new TextField("Subject");
 		final DateField tfSendDate = new DateField("Send Date");
 		final Button cancelButton = new Button("Cancel");
@@ -59,10 +62,10 @@ public class ModalAddNewsletter extends Window
 			{
 				boolean hasError = false;
 				// Validation
-				if (tfSubject.getValue().equals(""))
+				if (tfSubject.getValue().equals("") && templateSelectBox.getSelectedTemplate() == null)
 				{
 					hasError = true;
-					tfSubject.setComponentError(new UserError("Subject cannot be empty"));
+					tfSubject.setComponentError(new UserError("Subject cannot be empty if you do not choose a template."));
 				}
 				else
 				{
@@ -79,25 +82,28 @@ public class ModalAddNewsletter extends Window
 					tfSendDate.setComponentError(null);
 				}
 
-				if (!uploadTextfile.isUploadFinished())
-				{
-					hasError = true;
-					uploadTextfile.setComponentError(new UserError("You must provide a text file"));
-				}
-				else
-				{
-					uploadTextfile.setComponentError(null);
-				}
+                if (templateSelectBox.getSelectedTemplate() == null)
+                {
+                    if (!uploadTextfile.isUploadFinished())
+                    {
+                        hasError = true;
+                        uploadTextfile.setComponentError(new UserError("You must provide a text file if you do not choose a template"));
+                    }
+                    else
+                    {
+                        uploadTextfile.setComponentError(null);
+                    }
 
-				if (!uploadHtmlfile.isUploadFinished())
-				{
-					hasError = true;
-					uploadHtmlfile.setComponentError(new UserError("You must provide a html file"));
-				}
-				else
-				{
-					uploadHtmlfile.setComponentError(null);
-				}
+                    if (!uploadHtmlfile.isUploadFinished())
+                    {
+                        hasError = true;
+                        uploadHtmlfile.setComponentError(new UserError("You must provide a html file if you do not choose a template"));
+                    }
+                    else
+                    {
+                        uploadHtmlfile.setComponentError(null);
+                    }
+                }                
 
 				if (senderSelectBox.getSelectedSender() == 0)
 				{
@@ -125,11 +131,27 @@ public class ModalAddNewsletter extends Window
 					long mailId = Util.generateId();
 					try
 					{
-						Sender s =new Sender(senderSelectBox.getSelectedSender());
-						String text = uploadTextfile.getTextData();
-						String html = uploadHtmlfile.getHtmlData();
+						Sender s = new Sender(senderSelectBox.getSelectedSender());
 
-						Mail m = new Mail(mailId, text, html, (Date)tfSendDate.getValue(), tfSubject.getValue().toString(), s);
+                        String text;
+                        String html;
+                        String subject;
+
+                        if (templateSelectBox.getSelectedTemplate() == null)
+                        {
+						    text = uploadTextfile.getTextData();
+						    html = uploadHtmlfile.getHtmlData();
+                            subject = tfSubject.getValue().toString();
+                        }
+                        else
+                        {
+                            MailTemplate mt = new MailTemplate(templateSelectBox.getSelectedTemplate());
+                            text = mt.getText();
+                            html = mt.getHtml();
+                            subject = mt.getSubject();
+                        }
+
+						Mail m = new Mail(mailId, text, html, (Date)tfSendDate.getValue(), subject, s);
 
 						QueueNewsletter queueNewsletter = new QueueNewsletter();
 						queueNewsletter.queueNewsletter(m, s, new RecipientGroup(groupSelectBox.getSelectedGroup()));
@@ -156,15 +178,19 @@ public class ModalAddNewsletter extends Window
 		buttonLayout.addComponent(cancelButton);
 
 		Panel metaData = new Panel("Basic Data");
-		metaData.addComponent(tfSubject);
-		metaData.addComponent(tfSendDate);
 
+		metaData.addComponent(tfSendDate);
 		verticalLayout.addComponent(metaData);
 		verticalLayout.addComponent(senderSelectBox);
 		verticalLayout.addComponent(groupSelectBox);
-		verticalLayout.addComponent(uploadTextfile);
+
+		verticalLayout.addComponent(templateSelectBox);
+        
+        verticalLayout.addComponent(tfSubject);
+        verticalLayout.addComponent(uploadTextfile);
 		verticalLayout.addComponent(uploadHtmlfile);
-		verticalLayout.addComponent(buttonLayout);
+
+        verticalLayout.addComponent(buttonLayout);
 
 		rootPanel.addComponent(verticalLayout);
 		this.addComponent(rootPanel);

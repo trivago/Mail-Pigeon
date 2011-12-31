@@ -32,11 +32,11 @@ public class Campaign extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, campaignId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(DATE, creationDate.getTime());
-			dataNode.setProperty(TITLE, campaignTitle);
-			dataNode.setProperty(URL_PARAM, urlParams);
+			writeProperty(ID, campaignId);
+			writeProperty("type", getClass().getName());
+			writeProperty(DATE, creationDate.getTime());
+			writeProperty(TITLE, campaignTitle);
+			writeProperty(URL_PARAM, urlParams);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.CAMPAIGN_ID, campaignId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.CAMPAIGN_REFERENCE);
@@ -59,7 +59,7 @@ public class Campaign extends AbstractBean
 
 	public Date getCreationDate()
 	{
-		return new Date((Long) dataNode.getProperty(DATE));
+		return getWrappedProperty(Date.class, Long.class, DATE);
 	}
 
 	public void setCreationDate(final Date creationDate)
@@ -69,7 +69,7 @@ public class Campaign extends AbstractBean
 
 	public String getTitle()
 	{
-		return (String) dataNode.getProperty(TITLE);
+		return getProperty(String.class, TITLE);
 	}
 
 	public void setTitle(final String title)
@@ -84,7 +84,7 @@ public class Campaign extends AbstractBean
 
 	public String getUrlParams()
 	{
-		return (String) this.dataNode.getProperty(URL_PARAM);
+		return getProperty(String.class, URL_PARAM);
 	}
 
 	public void setUrlParams(final String urlParams)

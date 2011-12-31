@@ -33,10 +33,10 @@ public class Tag extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, tagId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(DATE, creationDate.getTime());
-			dataNode.setProperty(NAME, tagName);
+			writeProperty(ID, tagId);
+			writeProperty("type", getClass().getName());
+			writeProperty(DATE, creationDate.getTime());
+			writeProperty(NAME, tagName);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TAG_ID, tagId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.TAG_REFERENCE);
@@ -54,17 +54,17 @@ public class Tag extends AbstractBean
 
 	public long getId()
 	{
-		return (Long) dataNode.getProperty(ID);
+		return getProperty(Long.class, ID, false);
 	}
 
 	public Date getCreationDate()
 	{
-		return new Date((Long) dataNode.getProperty(DATE));
+		return getWrappedProperty(Date.class, Long.class, DATE);
 	}
 
 	public String getName()
 	{
-		return (String) dataNode.getProperty(NAME);
+		return getProperty(String.class, NAME);
 	}
 
 	public void setName(String name)

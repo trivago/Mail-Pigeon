@@ -2,6 +2,7 @@ package com.trivago.mail.pigeon.web.components.templates;
 
 import com.trivago.mail.pigeon.bean.MailTemplate;
 import com.trivago.mail.pigeon.storage.Util;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.terminal.ExternalResource;
 import com.vaadin.terminal.UserError;
 import com.vaadin.ui.*;
@@ -10,7 +11,12 @@ import org.vaadin.openesignforms.ckeditor.CKEditorTextField;
 
 public class ModalAddTemplate extends Window
 {
-	public ModalAddTemplate(final TemplateList tl)
+    public ModalAddTemplate(final TemplateList tl)
+    {
+        this(tl, null);
+    }
+
+	public ModalAddTemplate(final TemplateList tl, final Long templateId)
 	{
 		setResizable(true);
 		setWidth("972px");
@@ -29,6 +35,18 @@ public class ModalAddTemplate extends Window
 		final CKEditorTextField htmlContent = new CKEditorTextField();
 		htmlContent.setWidth("100%");
 		htmlContent.setHeight("650px");
+
+
+        // Load the content, if we receive a template id
+        if (templateId != null)
+        {
+            MailTemplate mt = new MailTemplate(templateId);
+            title.setValue(mt.getTitle());
+            subject.setValue(mt.getSubject());
+            textContent.setValue(mt.getText());
+            htmlContent.setValue(mt.getHtml());
+        }
+
 
 		Button saveButton = new Button("Save");
 		Button cancel = new Button("Cancel");
@@ -81,19 +99,40 @@ public class ModalAddTemplate extends Window
 
 				if (!hasError)
 				{
-					long templateId = Util.generateId();
-					try
-					{
-						MailTemplate mt = new MailTemplate(templateId, title.getValue().toString(), htmlContent.getValue().toString(), textContent.getValue().toString(), subject.getValue().toString());
-						event.getButton().getWindow().setVisible(false);
-						event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
-						event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
-						tl.getBeanContainer().addItem(mt.getId(), mt);
-					}
-					catch (RuntimeException e)
-					{
-						// Should never happen ... hopefully :D
-					}
+                    if (templateId == null)
+                    {
+                        long templateId = Util.generateId();
+                        try
+                        {
+                            MailTemplate mt = new MailTemplate(templateId, title.getValue().toString(), textContent.getValue().toString(), htmlContent.getValue().toString(), subject.getValue().toString());
+                            event.getButton().getWindow().setVisible(false);
+                            event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
+                            event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
+                            tl.getBeanContainer().addItem(mt.getId(), mt);
+                        }
+                        catch (RuntimeException e)
+                        {
+                            // Should never happen ... hopefully :D
+                        }
+                    }
+                    else
+                    {
+                        MailTemplate mt = new MailTemplate(templateId);
+
+                        mt.setHtml(htmlContent.getValue().toString());
+                        mt.setSubject(subject.getValue().toString());
+                        mt.setText(textContent.getValue().toString());
+                        mt.setTitle(title.getValue().toString());
+
+                        event.getButton().getWindow().setVisible(false);
+                        event.getButton().getWindow().getParent().removeComponent(event.getButton().getWindow());
+                        event.getButton().getWindow().getParent().showNotification("Saved successfully", Notification.TYPE_HUMANIZED_MESSAGE);
+
+                        final int beanIndex = tl.getBeanContainer().indexOfId(mt.getId());
+                        tl.getBeanContainer().removeItem(mt.getId());
+                        tl.getBeanContainer().addItemAt(beanIndex, mt.getId(), mt);
+                    }
+                    TemplateSelectBox.reloadSelect();
 				}
 			}
 		});

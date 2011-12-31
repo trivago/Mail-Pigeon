@@ -43,14 +43,14 @@ public class Mail extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, mailId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(DATE, sendDate.getTime());
-			dataNode.setProperty(SUBJECT, subject);
-			dataNode.setProperty(TEXT, text);
-			dataNode.setProperty(HTML, html);
-			dataNode.setProperty(DONE, false);
-			dataNode.setProperty(SENT, false);
+			writeProperty(ID, mailId);
+			writeProperty("type", getClass().getName());
+			writeProperty(DATE, sendDate.getTime());
+			writeProperty(SUBJECT, subject);
+			writeProperty(TEXT, text);
+			writeProperty(HTML, html);
+			writeProperty(DONE, false);
+			writeProperty(SENT, false);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.NEWSLETTER_ID, mailId);
 			ConnectionFactory.getNewsletterIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
 			ConnectionFactory.getDatabase().getReferenceNode().createRelationshipTo(dataNode, RelationTypes.NEWSLETTER_REFERENCE);
@@ -69,17 +69,17 @@ public class Mail extends AbstractBean
 
 	public long getId()
 	{
-		return (Long) dataNode.getProperty(ID);
+		return getProperty(Long.class, ID, false);
 	}
 
 	public Date getSendDate()
 	{
-		return new Date((Long) dataNode.getProperty(DATE));
+		return getWrappedProperty(Date.class, Long.class, DATE);
 	}
 
 	public String getSubject()
 	{
-		return (String) dataNode.getProperty(SUBJECT);
+		return getProperty(String.class, SUBJECT);
 	}
 
 	public Node getDataNode()
@@ -89,17 +89,17 @@ public class Mail extends AbstractBean
 
 	public String getText()
 	{
-		return (String) this.dataNode.getProperty(TEXT);
+		return getProperty(String.class, TEXT);
 	}
 
 	public String getHtml()
 	{
-		return (String) this.dataNode.getProperty(HTML);
+		return getProperty(String.class, HTML);
 	}
 
 	public boolean isDone()
 	{
-		return (Boolean) this.dataNode.getProperty(DONE);
+		return getProperty(Boolean.class, DONE);
 	}
 
 	public void setDone()
@@ -109,7 +109,7 @@ public class Mail extends AbstractBean
 
 	public boolean isSent()
 	{
-		return (Boolean) this.dataNode.getProperty(SENT);
+		return getProperty(Boolean.class, SENT);
 	}
 
 	public void setSent()
@@ -173,7 +173,7 @@ public class Mail extends AbstractBean
 
 	public static IndexHits<Node> getAll()
 	{
-		return ConnectionFactory.getNewsletterIndex().get("type", Mail.class.getName());
+		return ConnectionFactory.getNewsletterIndex().get(IndexTypes.TYPE, Mail.class.getName());
 	}
 
 	public Campaign getCampaign()

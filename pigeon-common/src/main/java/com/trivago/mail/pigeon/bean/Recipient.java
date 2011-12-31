@@ -65,19 +65,19 @@ public class Recipient extends AbstractBean
 		try
 		{
 			dataNode = ConnectionFactory.getDatabase().createNode();
-			dataNode.setProperty(ID, userId);
-			dataNode.setProperty("type", getClass().getName());
-			dataNode.setProperty(FIRSTNAME, firstname);
-			dataNode.setProperty(LASTNAME, lastname);
-			dataNode.setProperty(EMAIL, email);
-			dataNode.setProperty(ACTIVE, active);
-			dataNode.setProperty(GENDER, gender.toString());
-			dataNode.setProperty(BIRTHDAY, birthday.getTime());
-			dataNode.setProperty(TITLE, title);
-			dataNode.setProperty(CITY, city);
-			dataNode.setProperty(COUNTRY, country);
-			dataNode.setProperty(LANGUAGE, language);
-			dataNode.setProperty(EXTERNAL_ID, externalId);
+			writeProperty(ID, userId);
+			writeProperty("type", getClass().getName());
+			writeProperty(FIRSTNAME, firstname);
+			writeProperty(LASTNAME, lastname);
+			writeProperty(EMAIL, email);
+			writeProperty(ACTIVE, active);
+			writeProperty(GENDER, gender.toString());
+			writeProperty(BIRTHDAY, birthday.getTime());
+			writeProperty(TITLE, title);
+			writeProperty(CITY, city);
+			writeProperty(COUNTRY, country);
+			writeProperty(LANGUAGE, language);
+			writeProperty(EXTERNAL_ID, externalId);
 
 			ConnectionFactory.getUserIndex().add(this.dataNode, IndexTypes.USER_ID, userId);
 			ConnectionFactory.getUserIndex().add(this.dataNode, IndexTypes.TYPE, getClass().getName());
