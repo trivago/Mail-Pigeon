@@ -17,13 +17,11 @@ public class ActionButtonColumnGenerator implements Table.ColumnGenerator
 {
 	private final Logger log = Logger.getLogger(ActionButtonColumnGenerator.class);
 	
-	private Table viewTable;
-	
+
 	@Override
 	public Object generateCell(final Table source, final Object itemId, final Object columnId)
 	{
 		HorizontalLayout hl = new HorizontalLayout();
-		viewTable = new Table();
 		
 		final Button showMembersButton = new Button();
 		showMembersButton.setIcon(new ThemeResource("../runo/icons/16/users.png"));

@@ -12,8 +12,6 @@ public class WizardAddSenderComponent implements WizardStep
 {
 
 	private TextField tfName;
-	private VerticalLayout verticalLayout;
-	private Panel rootPanel;
 	private TextField tfFromMail;
 	private TextField tfReplyTo;
 
@@ -26,8 +24,8 @@ public class WizardAddSenderComponent implements WizardStep
 	@Override
 	public Component getContent()
 	{
-		rootPanel = new Panel("Add new Sender");
-		verticalLayout = new VerticalLayout();
+		final Panel rootPanel = new Panel("Add new Sender");
+		final VerticalLayout verticalLayout = new VerticalLayout();
 		Label label = new Label("The sender is a person or group that is shown as the sender of the newsletter.");
 		tfName = new TextField("Name");
 		tfFromMail = new TextField("From E-Mail");

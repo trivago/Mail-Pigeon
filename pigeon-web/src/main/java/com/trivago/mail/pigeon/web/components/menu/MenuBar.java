@@ -50,15 +50,7 @@ public class MenuBar extends com.vaadin.ui.MenuBar
 			Class[] types = new Class[] {};
 			app.getClass().getMethod(methodName, types).invoke(app);
 		}
-		catch (IllegalAccessException e)
-		{
-			e.printStackTrace();
-		}
-		catch (InvocationTargetException e)
-		{
-			e.printStackTrace();
-		}
-		catch (NoSuchMethodException e)
+		catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
 		{
 			e.printStackTrace();
 		}

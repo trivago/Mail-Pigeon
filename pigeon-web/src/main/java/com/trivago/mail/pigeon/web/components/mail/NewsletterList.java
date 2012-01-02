@@ -29,7 +29,7 @@ public class NewsletterList extends CustomComponent
 		
 		viewTable = new Table();
 		viewTable.setWidth("100%");
-		beanContainer = new BeanContainer<Long, Mail>(Mail.class);
+		beanContainer = new BeanContainer<>(Mail.class);
 
 
 		Button senderListNewButton = new Button("New Newsletter");
@@ -98,7 +98,7 @@ public class NewsletterList extends CustomComponent
 	public List<Mail> getMailList()
 	{
 		final IndexHits<Node> allSenders = Mail.getAll();
-		ArrayList<Mail> allMails = new ArrayList<Mail>();
+		ArrayList<Mail> allMails = new ArrayList<>();
 
 		if (allSenders.size() == 0)
 		{

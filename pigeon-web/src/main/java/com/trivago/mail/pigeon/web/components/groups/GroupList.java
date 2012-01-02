@@ -62,7 +62,7 @@ public class GroupList extends CustomComponent
 		});
 
 		viewTable.setImmediate(true);
-		beanContainer = new BeanContainer<Long, RecipientGroup>(RecipientGroup.class);
+		beanContainer = new BeanContainer<>(RecipientGroup.class);
 
 		List<RecipientGroup> groupList = getGroupList();
 		for (RecipientGroup group : groupList)
@@ -103,7 +103,7 @@ public class GroupList extends CustomComponent
 	public List<RecipientGroup> getGroupList()
 	{
 		final IndexHits<Node> allGroups = RecipientGroup.getAll();
-		ArrayList<RecipientGroup> groupList = new ArrayList<RecipientGroup>();
+		ArrayList<RecipientGroup> groupList = new ArrayList<>();
 
 		if (allGroups.size() == 0)
 		{

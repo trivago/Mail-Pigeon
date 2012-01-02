@@ -20,13 +20,13 @@ public class RecipientEndpoint {
 	public String list()
 	{
 		final IndexHits<Node> recipientList = Recipient.getAll();
-		ArrayList<Recipient> recipientArrayList = new ArrayList<Recipient>();
+		ArrayList<Recipient> recipientArrayList = new ArrayList<>();
 		for (Node n : recipientList)
 		{
 			Recipient r = new Recipient(n);
 			recipientArrayList.add(r);
 		}
-		List<String> ignoredProps = new ArrayList<String>();
+		List<String> ignoredProps = new ArrayList<>();
 		ignoredProps.add("dataNode");
 		JSON.defaultJSON().setIgnoredProperties(ignoredProps);
 		return JSON.defaultJSON().forValue( recipientArrayList );
@@ -42,7 +42,7 @@ public class RecipientEndpoint {
 		{
 			throw new HTTPException(404);
 		}
-		List<String> ignoredProps = new ArrayList<String>();
+		List<String> ignoredProps = new ArrayList<>();
 		ignoredProps.add("dataNode");
 		JSON.defaultJSON().setIgnoredProperties(ignoredProps);
 		return JSON.defaultJSON().forValue( r );

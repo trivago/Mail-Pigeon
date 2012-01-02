@@ -108,7 +108,7 @@ public class RecipientList extends CustomComponent
 		});
 
 		viewTable.setImmediate(true);
-		beanContainer = new BeanContainer<Long, Recipient>(Recipient.class);
+		beanContainer = new BeanContainer<>(Recipient.class);
 
 		List<Recipient> recipientList = getRecipientList();
 		for (Recipient recipient : recipientList)
@@ -156,7 +156,7 @@ public class RecipientList extends CustomComponent
 
 	public List<Recipient> getRecipientList()
 	{
-		ArrayList<Recipient> recipients = new ArrayList<Recipient>();
+		ArrayList<Recipient> recipients = new ArrayList<>();
 		if (groupId != -1)
 		{
 			RecipientGroup g = new RecipientGroup(groupId);

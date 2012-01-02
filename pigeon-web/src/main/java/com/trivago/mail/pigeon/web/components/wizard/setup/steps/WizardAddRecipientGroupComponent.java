@@ -10,8 +10,6 @@ import java.util.Date;
 public class WizardAddRecipientGroupComponent implements WizardStep
 {
 
-	private Panel rootPanel;
-	private VerticalLayout verticalLayout;
 	private TextField tfName;
 
 	@Override
@@ -25,8 +23,8 @@ public class WizardAddRecipientGroupComponent implements WizardStep
 	{
 		Label label = new Label("<p>The Recipient Group is the highest order of collection recipients. "
 				+ "You need a Recipient Group in order to send a Newsletter.</p>", Label.CONTENT_XHTML);
-		rootPanel = new Panel("Add new group");
-		verticalLayout = new VerticalLayout();
+		Panel rootPanel = new Panel("Add new group");
+		final VerticalLayout verticalLayout = new VerticalLayout();
 		tfName = new TextField("Name");
 		verticalLayout.addComponent(label);
 		verticalLayout.addComponent(tfName);

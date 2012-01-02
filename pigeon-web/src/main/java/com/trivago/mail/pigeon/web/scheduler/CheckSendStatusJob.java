@@ -11,9 +11,9 @@ public class CheckSendStatusJob implements Job
 	public void execute(JobExecutionContext context) throws JobExecutionException
 	{
 		ProgressIndicator pi = (ProgressIndicator) context.get("progressIndicator");
-		long newsletterId = (Long) context.get("newsletterId");
-		long recipientGroupId = (Long) context.get("recipientGroupId");
-		float actualValue = (Float)pi.getValue();
+//		long newsletterId = (Long) context.get("newsletterId");
+//		long recipientGroupId = (Long) context.get("recipientGroupId");
+//		float actualValue = (Float)pi.getValue();
 
 		
 	}

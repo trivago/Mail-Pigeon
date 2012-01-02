@@ -54,7 +54,7 @@ public class MailOpenChart extends CustomComponent
 
 		Mail m = new Mail(newsletterId);
 		InvientCharts.XYSeries series = new InvientCharts.XYSeries("Browser Share");
-		LinkedHashSet<InvientCharts.DecimalPoint> points = new LinkedHashSet<InvientCharts.DecimalPoint>();
+		LinkedHashSet<InvientCharts.DecimalPoint> points = new LinkedHashSet<>();
 		InvientChartsConfig.PointConfig config = new InvientChartsConfig.PointConfig(true);
 		int allRecipients = 0;
 		int openMails = 0;

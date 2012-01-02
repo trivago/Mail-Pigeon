@@ -67,7 +67,7 @@ public class RecipientByMailList extends CustomComponent
 
 	public List<Recipient> getRecipientList()
 	{
-		ArrayList<Recipient> recipients = new ArrayList<Recipient>();
+		ArrayList<Recipient> recipients = new ArrayList<>();
 		Iterable<Relationship> recipientsList = mail.getRecipients();
 		for (Relationship rel : recipientsList)
 		{

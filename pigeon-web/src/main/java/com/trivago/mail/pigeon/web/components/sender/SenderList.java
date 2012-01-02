@@ -104,7 +104,7 @@ public class SenderList extends CustomComponent
 	public List<Sender> getSenderList()
 	{
 		final IndexHits<Node> allSenders = Sender.getAll();
-		ArrayList<Sender> senderList = new ArrayList<Sender>();
+		ArrayList<Sender> senderList = new ArrayList<>();
 
 		if (allSenders.size() == 0)
 		{

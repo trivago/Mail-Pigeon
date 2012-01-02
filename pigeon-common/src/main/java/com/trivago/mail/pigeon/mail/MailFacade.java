@@ -104,9 +104,8 @@ public class MailFacade
 			Message message[] = folder.getMessages();
 			BounceFacade bounceFacade = new BounceFacade();
 
-			for (int i = 0; i < message.length; i++)
+			for (Message msg : message)
 			{
-				Message msg = message[i];
 				boolean isBounce = bounceFacade.processBounce(msg);
 				if (isBounce)
 				{

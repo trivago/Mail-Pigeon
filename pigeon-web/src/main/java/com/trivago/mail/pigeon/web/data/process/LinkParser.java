@@ -15,21 +15,19 @@ public class LinkParser {
 
     public static Set<String> parse(final String content) {
 
-        links = new HashSet<String>();
+        links = new HashSet<>();
         DOMParser parser = new DOMParser();
         try {
             parser.parse(content);
-            links = new HashSet<String>();
+            links = new HashSet<>();
             org.w3c.dom.Document document = parser.getDocument();
             Node root = document.getFirstChild();
             process(root);
             return links;
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
-        return null;
+		return null;
     }
 
     private static void process(final Node node) {

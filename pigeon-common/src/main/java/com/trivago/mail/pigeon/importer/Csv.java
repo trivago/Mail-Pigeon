@@ -53,7 +53,7 @@ public class Csv
 
 		int rowCount = 1;
 		int invalidCount = 0;
-		final GraphDatabaseService database = ConnectionFactory.getDatabase();
+		ConnectionFactory.getDatabase();
 		csvReader.readHeaders();
 		try
 		{
@@ -68,7 +68,6 @@ public class Csv
 
 				Recipient recipient;
 				long userId;
-				String textUserId = csvReader.get("id");
 				if (!csvReader.get("id").equals(""))
 				{
 

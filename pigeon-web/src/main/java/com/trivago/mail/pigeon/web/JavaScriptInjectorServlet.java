@@ -19,9 +19,9 @@ public class JavaScriptInjectorServlet extends ApplicationServlet
             HttpServletRequest request) throws ServletException, IOException {
         page.write("<script type=\"text/javascript\">\n");
         page.write("//<![CDATA[\n");
-        page.write("document.write(\"<script language='javascript' src='"+ request.getContextPath() +"/jquery/jquery-1.4.4.min.js'><\\/script>\");\n");
-        page.write("document.write(\"<script language='javascript' src='"+ request.getContextPath() +"/js/highcharts.js'><\\/script>\");\n");
-        page.write("document.write(\"<script language='javascript' src='"+ request.getContextPath() +"/js/modules/exporting.js'><\\/script>\");\n");
+        page.write(new StringBuilder().append("document.write(\"<script language='javascript' src='").append(request.getContextPath()).append("/jquery/jquery-1.4.4.min.js'><\\/script>\");\n").toString());
+        page.write(new StringBuilder().append("document.write(\"<script language='javascript' src='").append(request.getContextPath()).append("/js/highcharts.js'><\\/script>\");\n").toString());
+        page.write(new StringBuilder().append("document.write(\"<script language='javascript' src='").append(request.getContextPath()).append("/js/modules/exporting.js'><\\/script>\");\n").toString());
         page.write("//]]>\n</script>\n");
         super.writeAjaxPageHtmlVaadinScripts(window, themeName, application,
                 page, appUrl, themeUri, appId, request);

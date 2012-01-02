@@ -23,7 +23,6 @@ public class UploadCsvFileComponent extends CustomComponent
 	private Label label;
 	private Upload upload;
 
-	private FileOutputStream fos;
 	private File csvFile;
 
 	private static final Logger log = Logger.getLogger(UploadCsvFileComponent.class);
@@ -71,6 +70,7 @@ public class UploadCsvFileComponent extends CustomComponent
 		{
 			log.error("Could not upload file", e);
 		}
+		FileOutputStream fos;
 		try
 		{
 			// Open the file for writing.

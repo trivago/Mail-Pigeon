@@ -26,6 +26,7 @@ public class NewsletterProgressComponent extends CustomComponent
 		indicator.setPollingInterval(500);
 		int cnt = 0;
 		Iterable<Relationship> recipients = mail.getRecipients();
+
 		for (Relationship rec : recipients)
 		{
 			++cnt;
