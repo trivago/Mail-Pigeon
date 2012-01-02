@@ -1,0 +1,7 @@
+#macro(abortSending)
+	$mtSystem.abortSending()
+#end
+
+#macro(enforceSending)
+	$mtSystem.enforceSending()
+#end

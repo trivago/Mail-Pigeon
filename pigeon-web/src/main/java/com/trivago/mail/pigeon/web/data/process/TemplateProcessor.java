@@ -38,6 +38,8 @@ public class TemplateProcessor
 
 		Context ctx = new VelocityContext();
 
+		ctx.put("mtSystem", transport);
+
 		ctx.put("sender.uuid.id", sender.getId());
 		ctx.put("sender.name", sender.getName());
 		ctx.put("sender.email.from", sender.getFromMail());

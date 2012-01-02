@@ -43,6 +43,18 @@ public class QueueNewsletter
 		Connection conn = ConnectionPool.getConnection();
 		Channel channel = null;
 		MailTransport transport = templateProcessor.processMail(mail, recipient, sender, campaign);
+
+		if (transport == null)
+		{
+			log.warn("Template processor returned null instead of a mail transport object. This is probably a bug!");
+			return;
+		}
+
+		if (transport.shouldAbortSending() && !transport.shouldEnforceSending())
+		{
+			log.info("Skipped mail to " + transport.getTo() + " because transport aborted sending.");
+			return;
+		}
 		
 		String json = JSON.defaultJSON().forValue( transport );
 

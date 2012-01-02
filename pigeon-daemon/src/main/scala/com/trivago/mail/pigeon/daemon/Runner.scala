@@ -7,7 +7,6 @@ import com.trivago.mail.pigeon.json.MailTransport
 import filter.DateFilter
 import org.svenson.JSONParser
 import queue.QueueHandler
-import org.apache.commons.daemon.DaemonContext
 
 object Runner
 {

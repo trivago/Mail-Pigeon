@@ -22,6 +22,30 @@ public class MailTransport
 
 	private Date sendDate;
 
+	private boolean enforceSending = false;
+
+	private boolean abortSending = false;
+
+	public void enforceSending()
+	{
+		enforceSending = true;
+	}
+
+	public void abortSending()
+	{
+		abortSending = true;
+	}
+
+	public boolean shouldAbortSending()
+	{
+		return abortSending;
+	}
+
+	public boolean shouldEnforceSending()
+	{
+		return enforceSending;
+	}
+
 	public String getFrom()
 	{
 		return from;
