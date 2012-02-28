@@ -1,72 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.trivago</groupId>
-	<artifactId>mail-pigeon</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>com.trivago</groupId>
+    <artifactId>mail-pigeon</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>Mail Pigeon</name>
-	<description>
-		Mail Pigeon is a mail delivery platform for high volume mailing actions.
-	</description>
+    <name>Mail Pigeon</name>
+    <description>
+        Mail Pigeon is a mail delivery platform for high volume mailing actions.
+    </description>
 
-	<developers>
-		<developer>
-			<id>mmueller</id>
-			<email>mario.mueller@trivago.com</email>
-			<name>Mario Mueller</name>
-			<organization>trivago GmbH</organization>
-		</developer>
-		<developer>
-			<id>ckrause</id>
-			<email>christian.krause@trivago.com</email>
-			<name>Christian Krause</name>
-			<organization>trivago GmbH</organization>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <id>mmueller</id>
+            <email>mario.mueller@trivago.com</email>
+            <name>Mario Mueller</name>
+            <organization>trivago GmbH</organization>
+        </developer>
+        <developer>
+            <id>ckrause</id>
+            <email>christian.krause@trivago.com</email>
+            <name>Christian Krause</name>
+            <organization>trivago GmbH</organization>
+        </developer>
+    </developers>
 
-	<inceptionYear>2011</inceptionYear>
+    <inceptionYear>2011</inceptionYear>
 
-	<issueManagement>
-		<system>github</system>
-		<url>https://github.com/xenji/mail-pigeon/issues</url>
-	</issueManagement>
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/trivago-opensource/Mail-Pigeon/issues</url>
+    </issueManagement>
 
-	<scm>
-		<connection>scm:git:https://xenji@github.com/xenji/mail-pigeon.git</connection>
-		<developerConnection>scm:git:git@github.com:xenji/mail-pigeon.git</developerConnection>
-		<url>https://github.com/xenji/mail-pigeon</url>
-	</scm>
+    <scm>
+        <connection>scm:git:https://xenji@github.com/trivago-opensource/Mail-Pigeon.git</connection>
+        <developerConnection>scm:git:git@github.com:trivago-opensource/Mail-Pigeon.git</developerConnection>
+        <url>https://github.com/trivago-opensource/Mail-Pigeon</url>
+    </scm>
 
-	<licenses>
-		<license>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-			<name>The Apache Software License, Version 2.0</name>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>The Apache Software License, Version 2.0</name>
+        </license>
+    </licenses>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.7</version>
-			</plugin>
-		</plugins>
-	</reporting>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 
-	<modules>
-		<module>pigeon-common</module>
-		<module>pigeon-web</module>
-		<module>pigeon-daemon</module>
-		<module>pigeon-bounceproc</module>
-	</modules>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mc-release</id>
+            <name>Local Maven repository of releases</name>
+            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <inherited>false</inherited>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <header>etc/license_header.txt</header>
+                    <strictCheck>true</strictCheck>
+                    <failIfMissing>true</failIfMissing>
+                    <aggregate>true</aggregate>
+                    <properties>
+                        <year>${project.inceptionYear}-2012</year>
+                    </properties>
+                    <excludes>
+                        <exclude>LICENSE.txt</exclude>
+                        <exclude>**/src/test/resources/**</exclude>
+                        <exclude>**/src/test/data/**</exclude>
+                        <exclude>.idea/**</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>**/*.symbolMap</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>check-headers</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <modules>
+        <module>pigeon-common</module>
+        <module>pigeon-web</module>
+        <module>pigeon-daemon</module>
+        <module>pigeon-bounceproc</module>
+    </modules>
 </project>

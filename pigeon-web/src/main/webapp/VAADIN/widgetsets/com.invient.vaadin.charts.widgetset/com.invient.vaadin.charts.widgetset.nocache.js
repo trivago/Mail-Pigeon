@@ -1,3 +1,18 @@
+/*
+ * Copyright (C) 2011-2012 trivago GmbH <mario.mueller@trivago.com>, <christian.krause@trivago.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 function com_invient_vaadin_charts_widgetset(){var O='',vb='" for "gwt:onLoadErrorFn"',tb='" for "gwt:onPropertyErrorFn"',hb='"><\/script>',Y='#',Vb='.cache.html',$='/',Ob='18102DDD1886DC75B7B8214A6A17B2EF',Pb='256D4A302A3586A9E91F9FA1435E03D5',Qb='33F0FD57C09C49E5D82C6F129DFFFE12',Rb='7D0903ABD163C4FB353A39DCFFCBDF0E',Sb='9D19BA67B2D351162120F235D6DFFA9C',Ub=':',nb='::',ec='<script defer="defer">com_invient_vaadin_charts_widgetset.onInjectionDone(\'com.invient.vaadin.charts.widgetset\')<\/script>',gb='<script id="',cc='<script language="javascript" src="',qb='=',Z='?',Tb='B4886CBB407CE30CBA774661BCE520DB',sb='Bad handler "',ac='DOMContentLoaded',ib='SCRIPT',fb='__gwt_marker_com.invient.vaadin.charts.widgetset',jb='base',bb='baseUrl',S='begin',R='bootstrap',bc='ckeditor/ckeditor.js',dc='ckeditor/ckeditor.js"><\/script>',ab='clear.cache.gif',P='com.invient.vaadin.charts.widgetset',db='com.invient.vaadin.charts.widgetset.nocache.js',mb='com.invient.vaadin.charts.widgetset::',pb='content',X='end',Ib='gecko',Jb='gecko1_8',T='gwt.codesvr=',U='gwt.hosted=',V='gwt.hybrid',ub='gwt:onLoadErrorFn',rb='gwt:onPropertyErrorFn',ob='gwt:property',_b='head',Mb='hosted.html?com_invient_vaadin_charts_widgetset',$b='href',Hb='ie6',Gb='ie8',Fb='ie9',wb='iframe',_='img',xb="javascript:''",Xb='link',Lb='loadExternalRefs',kb='meta',zb='moduleRequested',W='moduleStartup',Eb='msie',lb='name',Bb='opera',yb='position:absolute;width:0;height:0;border:none',Yb='rel',Db='safari',cb='script',Nb='selectingPermutation',Q='startup',Wb='styles.css',Zb='stylesheet',eb='undefined',Kb='unknown',Ab='user.agent',Cb='webkit';var l=window,m=document,n=l.__gwtStatsEvent?function(a){return l.__gwtStatsEvent(a)}:null,o=l.__gwtStatsSessionId?l.__gwtStatsSessionId:null,p,q,r,s=O,t={},u=[],v=[],w=[],x=0,y,z;n&&n({moduleName:P,sessionId:o,subSystem:Q,evtGroup:R,millis:(new Date).getTime(),type:S});if(!l.__gwt_stylesLoaded){l.__gwt_stylesLoaded={}}if(!l.__gwt_scriptsLoaded){l.__gwt_scriptsLoaded={}}function A(){var b=false;try{var c=l.location.search;return (c.indexOf(T)!=-1||(c.indexOf(U)!=-1||l.external&&l.external.gwtOnLoad))&&c.indexOf(V)==-1}catch(a){}A=function(){return b};return b}
 function B(){if(p&&q){var b=m.getElementById(P);var c=b.contentWindow;if(A()){c.__gwt_getProperty=function(a){return G(a)}}com_invient_vaadin_charts_widgetset=null;c.gwtOnLoad(y,P,s,x);n&&n({moduleName:P,sessionId:o,subSystem:Q,evtGroup:W,millis:(new Date).getTime(),type:X})}}
 function C(){function e(a){var b=a.lastIndexOf(Y);if(b==-1){b=a.length}var c=a.indexOf(Z);if(c==-1){c=a.length}var d=a.lastIndexOf($,Math.min(c,b));return d>=0?a.substring(0,d+1):O}
