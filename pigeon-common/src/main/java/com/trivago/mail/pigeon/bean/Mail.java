@@ -132,6 +132,11 @@ public class Mail extends AbstractBean
 		writeProperty(SENT, true);
 	}
 
+    /**
+     * Adds a recipient to the mail.
+     * @param recipient the recipient to add
+     * @return the created relationship for further use.
+     */
 	public Relationship addRecipient(Recipient recipient)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
@@ -154,6 +159,11 @@ public class Mail extends AbstractBean
 		return relation;
 	}
 
+    /**
+     * Adds this mail to a campaign. The relations Mail(1) -> (n)Campaigns
+     * @param campaign the campaign to create a relation to.
+     * @return the created relation for further use.
+     */
 	public Relationship addToCampaign(Campaign campaign)
 	{
 		Transaction tx = ConnectionFactory.getDatabase().beginTx();
@@ -176,6 +186,9 @@ public class Mail extends AbstractBean
 		return relation;
 	}
 
+    /**
+     * @return all recipients of the mail.
+     */
 	public Iterable<Relationship> getRecipients()
 	{
 		return dataNode.getRelationships(RelationTypes.DELIVERED_TO);

@@ -58,7 +58,6 @@ public class ConnectionPool
 				throw new RuntimeException(e);
 			}
 		}
-
 		return connection;
 	}
 }

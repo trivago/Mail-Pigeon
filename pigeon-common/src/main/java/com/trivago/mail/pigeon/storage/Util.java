@@ -23,13 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: mmueller
- * Date: 26.10.11
- * Time: 15:41
- * To change this template use File | Settings | File Templates.
- */
 public abstract class Util
 {
 	public static <T> List<T> indexHitsToList(Class<T> clazz, IndexHits<Node> hitList)

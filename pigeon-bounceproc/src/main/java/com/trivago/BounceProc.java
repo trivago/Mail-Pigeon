@@ -15,7 +15,11 @@
  */
 package com.trivago;
 
-
+/**
+ * This is meant to be a bounce proc ... sometimes in the future
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class BounceProc
 {
     public static void main( String[] args )

@@ -48,7 +48,7 @@ public class Bounce extends AbstractBean
 	/**
 	 * ID based constructor. This is not the neo4j node ID, but the mail-pigeon internal id.
 	 *
-	 * @param rawBounceNodeId the  
+	 * @param rawBounceNodeId the node id of the bounce
 	 */
 	public Bounce(final long rawBounceNodeId)
 	{
@@ -82,7 +82,6 @@ public class Bounce extends AbstractBean
 			}
 		}
 	}
-
 
 	/**
 	 * Adds a new relation between a mail and the recipient and the bounce node.
@@ -120,16 +119,25 @@ public class Bounce extends AbstractBean
 		}
 	}
 
+    /**
+     * @return All relations to bounced mails
+     */
 	public Iterable<Relationship> getBouncedMails()
 	{
 		return dataNode.getRelationships(RelationTypes.BOUNCED_MAIL);
 	}
 
+    /**
+     * @return all relations to bounced users
+     */
 	public Iterable<Relationship> getBouncedUser()
 	{
 		return dataNode.getRelationships(RelationTypes.BOUNCED_MAIL);
 	}
 
+    /**
+     * @return get a list of all bounces. Be careful, if you have a lot of nodes.
+     */
 	public static IndexHits<Node> getAll()
 	{
 		return ConnectionFactory.getBounceIndex().get("type", Bounce.class.getName());
