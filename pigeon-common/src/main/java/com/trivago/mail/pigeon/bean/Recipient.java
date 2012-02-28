@@ -27,7 +27,10 @@ import org.svenson.JSONProperty;
 
 import java.util.Date;
 
-
+/**
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class Recipient extends AbstractBean
 {
 	public static final String ID = "user_id";

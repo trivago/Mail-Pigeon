@@ -18,7 +18,9 @@ package com.trivago.mail.pigeon.mail;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
-
+/**
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class BounceFacade
 {
 	public boolean processBounce(Message msg)

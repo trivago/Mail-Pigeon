@@ -17,6 +17,9 @@ package com.trivago.mail.pigeon.json;
 
 import java.util.Date;
 
+/**
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class MailTransport
 {
 	private String from;

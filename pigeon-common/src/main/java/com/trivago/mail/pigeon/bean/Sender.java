@@ -25,6 +25,10 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
+/**
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class Sender extends AbstractBean
 {
 	public static final String ID = "sender_id";

@@ -26,6 +26,10 @@ import org.neo4j.graphdb.index.IndexHits;
 
 import java.util.Date;
 
+/**
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class Tag extends AbstractBean
 {
 	public static final String ID = "tag_id";

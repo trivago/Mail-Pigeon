@@ -27,6 +27,10 @@ import org.neo4j.graphdb.index.IndexHits;
 import java.util.Date;
 import java.util.Iterator;
 
+/**
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class Mail extends AbstractBean
 {
 	public static final String ID = "newsletter_id";

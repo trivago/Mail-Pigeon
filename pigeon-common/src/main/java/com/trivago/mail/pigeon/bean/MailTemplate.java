@@ -24,6 +24,10 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.server.rest.web.DatabaseActions;
 
+/**
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class MailTemplate extends AbstractBean
 {
 	public static final String ID = "template_id";

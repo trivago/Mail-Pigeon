@@ -23,6 +23,10 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.net.URL;
 
+/**
+ *
+ * @author Mario Mueller mario.mueller@trivago.com
+ */
 public class Settings
 {
 	private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Settings.class);
