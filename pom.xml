@@ -99,6 +99,8 @@
                         <exclude>.idea/**</exclude>
                         <exclude>.gitignore</exclude>
                         <exclude>**/*.symbolMap</exclude>
+                        <exclude>**/etc/**</exclude>
+                        <exclude>**/webapp/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>
