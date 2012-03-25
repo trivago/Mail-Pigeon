@@ -26,6 +26,7 @@ import com.trivago.mail.pigeon.web.components.sender.SenderList;
 import com.trivago.mail.pigeon.web.components.templates.TemplateList;
 import com.trivago.mail.pigeon.web.components.wizard.setup.SetupWizardComponent;
 import com.vaadin.Application;
+import com.vaadin.terminal.gwt.server.ApplicationServlet;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -33,6 +34,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
+import javax.servlet.ServletContext;
 import java.util.NoSuchElementException;
 
 /**
@@ -43,7 +45,7 @@ public class MainApp extends Application
 {
 	private Window window;
 	private MenuBar menu;
-
+    
 	@Override
 	public void init()
 	{
