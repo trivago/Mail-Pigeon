@@ -22,11 +22,14 @@ import com.trivago.mail.pigeon.bean.Recipient;
 import com.trivago.mail.pigeon.bean.Sender;
 import com.trivago.mail.pigeon.configuration.Settings;
 import com.trivago.mail.pigeon.json.MailTransport;
+import com.trivago.mail.pigeon.web.MainApp;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.context.Context;
 
+import javax.servlet.ServletContext;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.Set;
 
 public class TemplateProcessor
@@ -36,6 +39,7 @@ public class TemplateProcessor
 	public TemplateProcessor()
 	{
 		velocity = new VelocityEngine();
+
 	}
 
     public MailTransport processMail(Mail mail, Recipient recipient, Sender sender, Campaign campaign)
@@ -95,9 +99,8 @@ public class TemplateProcessor
 
 		String renderSubject = mail.getSubject();
 		StringWriter outputSubject = new StringWriter();
-		velocity.mergeTemplate("vm/macros/macroInclude.vm", "utf-8", ctx, outputSubject);
-        velocity.evaluate( ctx, outputSubject, "subjectrender", renderSubject );
 
+        velocity.evaluate( ctx, outputSubject, "subjectrender", renderSubject );
 
 		String renderText = mail.getText();
         if (campaign != null && autoReplaceCampaign)
@@ -105,7 +108,6 @@ public class TemplateProcessor
             renderText = addCampaignToLinks(renderText, campaign.getUrlParams());
         }
 		StringWriter outputText = new StringWriter();
-		velocity.mergeTemplate("vm/macros/macroInclude.vm", "utf-8", ctx, outputText);
 		velocity.evaluate( ctx, outputText, "textrender", renderText);
 
 		String renderHtml = mail.getHtml();
@@ -114,7 +116,6 @@ public class TemplateProcessor
             renderHtml = addCampaignToLinks(renderHtml, campaign.getUrlParams());
         }
 		StringWriter outputHtml = new StringWriter();
-		velocity.mergeTemplate("vm/macros/macroInclude.vm", "utf-8", ctx, outputHtml);
 		velocity.evaluate(ctx, outputHtml, "htmlrender", renderHtml);
 
 

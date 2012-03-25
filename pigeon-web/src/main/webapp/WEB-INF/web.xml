@@ -17,64 +17,64 @@
 
 -->
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
-		 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-		 id="WebApp_ID" version="2.5">
-	<display-name>Vaadin Web Application</display-name>
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+    <display-name>Vaadin Web Application</display-name>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
-	<context-param>
-		<description>Vaadin production mode</description>
-		<param-name>productionMode</param-name>
-		<param-value>true</param-value>
-	</context-param>
-	<servlet>
-		<servlet-name>Vaadin Application Servlet</servlet-name>
-		<servlet-class>com.trivago.mail.pigeon.web.JavaScriptInjectorServlet</servlet-class>
-		<init-param>
-			<description>Vaadin application class to start</description>
-			<param-name>application</param-name>
-			<param-value>com.trivago.mail.pigeon.web.MainApp</param-value>
-		</init-param>
-		<init-param>
-			<param-name>widgetset</param-name>
-			<param-value>com.trivago.mail.pigeon.web.gwt.WidgetSet</param-value>
-		</init-param>
-	</servlet>
+    <context-param>
+        <description>Vaadin production mode</description>
+        <param-name>productionMode</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>Vaadin Application Servlet</servlet-name>
+        <servlet-class>com.trivago.mail.pigeon.web.JavaScriptInjectorServlet</servlet-class>
+        <init-param>
+            <description>Vaadin application class to start</description>
+            <param-name>application</param-name>
+            <param-value>com.trivago.mail.pigeon.web.MainApp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>widgetset</param-name>
+            <param-value>com.trivago.mail.pigeon.web.gwt.WidgetSet</param-value>
+        </init-param>
+    </servlet>
 
-	<servlet>
-		<servlet-name>Tracking Servlet</servlet-name>
-		<servlet-class>com.trivago.mail.pigeon.web.TrackingServlet</servlet-class>
-	</servlet>
+    <servlet>
+        <servlet-name>Tracking Servlet</servlet-name>
+        <servlet-class>com.trivago.mail.pigeon.web.TrackingServlet</servlet-class>
+    </servlet>
 
-	<servlet>
-		<servlet-name>Recipient Webservice</servlet-name>
-		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
-		<init-param>
-			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>com.trivago.mail.pigeon.web.webservice</param-value>
-		</init-param>
-	</servlet>
+    <servlet>
+        <servlet-name>Recipient Webservice</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>com.trivago.mail.pigeon.web.webservice</param-value>
+        </init-param>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>Recipient Webservice</servlet-name>
-		<url-pattern>/api/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Recipient Webservice</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>Tracking Servlet</servlet-name>
-		<url-pattern>/tracking</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Tracking Servlet</servlet-name>
+        <url-pattern>/tracking</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>Vaadin Application Servlet</servlet-name>
-		<url-pattern>/VAADIN/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Vaadin Application Servlet</servlet-name>
+        <url-pattern>/VAADIN/*</url-pattern>
+    </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>Vaadin Application Servlet</servlet-name>
-		<url-pattern>/m/*</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Vaadin Application Servlet</servlet-name>
+        <url-pattern>/m/*</url-pattern>
+    </servlet-mapping>
 </web-app>
